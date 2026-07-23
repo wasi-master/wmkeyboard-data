@@ -40,6 +40,8 @@ This repository redistributes and packages data from the following open-source p
 | [Wikimedia data dump of Odia-language](https://dumps.wikimedia.org/orwiki/)| `or` |
 | [Official Lojban Dictionary](https://www.lojban.org) | `jbo` |
 | [Klingon Dictionary](http://klingonska.org/dict/dict.zdb) | `tlh` |
+| [Ardalambion Quenya Wordlist](https://ardalambion.net/quen-eng.htm) | `qya` |
+| [lipu Linku Toki Pona Dictionary](https://linku.la) | `tok` |
 
 Some datasets have been reformatted, compressed, or reorganized for consistency. Original attribution and licensing remain unchanged.
 
@@ -86,6 +88,8 @@ Each dictionary retains the license of its original source.
 | `ur` | [MIT](https://github.com/urduhack/urdu-words/blob/master/LICENSE) |
 | `si` | [MIT](https://github.com/kasunw22/sinhala-para-dict/blob/main/LICENSE) |
 | `tlh` | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| `qya` | [Ardalambion](https://ardalambion.net) |
+| `tok` | [CC0 1.0 Universal](https://github.com/lipu-linku/sona) / [lipu Linku](https://linku.la) |
 | `af`, `am`, `as`, `az`, `be`, `br`, `eo`, `eu`, `gl`, `gu`, `ha`, `hi`, `hy`, `ig`, `ka`, `kk`, `km`, `kn`, `lo`, `lv`, `mn`, `mr`, `ms`, `my`, `ne`, `pa`, `sw`, `tg`, `te`, `tl`, `uz`, `vi`, `yo`, `zu`, `aa`, `ak`, `an`, `ba`, `bm`, `bo`, `ce`, `co`, `cv`, `cy`, `div`, `ee`, `ff`, `fo`, `fy`, `gn`, `gv`, `ht`, `ia`, `ie`, `io`, `jv`, `kg`, `ki`, `kl`, `ky`, `lg`, `li`, `ln`, `mt`, `nd`, `nn`, `nr`, `nv`, `ny`, `oc`, `om`, `os`, `ps`, `qu`, `rm`, `rn`, `sco`, `se`, `sh`, `sna`, `so`, `ssw`, `st`, `sun`, `ti`, `tk`, `tn`, `ts`, `tt`, `ug`, `ve`, `vo`, `wa`, `wo`, `xh`, `yi`, `za`, `or` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `ta` | [MIT](https://github.com/vigneshwaran-chandrasekaran/tamil-language-words-list/blob/master/LICENSE) |
 | `jbo` | Public Domain |
