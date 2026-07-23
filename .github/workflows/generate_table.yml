@@ -1,0 +1,38 @@
+name: Generate Language Table
+
+on:
+  push:
+    paths:
+      - 'data/**/*.txt.gz'
+      - 'scripts/generate_table.py'
+      - '.github/workflows/generate_table.yml'
+  workflow_dispatch:
+
+jobs:
+  update-table:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install langcodes humanize
+
+      - name: Generate Table
+        run: |
+          python scripts/generate_table.py > data/table.md
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs(data): auto-update generated language table"
+          file_pattern: "data/table.md"
