@@ -61,6 +61,13 @@ These lists are provided under their respective public domain and MIT licenses.
 
 Malayalam is made by running [ml2en](https://github.com/knadh/ml2en) on the Malayalam frequency list from [hermitdave/FrequencyWords](https://github.com/hermitdave/FrequencyWords).
 
+Urdu is made from [Khubaib01/RomanUrdu-NLP-Sentiment-Corpus](https://huggingface.co/datasets/Khubaib01/RomanUrdu-NLP-Sentiment-Corpus) which is
+[Apache 2.0](https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md) licensed.
+
+Bangla is taken from [istiaqfuad/bangla-english-banglish-pairs](https://huggingface.co/datasets/istiaqfuad/bangla-english-banglish-pairs) which is [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/) licensed.
+
+The following languages are taken from the [Aksharantar Corpus](https://huggingface.co/datasets/ai4bharat/Aksharantar) which is under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/): Hindi, Urdu, Tamil, Telugu, Malayalam, Punjabi, Marathi, Gujarati, Kannada
+
 ## Licensing
 
 Each dictionary retains the license of its original source.
