@@ -1,0 +1,644 @@
+[
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/af/af_full.txt.gz",
+    "before": 301669,
+    "after": 297430,
+    "removed": {
+      "garbage": 4064
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/am/am_full.txt.gz",
+    "before": 96588,
+    "after": 96588,
+    "removed": {}
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ar/ar_full.txt.gz",
+    "before": 2507189,
+    "after": 2501083,
+    "removed": {
+      "garbage": 3646
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/as/as_full.txt.gz",
+    "before": 154099,
+    "after": 153656,
+    "removed": {
+      "garbage": 1
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/az/az_full.txt.gz",
+    "before": 853904,
+    "after": 853699,
+    "removed": {
+      "garbage": 19
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/be/be_full.txt.gz",
+    "before": 388114,
+    "after": 387406,
+    "removed": {}
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/bg/bg_full.txt.gz",
+    "before": 1202471,
+    "after": 1193342,
+    "removed": {
+      "garbage": 9125
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/bn/bn_full.txt.gz",
+    "before": 238743,
+    "after": 238342,
+    "removed": {
+      "garbage": 401
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/br/br_full.txt.gz",
+    "before": 134855,
+    "after": 132207,
+    "removed": {
+      "garbage": 1368
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/bs/bs_full.txt.gz",
+    "before": 940361,
+    "after": 940351,
+    "removed": {
+      "garbage": 8
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ca/ca_full.txt.gz",
+    "before": 185347,
+    "after": 184661,
+    "removed": {
+      "garbage": 649
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/cs/cs_full.txt.gz",
+    "before": 1729647,
+    "after": 1722136,
+    "removed": {
+      "garbage": 7497
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/da/da_full.txt.gz",
+    "before": 688551,
+    "after": 686028,
+    "removed": {
+      "garbage": 2518
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/de/de_full.txt.gz",
+    "before": 1157685,
+    "after": 1153842,
+    "removed": {
+      "garbage": 3644
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/el/el_full.txt.gz",
+    "before": 1488237,
+    "after": 1479382,
+    "removed": {
+      "garbage": 8139
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/en/en_full.txt.gz",
+    "before": 1656996,
+    "after": 1641937,
+    "removed": {
+      "garbage": 13860
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/eo/eo_full.txt.gz",
+    "before": 409107,
+    "after": 404392,
+    "removed": {
+      "garbage": 4630
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/es/es_full.txt.gz",
+    "before": 1202520,
+    "after": 1193148,
+    "removed": {
+      "garbage": 9249
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/et/et_full.txt.gz",
+    "before": 1004977,
+    "after": 1000697,
+    "removed": {
+      "garbage": 4279
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/eu/eu_full.txt.gz",
+    "before": 403611,
+    "after": 400097,
+    "removed": {
+      "garbage": 3438
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/fa/fa_full.txt.gz",
+    "before": 445744,
+    "after": 444575,
+    "removed": {
+      "garbage": 1157
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/fi/fi_full.txt.gz",
+    "before": 2492889,
+    "after": 2488574,
+    "removed": {
+      "garbage": 4311
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/fr/fr_full.txt.gz",
+    "before": 834768,
+    "after": 826894,
+    "removed": {
+      "garbage": 7400
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/gl/gl_full.txt.gz",
+    "before": 284371,
+    "after": 280236,
+    "removed": {
+      "garbage": 4032
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/gu/gu_full.txt.gz",
+    "before": 186283,
+    "after": 184323,
+    "removed": {
+      "garbage": 1950
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ha/ha_full.txt.gz",
+    "before": 40232,
+    "after": 39874,
+    "removed": {
+      "garbage": 20
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/he/he_full.txt.gz",
+    "before": 1167621,
+    "after": 1159280,
+    "removed": {
+      "garbage": 8227
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/hi/hi_full.txt.gz",
+    "before": 276610,
+    "after": 273642,
+    "removed": {
+      "garbage": 2953
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/hr/hr_full.txt.gz",
+    "before": 1517660,
+    "after": 1509947,
+    "removed": {
+      "garbage": 7705
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/hu/hu_full.txt.gz",
+    "before": 3151356,
+    "after": 3141420,
+    "removed": {
+      "garbage": 9906
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/hy/hy_full.txt.gz",
+    "before": 452139,
+    "after": 446731,
+    "removed": {
+      "garbage": 5014
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/id/id_full.txt.gz",
+    "before": 357441,
+    "after": 354866,
+    "removed": {
+      "garbage": 2564
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ig/ig_full.txt.gz",
+    "before": 14660,
+    "after": 14563,
+    "removed": {
+      "garbage": 11
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/is/is_full.txt.gz",
+    "before": 256264,
+    "after": 256264,
+    "removed": {}
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/it/it_full.txt.gz",
+    "before": 798017,
+    "after": 792134,
+    "removed": {
+      "garbage": 5674
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ja/ja_full.txt.gz",
+    "before": 214960,
+    "after": 213393,
+    "removed": {
+      "garbage": 1567
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/jbo/jbo_full.txt.gz",
+    "before": 2412,
+    "after": 2412,
+    "removed": {}
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ka/ka_full.txt.gz",
+    "before": 375429,
+    "after": 371654,
+    "removed": {
+      "garbage": 3724
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/kk/kk_full.txt.gz",
+    "before": 415381,
+    "after": 411042,
+    "removed": {
+      "garbage": 4304
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/km/km_full.txt.gz",
+    "before": 10143,
+    "after": 10136,
+    "removed": {
+      "garbage": 6
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/kn/kn_full.txt.gz",
+    "before": 575646,
+    "after": 571841,
+    "removed": {
+      "garbage": 3758
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ko/ko_full.txt.gz",
+    "before": 688129,
+    "after": 682941,
+    "removed": {
+      "garbage": 5188
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/lo/lo_full.txt.gz",
+    "before": 38524,
+    "after": 38198,
+    "removed": {
+      "garbage": 213
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/lt/lt_full.txt.gz",
+    "before": 322425,
+    "after": 321708,
+    "removed": {
+      "garbage": 717
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/lv/lv_full.txt.gz",
+    "before": 352399,
+    "after": 347754,
+    "removed": {
+      "garbage": 4604
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/mk/mk_full.txt.gz",
+    "before": 317592,
+    "after": 315837,
+    "removed": {
+      "garbage": 1755
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ml/ml_full.txt.gz",
+    "before": 254967,
+    "after": 254110,
+    "removed": {
+      "garbage": 271
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/mn/mn_full.txt.gz",
+    "before": 163527,
+    "after": 161380,
+    "removed": {
+      "garbage": 2127
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/mr/mr_full.txt.gz",
+    "before": 348453,
+    "after": 346699,
+    "removed": {
+      "garbage": 1717
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ms/ms_full.txt.gz",
+    "before": 264119,
+    "after": 258968,
+    "removed": {
+      "garbage": 5045
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/my/my_full.txt.gz",
+    "before": 52098,
+    "after": 51760,
+    "removed": {
+      "garbage": 169
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ne/ne_full.txt.gz",
+    "before": 172963,
+    "after": 172113,
+    "removed": {
+      "garbage": 846
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/nl/nl_full.txt.gz",
+    "before": 1107145,
+    "after": 1099841,
+    "removed": {
+      "garbage": 6608
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/no/no_full.txt.gz",
+    "before": 552632,
+    "after": 550888,
+    "removed": {
+      "garbage": 1703
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/or/or_full.txt.gz",
+    "before": 77278,
+    "after": 76618,
+    "removed": {
+      "garbage": 658
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/pa/pa_full.txt.gz",
+    "before": 249758,
+    "after": 247008,
+    "removed": {
+      "garbage": 2716
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/pl/pl_full.txt.gz",
+    "before": 1491400,
+    "after": 1482735,
+    "removed": {
+      "garbage": 8494
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/pt/pt_full.txt.gz",
+    "before": 770227,
+    "after": 763301,
+    "removed": {
+      "garbage": 6828
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/pt_br/pt_br_full.txt.gz",
+    "before": 848043,
+    "after": 847956,
+    "removed": {
+      "garbage": 4
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ro/ro_full.txt.gz",
+    "before": 1228691,
+    "after": 1220684,
+    "removed": {
+      "garbage": 7682
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ru/ru_full.txt.gz",
+    "before": 1423050,
+    "after": 1415349,
+    "removed": {
+      "garbage": 7698
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/si/si_full.txt.gz",
+    "before": 2168118,
+    "after": 2164107,
+    "removed": {
+      "garbage": 3903
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/sk/sk_full.txt.gz",
+    "before": 750446,
+    "after": 747303,
+    "removed": {
+      "garbage": 3134
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/sl/sl_full.txt.gz",
+    "before": 847024,
+    "after": 842798,
+    "removed": {
+      "garbage": 4226
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/sq/sq_full.txt.gz",
+    "before": 241836,
+    "after": 240935,
+    "removed": {
+      "garbage": 901
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/sr/sr_full.txt.gz",
+    "before": 1906602,
+    "after": 1906584,
+    "removed": {
+      "garbage": 12
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/sv/sv_full.txt.gz",
+    "before": 904474,
+    "after": 901431,
+    "removed": {
+      "garbage": 3032
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/sw/sw_full.txt.gz",
+    "before": 137533,
+    "after": 136516,
+    "removed": {
+      "garbage": 959
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ta/ta_full.txt.gz",
+    "before": 1879169,
+    "after": 1876301,
+    "removed": {
+      "garbage": 3
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/te/te_full.txt.gz",
+    "before": 417469,
+    "after": 415121,
+    "removed": {
+      "garbage": 2340
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/th/th_full.txt.gz",
+    "before": 4091928,
+    "after": 4090640,
+    "removed": {
+      "garbage": 1078
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/tl/tl_full.txt.gz",
+    "before": 151951,
+    "after": 150598,
+    "removed": {
+      "garbage": 1241
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/tlh/tlh_full.txt.gz",
+    "before": 2429,
+    "after": 2428,
+    "removed": {
+      "garbage": 1
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/tr/tr_full.txt.gz",
+    "before": 2035629,
+    "after": 2029195,
+    "removed": {
+      "garbage": 6370
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/uk/uk_full.txt.gz",
+    "before": 443616,
+    "after": 442672,
+    "removed": {
+      "garbage": 938
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/ur/ur_full.txt.gz",
+    "before": 154781,
+    "after": 154781,
+    "removed": {}
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/uz/uz_full.txt.gz",
+    "before": 191800,
+    "after": 188378,
+    "removed": {
+      "garbage": 1112
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/vi/vi_full.txt.gz",
+    "before": 676679,
+    "after": 664324,
+    "removed": {
+      "garbage": 10317
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/yo/yo_full.txt.gz",
+    "before": 28575,
+    "after": 28434,
+    "removed": {
+      "garbage": 135
+    }
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/zh_cn/zh_cn_full.txt.gz",
+    "before": 766612,
+    "after": 766436,
+    "removed": {}
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/zh_tw/zh_tw_full.txt.gz",
+    "before": 617270,
+    "after": 617231,
+    "removed": {}
+  },
+  {
+    "file": "/Users/wasimaster/Work/wmkeyboard-data/data/zu/zu_full.txt.gz",
+    "before": 372449,
+    "after": 371557,
+    "removed": {
+      "garbage": 872
+    }
+  }
+]
