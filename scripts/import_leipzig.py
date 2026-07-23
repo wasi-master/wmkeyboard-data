@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Download a Leipzig Coropora Collection tarball, extract the words.txt wordlist,
+"""Download a Leipzig Corpora Collection tarball, extract the words.txt wordlist,
 convert it to the project's "word frequency" format, gzip it, and place it in
 data/<lang>/<lang>_full.txt.gz.
 
@@ -10,18 +10,19 @@ Usage:
 
     python3 scripts/import_leipzig.py <url>
         e.g. python3 scripts/import_leipzig.py https://downloads.wortschatz-leipzig.de/corpora/hye_wikipedia_2021_300K.tar.gz
+
+    python3 scripts/import_leipzig.py --file links.txt
+        Downloads and processes multiple URLs listed in a text file sequentially.
 """
 
 import argparse
 import gzip
 import json
+import subprocess
 import sys
 import tarfile
 import tempfile
 from pathlib import Path
-from urllib.request import Request, urlopen
-
-from tqdm import tqdm
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 JSON_PATH = SCRIPT_DIR / "leipzig.json"
@@ -64,6 +65,7 @@ ISO6393_TO_FOLDER = {
     "kan": "kn",
     "kaz": "kk",
     "kat": "ka",
+    "kas": "ks",
     "kck": "kck",
     "khm": "km",
     "lat": "la",
@@ -107,6 +109,21 @@ ISO6393_TO_FOLDER = {
     "xho": "xh",
     "yor": "yo",
     "zul": "zu",
+    "kas": "ks",   # Kashmiri
+    "lat": "la",   # Latin
+    "ltz": "lb",   # Luxembourgish
+    "mai": "mai",  # Maithili (No 2-letter code exists)
+    "plt": "plt",  # Plateau Malagasy (No 2-letter code exists)
+    "mwl": "mwl",  # Mirandese (No 2-letter code exists)
+    "nob": "nb",   # Norwegian Bokmål
+    "pms": "pms",  # Piedmontese (No 2-letter code exists)
+    "san": "sa",   # Sanskrit
+    "ceb": "ceb",  # Cebuano (No 2-letter code exists)
+    "kab": "kab",  # Kabyle (No 2-letter code exists)
+    "gle": "ga",   # Irish
+    "srd": "sc",   # Sardinian
+    "snd": "sd",   # Sindhi
+    "tcy": "tcy"   # Tulu (No 2-letter code exists)
 }
 
 PREFERRED_TYPES = ["wikipedia", "web", "community", "news", "newscrawl"]
@@ -128,7 +145,6 @@ def resolve_lang_folder(code: str) -> str:
     if code in ISO6393_TO_FOLDER:
         return ISO6393_TO_FOLDER[code]
     print(f"WARNING: no folder mapping for code '{code}', using code as folder name")
-    exit()
     if len(code) <= 2:
         return code
     short = code[:2]
@@ -138,18 +154,35 @@ def resolve_lang_folder(code: str) -> str:
 
 
 def download(url: str, dest: Path) -> None:
-    req = Request(url, headers={"User-Agent": "WMKeyboard-DictBuilder/1.0"})
-    with urlopen(req) as response, open(dest, "wb") as f:
-        total_size = int(response.headers.get("Content-Length", 0))
-        with tqdm(total=total_size, unit="B", unit_scale=True, desc="Downloading") as bar:
-            while chunk := response.read(8192):
-                f.write(chunk)
-                bar.update(len(chunk))
+    """Download file using aria2c."""
+    command = [
+        "aria2c",
+        "--console-log-level=warn",
+        "--summary-interval=1",
+        "-x", "16",                 # Max connection per server
+        "-s", "16",                 # Split file into 16 parts
+        "--min-split-size=1M",
+        "-d", str(dest.parent),
+        "-o", str(dest.name),
+        url
+    ]
+
+    try:
+        subprocess.run(command, check=True)
+    except FileNotFoundError:
+        print("\nERROR: 'aria2c' is not installed or not in PATH.")
+        print("Please install it (e.g., 'sudo apt install aria2c' or 'brew install aria2').")
+        raise
+    except subprocess.CalledProcessError as e:
+        print(f"\nERROR: aria2c failed with return code {e.returncode}")
+        raise
 
 
 def load_index() -> list:
-    with open(JSON_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+    if JSON_PATH.exists():
+        with open(JSON_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
 
 
 def normalize_size(size: str) -> str:
@@ -206,34 +239,19 @@ def fallback_url(code: str, size: str) -> str:
     return build_url(f"{code}_wikipedia_2021_{size_norm}")
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Import a Leipzig Corpora Collection wordlist")
-    parser.add_argument(
-        "target",
-        help="Leipzig download URL, or ISO 639-3 code + size (e.g. hye 300k)",
-    )
-    parser.add_argument(
-        "size",
-        nargs="?",
-        help="Word count size when target is a code (e.g. 300k, 1M)",
-    )
-    args = parser.parse_args()
-
-    index = load_index()
-
+def process_item(target: str, size: str, index: list) -> None:
     url = None
     code = None
 
-    if args.size is None:
-        if args.target.startswith("http://") or args.target.startswith("https://"):
-            url = args.target
+    if size is None:
+        if target.startswith("http://") or target.startswith("https://"):
+            url = target
             code = extract_lang_code(url)
         else:
-            print("ERROR: provide both a code and a size, or a full URL")
-            sys.exit(1)
+            print(f"ERROR: target '{target}' is not a valid URL.")
+            return
     else:
-        code = args.target
-        size = args.size
+        code = target
         corpus_name = find_corpus(code, size, index)
         if corpus_name:
             url = build_url(corpus_name)
@@ -244,7 +262,7 @@ def main() -> None:
                 print(f"Resolved:       {code}_wikipedia_*_{size.upper()} (from naming convention)")
             else:
                 print(f"ERROR: no corpus found for code={code} size={size}")
-                sys.exit(1)
+                return
 
     lang_folder = resolve_lang_folder(code)
     url_filename = Path(url).name
@@ -256,17 +274,26 @@ def main() -> None:
         tmp_path = Path(tmp)
         tarball = tmp_path / url_filename
 
-        print(f"Downloading {url}")
-        download(url, tarball)
+        print(f"Downloading {url} ...")
+        try:
+            download(url, tarball)
+        except Exception as e:
+            print(f"ERROR: Failed to download {url}: {e}")
+            return
 
         print("Extracting tarball ...")
-        with tarfile.open(tarball, "r:gz") as tar:
-            tar.extractall(tmp_path, filter="data")
+        try:
+            with tarfile.open(tarball, "r:gz") as tar:
+                tar.extractall(tmp_path, filter="data")
+        except Exception as e:
+            print(f"ERROR: failed to extract {tarball.name}: {e}")
+            return
 
         candidates = sorted(tmp_path.rglob("*words.txt"))
         if not candidates:
             print("ERROR: no *words.txt found inside tarball")
-            sys.exit(1)
+            return
+
         words_path = candidates[0]
         print(f"Found wordlist:   {words_path.name}")
 
@@ -294,7 +321,55 @@ def main() -> None:
         print(f"Removing temporary {out_txt.name}")
         out_txt.unlink()
 
-        print(f"Done -> {out_gz}")
+        print(f"Done -> {out_gz}\n")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Import a Leipzig Corpora Collection wordlist")
+    parser.add_argument(
+        "target",
+        nargs="?",
+        help="Leipzig download URL, or ISO 639-3 code (e.g. hye)",
+    )
+    parser.add_argument(
+        "size",
+        nargs="?",
+        help="Word count size when target is a code (e.g. 300k, 1M)",
+    )
+    parser.add_argument(
+        "-f", "--file",
+        help="Text file containing a list of URLs to download sequentially",
+    )
+    args = parser.parse_args()
+
+    # Need at least a file, or a target
+    if not args.file and not args.target:
+        parser.print_help()
+        sys.exit(1)
+
+    index = load_index()
+
+    if args.file:
+        file_path = Path(args.file)
+        if not file_path.exists():
+            print(f"ERROR: File '{args.file}' not found.")
+            sys.exit(1)
+
+        with open(file_path, "r", encoding="utf-8") as f:
+            links = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+
+        print(f"Found {len(links)} links in {args.file}. Starting sequential download...")
+        for i, link in enumerate(links, 1):
+            print(f"--- Processing item {i}/{len(links)} ---")
+            process_item(link, None, index)
+            print("-" * 40)
+    else:
+        # Standard fallback for positional arguments
+        if args.size is None and not (args.target.startswith("http://") or args.target.startswith("https://")):
+            print("ERROR: provide both a code and a size, or a full URL")
+            sys.exit(1)
+
+        process_item(args.target, args.size, index)
 
 
 if __name__ == "__main__":
