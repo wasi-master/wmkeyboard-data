@@ -2,21 +2,26 @@
 """
 Wikipedia Importer
 
-Downloads a Wikipedia XML dump (e.g. https://dumps.wikimedia.org/satwiki/20260701/satwiki-20260701-pages-articles-multistream.xml.bz2),
+Downloads Wikipedia XML dumps (e.g. https://dumps.wikimedia.org/satwiki/20260701/satwiki-20260701-pages-articles-multistream.xml.bz2),
 extracts text using WikiExtractor, removes punctuation and optionally Latin words,
-counts word occurrences, and saves a gzipped wordlist file in "word count" format
+counts word occurrences, and saves gzipped wordlist files in "word count" format
 per line to data/<lang>/<lang>_full.txt.gz.
+
+Supports multi-threaded downloads/imports across CPU cores for processing multiple wikis in parallel.
 
 Usage:
     python3 scripts/wikipedia_importer.py <dump_url_or_path> [options]
+    python3 scripts/wikipedia_importer.py -f links.txt -t 8 [options]
+    python3 scripts/wikipedia_importer.py url1 url2 url3 -t 4 [options]
 
 Examples:
     python3 scripts/wikipedia_importer.py https://dumps.wikimedia.org/satwiki/20260701/satwiki-20260701-pages-articles-multistream.xml.bz2 --remove-latin
-    python3 scripts/wikipedia_importer.py https://dumps.wikimedia.org/orwiki/latest/orwiki-latest-pages-articles.xml.bz2 --lang or
+    python3 scripts/wikipedia_importer.py -f wiki_links.txt -t 8 --remove-latin
 """
 
 import argparse
 import collections
+import concurrent.futures
 import gzip
 import json
 import os
@@ -26,6 +31,7 @@ import ssl
 import subprocess
 import sys
 import tempfile
+import time
 import unicodedata
 import urllib.request
 from pathlib import Path
@@ -47,22 +53,24 @@ def infer_language_code(url_or_path: str) -> str:
     return base.lower()
 
 
-def download_file(url: str, dest_path: Path):
+def download_file(url: str, dest_path: Path, prefix: str = "", verbose_progress: bool = True):
     """Download a file with progress reporting."""
     dest_path.parent.mkdir(parents=True, exist_ok=True)
-    print(f"Downloading {url} to {dest_path}...")
+    p_str = f"{prefix} " if prefix else ""
+    print(f"{p_str}Downloading {url} to {dest_path}...")
     
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Wikipedia Importer)"})
-    with urllib.request.urlopen(req, context=ctx, timeout=60) as resp:
+    with urllib.request.urlopen(req, context=ctx, timeout=120) as resp:
         total_size = resp.getheader("Content-Length")
         total_bytes = int(total_size) if total_size else None
         
         downloaded = 0
         chunk_size = 1024 * 1024  # 1MB chunks
+        last_log_time = 0
         
         with open(dest_path, "wb") as f:
             while True:
@@ -71,19 +79,34 @@ def download_file(url: str, dest_path: Path):
                     break
                 f.write(chunk)
                 downloaded += len(chunk)
-                if total_bytes:
-                    pct = (downloaded / total_bytes) * 100
-                    print(f"\rDownloaded {downloaded / (1024*1024):.1f} / {total_bytes / (1024*1024):.1f} MB ({pct:.1f}%)", end="", flush=True)
+                
+                now = time.time()
+                if verbose_progress:
+                    if total_bytes:
+                        pct = (downloaded / total_bytes) * 100
+                        print(f"\r{p_str}Downloaded {downloaded / (1024*1024):.1f} / {total_bytes / (1024*1024):.1f} MB ({pct:.1f}%)", end="", flush=True)
+                    else:
+                        print(f"\r{p_str}Downloaded {downloaded / (1024*1024):.1f} MB", end="", flush=True)
                 else:
-                    print(f"\rDownloaded {downloaded / (1024*1024):.1f} MB", end="", flush=True)
-        print()
+                    if now - last_log_time >= 5:
+                        if total_bytes:
+                            pct = (downloaded / total_bytes) * 100
+                            print(f"{p_str}Downloaded {downloaded / (1024*1024):.1f} / {total_bytes / (1024*1024):.1f} MB ({pct:.1f}%)")
+                        else:
+                            print(f"{p_str}Downloaded {downloaded / (1024*1024):.1f} MB")
+                        last_log_time = now
+        if verbose_progress:
+            print()
+        else:
+            print(f"{p_str}Finished downloading {url}")
 
 
-def run_wikiextractor(dump_path: Path, output_dir: Path, processes: int = None):
+def run_wikiextractor(dump_path: Path, output_dir: Path, processes: int = None, prefix: str = ""):
     """Run WikiExtractor as a subprocess using python module execution, streaming output to extracted.json."""
     output_dir.mkdir(parents=True, exist_ok=True)
     output_file = output_dir / "extracted.json"
-    print(f"Running WikiExtractor on {dump_path}...")
+    p_str = f"{prefix} " if prefix else ""
+    print(f"{p_str}Running WikiExtractor on {dump_path}...")
     
     cmd = [
         sys.executable,
@@ -103,7 +126,7 @@ def run_wikiextractor(dump_path: Path, output_dir: Path, processes: int = None):
         
     if proc.returncode != 0:
         raise RuntimeError(f"WikiExtractor failed with exit code {proc.returncode}")
-    print(f"WikiExtractor completed extraction to {output_file}")
+    print(f"{p_str}WikiExtractor completed extraction to {output_file}")
 
 
 def is_latin_word(word: str) -> bool:
@@ -142,11 +165,12 @@ def extract_words_from_text(text: str, remove_latin: bool = False, min_length: i
     return words
 
 
-def process_extracted_files(extract_dir: Path, remove_latin: bool = False, min_length: int = 1) -> collections.Counter:
+def process_extracted_files(extract_dir: Path, remove_latin: bool = False, min_length: int = 1, prefix: str = "") -> collections.Counter:
     """
     Walk through WikiExtractor files and count word frequencies.
     Handles JSON format, XML <doc> tag format, and raw text format.
     """
+    p_str = f"{prefix} " if prefix else ""
     counts = collections.Counter()
     file_count = 0
     article_count = 0
@@ -198,8 +222,77 @@ def process_extracted_files(extract_dir: Path, remove_latin: bool = False, min_l
                         words = extract_words_from_text(article_text, remove_latin=remove_latin, min_length=min_length)
                         counts.update(words)
                         
-    print(f"Processed {article_count} articles across {file_count} extracted files.")
+    print(f"{p_str}Processed {article_count} articles across {file_count} extracted files.")
     return counts
+
+
+def process_single_dump(url_or_path: str, args, multi_threaded: bool = False) -> tuple[bool, str]:
+    """Process a single Wikipedia dump URL or file path. Returns (success, result_message)."""
+    lang = args.lang or infer_language_code(url_or_path)
+    prefix = f"[{lang}]"
+    p_str = f"{prefix} "
+    print(f"{p_str}Target language code: {lang}")
+    
+    if args.output:
+        if multi_threaded:
+            output_path = Path(args.output).parent / f"{lang}_full.txt.gz"
+        else:
+            output_path = Path(args.output).resolve()
+    else:
+        lang_dir = DATA_DIR / lang
+        output_path = lang_dir / f"{lang}_full.txt.gz"
+        
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    is_url = url_or_path.startswith("http://") or url_or_path.startswith("https://")
+    temp_dir = Path(tempfile.mkdtemp(prefix=f"wiki_import_{lang}_"))
+    
+    try:
+        if is_url:
+            filename = Path(url_or_path).name
+            dump_file = temp_dir / filename
+            download_file(url_or_path, dump_file, prefix=prefix, verbose_progress=not multi_threaded)
+        else:
+            dump_file = Path(url_or_path).resolve()
+            if not dump_file.exists():
+                msg = f"{p_str}Error: Local file {dump_file} does not exist."
+                print(msg)
+                return False, msg
+                
+        extract_dir = temp_dir / "extracted"
+        processes = args.processes if args.processes else (1 if multi_threaded else None)
+        run_wikiextractor(dump_file, extract_dir, processes=processes, prefix=prefix)
+        
+        print(f"{p_str}Extracting words and computing frequencies...")
+        counts = process_extracted_files(
+            extract_dir, remove_latin=args.remove_latin, min_length=args.min_length, prefix=prefix
+        )
+        
+        # Filter by min_freq and sort
+        sorted_words = [
+            (word, count)
+            for word, count in counts.items()
+            if count >= args.min_freq
+        ]
+        sorted_words.sort(key=lambda x: (-x[1], x[0]))
+        
+        print(f"{p_str}Writing {len(sorted_words)} unique words to {output_path}...")
+        with gzip.open(output_path, "wt", encoding="utf-8") as f:
+            for word, count in sorted_words:
+                f.write(f"{word} {count}\n")
+                
+        file_size_kb = output_path.stat().st_size / 1024
+        msg = f"{p_str}Successfully generated {output_path} ({file_size_kb:.1f} KB, {len(sorted_words)} words)."
+        print(msg)
+        return True, msg
+    except Exception as e:
+        msg = f"{p_str}Failed processing {url_or_path}: {e}"
+        print(msg)
+        return False, msg
+    finally:
+        if not args.keep_temp:
+            print(f"{p_str}Cleaning up temporary directory {temp_dir}...")
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
 
 def main():
@@ -208,7 +301,18 @@ def main():
     )
     parser.add_argument(
         "url_or_path",
-        help="URL or local filepath to Wikipedia XML dump (.xml.bz2 or .xml)",
+        nargs="*",
+        help="URL(s) or local filepath(s) to Wikipedia XML dump (.xml.bz2 or .xml)",
+    )
+    parser.add_argument(
+        "-f", "--file",
+        help="Text file containing a list of Wikipedia dump URLs to process",
+    )
+    parser.add_argument(
+        "-t", "--threads",
+        type=int,
+        default=1,
+        help="Number of concurrent download/import worker threads (default: 1; set to 0 or -1 to use all CPU cores).",
     )
     parser.add_argument(
         "--lang",
@@ -239,7 +343,7 @@ def main():
     parser.add_argument(
         "--processes",
         type=int,
-        help="Number of parallel processes for WikiExtractor.",
+        help="Number of parallel processes for WikiExtractor per dump.",
     )
     parser.add_argument(
         "--keep-temp",
@@ -249,61 +353,62 @@ def main():
     
     args = parser.parse_args()
     
-    lang = args.lang or infer_language_code(args.url_or_path)
-    print(f"Target language code: {lang}")
-    
-    # Setup paths
-    if args.output:
-        output_path = Path(args.output).resolve()
+    links = []
+    if args.file:
+        file_path = Path(args.file)
+        if not file_path.exists():
+            print(f"ERROR: File '{args.file}' not found.")
+            sys.exit(1)
+            
+        with open(file_path, "r", encoding="utf-8") as f:
+            links.extend([line.strip() for line in f if line.strip() and not line.startswith("#")])
+            
+    if args.url_or_path:
+        links.extend(args.url_or_path)
+        
+    if not links:
+        parser.print_help()
+        sys.exit(1)
+        
+    cpu_cores = os.cpu_count() or 4
+    if args.threads <= 0:
+        max_workers = cpu_cores
     else:
-        lang_dir = DATA_DIR / lang
-        output_path = lang_dir / f"{lang}_full.txt.gz"
+        max_workers = args.threads
         
-    output_path.parent.mkdir(parents=True, exist_ok=True)
+    multi_threaded = len(links) > 1 and max_workers > 1
     
-    url_or_path = args.url_or_path
-    is_url = url_or_path.startswith("http://") or url_or_path.startswith("https://")
+    print(f"Processing {len(links)} dump(s) using {max_workers} worker thread(s)... (CPU cores available: {cpu_cores})")
     
-    temp_dir = Path(tempfile.mkdtemp(prefix=f"wiki_import_{lang}_"))
+    results = []
+    if multi_threaded:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_link = {
+                executor.submit(process_single_dump, link, args, True): link
+                for link in links
+            }
+            for future in concurrent.futures.as_completed(future_to_link):
+                link = future_to_link[future]
+                try:
+                    success, msg = future.result()
+                    results.append((link, success, msg))
+                except Exception as exc:
+                    results.append((link, False, str(exc)))
+    else:
+        for link in links:
+            success, msg = process_single_dump(link, args, multi_threaded=False)
+            results.append((link, success, msg))
+            
+    print("\n" + "=" * 50)
+    print("IMPORT SUMMARY")
+    print("=" * 50)
+    successes = sum(1 for _, s, _ in results if s)
+    failures = sum(1 for _, s, _ in results if not s)
+    print(f"Total: {len(results)} | Succeeded: {successes} | Failed: {failures}\n")
     
-    try:
-        if is_url:
-            filename = Path(url_or_path).name
-            dump_file = temp_dir / filename
-            download_file(url_or_path, dump_file)
-        else:
-            dump_file = Path(url_or_path).resolve()
-            if not dump_file.exists():
-                sys.exit(f"Error: Local file {dump_file} does not exist.")
-                
-        extract_dir = temp_dir / "extracted"
-        run_wikiextractor(dump_file, extract_dir, processes=args.processes)
-        
-        print("Extracting words and computing frequencies...")
-        counts = process_extracted_files(
-            extract_dir, remove_latin=args.remove_latin, min_length=args.min_length
-        )
-        
-        # Filter by min_freq and sort
-        sorted_words = [
-            (word, count)
-            for word, count in counts.items()
-            if count >= args.min_freq
-        ]
-        sorted_words.sort(key=lambda x: (-x[1], x[0]))
-        
-        print(f"Writing {len(sorted_words)} unique words to {output_path}...")
-        with gzip.open(output_path, "wt", encoding="utf-8") as f:
-            for word, count in sorted_words:
-                f.write(f"{word} {count}\n")
-                
-        file_size_kb = output_path.stat().st_size / 1024
-        print(f"Successfully generated {output_path} ({file_size_kb:.1f} KB, {len(sorted_words)} words).")
-        
-    finally:
-        if not args.keep_temp:
-            print(f"Cleaning up temporary directory {temp_dir}...")
-            shutil.rmtree(temp_dir, ignore_errors=True)
+    for link, success, msg in results:
+        status_tag = "[SUCCESS]" if success else "[FAILED]"
+        print(f"{status_tag} {link} -> {msg}")
 
 
 if __name__ == "__main__":
