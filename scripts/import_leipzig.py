@@ -123,7 +123,73 @@ ISO6393_TO_FOLDER = {
     "gle": "ga",   # Irish
     "srd": "sc",   # Sardinian
     "snd": "sd",   # Sindhi
-    "tcy": "tcy"   # Tulu (No 2-letter code exists)
+    "tcy": "tcy",   # Tulu (No 2-letter code exists)
+    "jav": "jv",       # Javanese
+    "pus": "ps",       # Pashto
+    "xho": "xh",       # Xhosa
+    "som": "so",       # Somali
+    "aka": "ak",       # Akan
+    "hat": "ht",       # Haitian Creole
+    "wol": "wo",       # Wolof
+    "que": "qu",       # Quechua
+    "kir": "ky",       # Kyrgyz
+    "bod": "bo",       # Tibetan
+    "tgk": "tg",       # Tajik
+    "tir": "ti",       # Tigrinya
+    "bam": "bm",       # Bambara
+    "nya": "ny",       # Chichewa / Nyanja
+    "ful": "ff",       # Fulah
+    "lug": "lg",       # Ganda / Luganda
+    "ssw-za": "ss-ZA", # Swati (South Africa)
+    "sot": "st",       # Southern Sotho
+    "tsn": "tn",       # Tswana
+    "tuk": "tk",       # Turkmen
+    "uig": "ug",       # Uyghur
+    "mlt": "mt",       # Maltese
+    "cym": "cy",       # Welsh
+    "sco": "sco",      # Scots (No 2-letter code exists)
+    "mri-nz": "mi-NZ", # Maori (New Zealand)
+    "nav": "nv",       # Navajo
+    "fao": "fo",       # Faroese
+    "kal-gl": "kl-GL", # Kalaallisut / Greenlandic (Greenland)
+    "cos": "co",       # Corsican
+    "oci": "oc",       # Occitan
+    "roh": "rm",       # Romansh
+    "arg": "an",       # Aragonese
+    "bak": "ba",       # Bashkir
+    "che": "ce",       # Chechen
+    "chv": "cv",       # Chuvash
+    "kon": "kg",       # Kongo
+    "aar": "aa",       # Afar
+    "ewe": "ee",       # Ewe
+    "fry": "fy",       # Western Frisian
+    "grn": "gn",       # Guarani
+    "ido": "io",       # Ido
+    "ina": "ia",       # Interlingua
+    "ile": "ie",       # Interlingue
+    "kik": "ki",       # Kikuyu
+    "lim": "li",       # Limburgish
+    "lin": "ln",       # Lingala
+    "div-mv": "dv-MV", # Divehi / Maldivian (Maldives)
+    "glv": "gv",       # Manx
+    "nbl": "nr",       # South Ndebele
+    "ndo": "nd",       # North Ndebele
+    "sme": "se",       # Northern Sami
+    "nno": "nn",       # Norwegian Nynorsk
+    "orm": "om",       # Oromo
+    "oss": "os",       # Ossetian
+    "run": "rn",       # Rundi
+    "kin_": "rw",      # Kinyarwanda (accounting for the underscore in your key)
+    "sna-zw": "sn-ZW", # Shona (Zimbabwe)
+    "hbs": "sh",       # Serbo-Croatian
+    "sun-id": "su-ID", # Sundanese (Indonesia)
+    "tat": "tt",       # Tatar
+    "tso": "ts",       # Tsonga
+    "ven": "ve",       # Venda
+    "vol": "vo",       # Volapük
+    "wln": "wa",       # Walloon
+    "yid": "yi",       # Yiddish
+    "zha": "za"        # Zhuang
 }
 
 PREFERRED_TYPES = ["wikipedia", "web", "community", "news", "newscrawl"]

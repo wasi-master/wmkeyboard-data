@@ -258,8 +258,12 @@ def parse_lines(lines):
                 if "." in value:
                     had_float = True
             except ValueError:
-                word = line
-                freq = 1.0
+                # FIX: Check if the line is a duplicated word (e.g., "the the")
+                if word == value:
+                    freq = 1.0  # Keep the single 'word', use default frequency
+                else:
+                    word = line
+                    freq = 1.0
         else:
             word = parts[0]
         result.append((word.strip(), freq))
