@@ -189,7 +189,19 @@ ISO6393_TO_FOLDER = {
     "vol": "vo",       # Volapük
     "wln": "wa",       # Walloon
     "yid": "yi",       # Yiddish
-    "zha": "za"        # Zhuang
+    "zha": "za",       # Zhuang
+    "kur": "ku",        # Kurdish
+    "ckb": "ckb",       # Central Kurdish (Sorani)
+    "min": "min",       # Minangkabau
+    "mad": "mad",       # Madurese
+    "bug": "bug",       # Buginese
+    "ban": "ban",       # Balinese
+    "ilo": "ilo",       # Ilocano
+    "war": "war",       # Waray
+    "bcl": "bcl",       # Bicolano
+    "knn": "kok",       # Maharashtrian Konkani
+    "gom": "kok",       # Goan Konkani
+    "kok": "kok"        # Konkani
 }
 
 PREFERRED_TYPES = ["wikipedia", "web", "community", "news", "newscrawl"]

@@ -13,7 +13,7 @@ That lives separately.
 
 | Folder | What | Source |
 |---|---|---|
-| [`data/`](data/) | Per-language word-frequency lists (80+ languages, `<lang>/<lang>_full.txt.gz`, plus optional offensive lists) | Various (see [`data/README.md`](data/README.md)) |
+| [`data/`](data/) | Per-language word-frequency lists (160+ languages, `<lang>/<lang>_full.txt.gz`, plus optional offensive lists) | Various (see [`data/README.md`](data/README.md)) |
 | [`cjk/`](cjk/) | Chinese Pinyin (`pinyin.tsv`), Japanese kana (`ja_kana.tsv`) and Chinese stroke (`stroke.tsv`) conversion tables, plus the build scripts under `cjk/tools/` — see [`cjk/README.md`](cjk/README.md) | CC-CEDICT, Mozc, BSD 2-Clause |
 
 The `data/` word lists are **gzip-compressed** (`<lang>_full.txt.gz` and `<lang>_offensive.txt.gz`) so every

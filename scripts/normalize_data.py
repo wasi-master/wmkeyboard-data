@@ -330,11 +330,18 @@ def process_file(path):
         if word not in merged or freq > merged[word]:
             merged[word] = freq
     result = sorted(merged.items(), key=lambda x: (-x[1], x[0]))
-    tmp = path.with_suffix(".tmp.gz")
+    # Securely create a temp file name by appending .tmp to the full original name
+    tmp = path.parent / f"{path.name}.tmp"
+
     with gzip.open(tmp, "wt", encoding="utf-8") as f:
         for word, freq in result:
             f.write(f"{word} {freq}\n")
-    tmp.replace(path)
+
+    # Verify the file was actually created by the OS before replacing
+    if tmp.exists():
+        tmp.replace(path)
+    else:
+        raise FileNotFoundError(f"Failed to create temporary file: {tmp}")
     report = {
         "file": str(path),
         "before": len(entries),
