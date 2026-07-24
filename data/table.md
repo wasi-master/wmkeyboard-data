@@ -158,7 +158,6 @@
 | Ossetic | os | 62.1 kB | 227.6 kB | 12,863 | - | - | - | - | - | - |
 | Punjabi | pa | 1.1 MB | 5.5 MB | 226,706 | - | - | - | 1.3 MB | 4.6 MB | 426,465 |
 | Pangasinan | pag | 53.2 kB | 139.5 kB | 13,489 | - | - | - | - | - | - |
-| Pampanga | pam | - | - | - | - | - | - | - | - | - |
 | Papiamento | pap | 222.2 kB | 598.0 kB | 53,695 | - | - | - | - | - | - |
 | Polish | pl | 6.2 MB | 19.1 MB | 1,481,466 | 25.3 kB | 123.6 kB | 8,971 | - | - | - |
 | Plateau Malagasy | plt | 260.1 kB | 746.6 kB | 59,918 | - | - | - | - | - | - |
