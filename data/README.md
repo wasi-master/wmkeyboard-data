@@ -1,6 +1,6 @@
 # Frequency Word Lists
 
-A collection of frequency word lists for 161 languages.
+A collection of frequency word lists for 215+ languages.
 
 ## Format
 
@@ -37,7 +37,7 @@ This repository redistributes and packages data from the following open-source p
 | [vigneshwaran-chandrasekaran/tamil-language-words-list](https://github.com/vigneshwaran-chandrasekaran/tamil-language-words-list) | `ta` |
 | [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist) | `bn` |
 | [Leipzig Corpora Collection](https://wortschatz.uni-leipzig.de/de) | `af`, `am`, `as`, `az`, `be`, `br`, `eo`, `eu`, `gl`, `gu`, `ha`, `hi`, `hy`, `ig`, `ka`, `kk`, `km`, `kn`, `lo`, `lv`, `mn`, `mr`, `ms`, `my`, `ne`, `pa`, `sw`, `tg`, `te`, `tl`, `uz`, `vi`, `yo`, `zu`, `aa`, `ak`, `an`, `ba`, `bm`, `bo`, `ce`, `co`, `cv`, `cy`, `div`, `ee`, `ff`, `fo`, `fy`, `gn`, `gv`, `ht`, `ia`, `ie`, `io`, `jv`, `kg`, `ki`, `kl`, `ky`, `lg`, `li`, `ln`, `mt`, `nd`, `nn`, `nr`, `nv`, `ny`, `oc`, `om`, `os`, `ps`, `qu`, `rm`, `rn`, `sco`, `se`, `sh`, `sna`, `so`, `ssw`, `st`, `sun`, `ti`, `tk`, `tn`, `ts`, `tt`, `ug`, `ve`, `vo`, `wa`, `wo`, `xh`, `yi`, `za` |
-| [Wikimedia data dumps](https://dumps.wikimedia.org/) (`ace`, `gd`, `iu`, `kw`, `mni`, `new`, `or`, `rw`, `sat`, `shi`, `szl`, `tay`, `zgh`) | `ace`, `gd`, `iu`, `kw`, `mni`, `new`, `or`, `rw`, `sat`, `shi`, `szl`, `tay`, `zgh` |
+| [Wikimedia data dumps](https://dumps.wikimedia.org/) | `ace`, `av`, `ay`, `bar`, `bi`, `bik`, `bxr`, `cbk`, `cdo`, `chr`, `cr`, `csb`, `dag`, `dsb`, `fj`, `fon`, `fur`, `gd`, `hak`, `haw`, `hsb`, `inh`, `iu`, `kbd`, `kv`, `kw`, `lad`, `lez`, `lij`, `lmo`, `loz`, `lub`, `mhr`, `mi`, `mni`, `nah`, `nan`, `nds`, `new`, `nov`, `nso`, `or`, `pag`, `pam`, `pap`, `rif`, `rw`, `sah`, `sat`, `scn`, `shi`, `shn`, `sm`, `srn`, `syl`, `szl`, `tay`, `tet`, `to`, `tpi`, `tum`, `tyv`, `udm`, `vec`, `wuu`, `xmf`, `yue`, `zgh` |
 | [Official Lojban Dictionary](https://www.lojban.org) | `jbo` |
 | [Klingon Dictionary](http://klingonska.org/dict/dict.zdb) | `tlh` |
 | [Ardalambion Quenya Wordlist](https://ardalambion.net/quen-eng.htm) | `qya` |
@@ -92,7 +92,7 @@ Each dictionary retains the license of its original source.
 | `qya` | [Ardalambion](https://ardalambion.net) |
 | `tok` | [CC0 1.0 Universal](https://github.com/lipu-linku/sona) / [lipu Linku](https://linku.la) |
 | `bho`, `brx`, `doi`, `ks`, `mai`, `raj` | [MIT](https://github.com/motaitalic/devanagari-documentation/blob/main/LICENSE) |
-| `ace`, `gd`, `iu`, `kw`, `mni`, `new`, `or`, `rw`, `sat`, `shi`, `szl`, `tay`, `zgh` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) (Wikimedia Data Dumps) |
+| `ace`, `av`, `ay`, `bar`, `bi`, `bik`, `bxr`, `cbk`, `cdo`, `chr`, `cr`, `csb`, `dag`, `dsb`, `fj`, `fon`, `fur`, `gd`, `hak`, `haw`, `hsb`, `inh`, `iu`, `kbd`, `kv`, `kw`, `lad`, `lez`, `lij`, `lmo`, `loz`, `lub`, `mhr`, `mi`, `mni`, `nah`, `nan`, `nds`, `new`, `nov`, `nso`, `or`, `pag`, `pam`, `pap`, `rif`, `rw`, `sah`, `sat`, `scn`, `shi`, `shn`, `sm`, `srn`, `syl`, `szl`, `tay`, `tet`, `to`, `tpi`, `tum`, `tyv`, `udm`, `vec`, `wuu`, `xmf`, `yue`, `zgh` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) (Wikimedia Data Dumps) |
 | `af`, `am`, `as`, `az`, `be`, `br`, `eo`, `eu`, `gl`, `gu`, `ha`, `hi`, `hy`, `ig`, `ka`, `kk`, `km`, `kn`, `lo`, `lv`, `mn`, `mr`, `ms`, `my`, `ne`, `pa`, `sw`, `tg`, `te`, `tl`, `uz`, `vi`, `yo`, `zu`, `aa`, `ak`, `an`, `ba`, `bm`, `bo`, `ce`, `co`, `cv`, `cy`, `div`, `ee`, `ff`, `fo`, `fy`, `gn`, `gv`, `ht`, `ia`, `ie`, `io`, `jv`, `kg`, `ki`, `kl`, `ky`, `lg`, `li`, `ln`, `mt`, `nd`, `nn`, `nr`, `nv`, `ny`, `oc`, `om`, `os`, `ps`, `qu`, `rm`, `rn`, `sco`, `se`, `sh`, `sna`, `so`, `ssw`, `st`, `sun`, `ti`, `tk`, `tn`, `ts`, `tt`, `ug`, `ve`, `vo`, `wa`, `wo`, `xh`, `yi`, `za` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `ta` | [MIT](https://github.com/vigneshwaran-chandrasekaran/tamil-language-words-list/blob/master/LICENSE) |
 | `jbo` | Public Domain |

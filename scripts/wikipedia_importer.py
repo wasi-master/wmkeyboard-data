@@ -7,16 +7,19 @@ extracts text using WikiExtractor, removes punctuation and optionally Latin word
 counts word occurrences, and saves gzipped wordlist files in "word count" format
 per line to data/<lang>/<lang>_full.txt.gz.
 
-Supports multi-threaded downloads/imports across CPU cores for processing multiple wikis in parallel.
+Features:
+  - Throttled & staggered downloads to prevent Wikimedia HTTP 429 (Too Many Requests) rate limits.
+  - Automatic exponential backoff retries on HTTP 429 / network errors.
+  - Multi-threaded CPU processing pipeline (WikiExtractor & word counting) using all available CPU cores.
 
 Usage:
     python3 scripts/wikipedia_importer.py <dump_url_or_path> [options]
-    python3 scripts/wikipedia_importer.py -f links.txt -t 8 [options]
-    python3 scripts/wikipedia_importer.py url1 url2 url3 -t 4 [options]
+    python3 scripts/wikipedia_importer.py -f links.txt -dt 1 -t 0 --remove-latin
+    python3 scripts/wikipedia_importer.py url1 url2 url3 -t 8 [options]
 
 Examples:
     python3 scripts/wikipedia_importer.py https://dumps.wikimedia.org/satwiki/20260701/satwiki-20260701-pages-articles-multistream.xml.bz2 --remove-latin
-    python3 scripts/wikipedia_importer.py -f wiki_links.txt -t 8 --remove-latin
+    python3 scripts/wikipedia_importer.py -f wiki_links.txt --download-threads 1 --threads 0 --remove-latin
 """
 
 import argparse
@@ -33,6 +36,7 @@ import sys
 import tempfile
 import time
 import unicodedata
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -40,21 +44,28 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data"
 
 
+WIKI_CODE_MAP = {
+    "zh_min_nan": "nan",
+    "cbk_zam": "cbk",
+    "zh_classical": "lzh",
+    "zh_yue": "yue",
+    "map_bms": "mad",
+}
+
+
 def infer_language_code(url_or_path: str) -> str:
     """Extract language code from Wikipedia dump URL or filename."""
     filename = Path(url_or_path).name
-    # Match patterns like satwiki-20260701-pages... or satwiki or /satwiki/
     match = re.search(r'([a-z0-9_]+)wiki', url_or_path, re.IGNORECASE)
     if match:
         code = match.group(1).lower()
-        return code
-    # Fallback to first part of filename before hyphen or dot
-    base = filename.split('-')[0].split('.')[0]
-    return base.lower()
+        return WIKI_CODE_MAP.get(code, code)
+    base = filename.split('-')[0].split('.')[0].lower()
+    return WIKI_CODE_MAP.get(base, base)
 
 
-def download_file(url: str, dest_path: Path, prefix: str = "", verbose_progress: bool = True):
-    """Download a file with progress reporting."""
+def download_file(url: str, dest_path: Path, prefix: str = "", verbose_progress: bool = True, max_retries: int = 5):
+    """Download a file with HTTP 429 retry handling and progress reporting."""
     dest_path.parent.mkdir(parents=True, exist_ok=True)
     p_str = f"{prefix} " if prefix else ""
     print(f"{p_str}Downloading {url} to {dest_path}...")
@@ -63,42 +74,61 @@ def download_file(url: str, dest_path: Path, prefix: str = "", verbose_progress:
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
 
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Wikipedia Importer)"})
-    with urllib.request.urlopen(req, context=ctx, timeout=120) as resp:
-        total_size = resp.getheader("Content-Length")
-        total_bytes = int(total_size) if total_size else None
-        
-        downloaded = 0
-        chunk_size = 1024 * 1024  # 1MB chunks
-        last_log_time = 0
-        
-        with open(dest_path, "wb") as f:
-            while True:
-                chunk = resp.read(chunk_size)
-                if not chunk:
-                    break
-                f.write(chunk)
-                downloaded += len(chunk)
+    headers = {"User-Agent": "WMKeyboard-Wikipedia-Importer/1.0 (https://github.com/wasi-master/wmkeyboard-data)"}
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, context=ctx, timeout=120) as resp:
+                total_size = resp.getheader("Content-Length")
+                total_bytes = int(total_size) if total_size else None
                 
-                now = time.time()
-                if verbose_progress:
-                    if total_bytes:
-                        pct = (downloaded / total_bytes) * 100
-                        print(f"\r{p_str}Downloaded {downloaded / (1024*1024):.1f} / {total_bytes / (1024*1024):.1f} MB ({pct:.1f}%)", end="", flush=True)
-                    else:
-                        print(f"\r{p_str}Downloaded {downloaded / (1024*1024):.1f} MB", end="", flush=True)
-                else:
-                    if now - last_log_time >= 5:
-                        if total_bytes:
-                            pct = (downloaded / total_bytes) * 100
-                            print(f"{p_str}Downloaded {downloaded / (1024*1024):.1f} / {total_bytes / (1024*1024):.1f} MB ({pct:.1f}%)")
+                downloaded = 0
+                chunk_size = 1024 * 1024  # 1MB chunks
+                last_log_time = 0
+                
+                with open(dest_path, "wb") as f:
+                    while True:
+                        chunk = resp.read(chunk_size)
+                        if not chunk:
+                            break
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        
+                        now = time.time()
+                        if verbose_progress:
+                            if total_bytes:
+                                pct = (downloaded / total_bytes) * 100
+                                print(f"\r{p_str}Downloaded {downloaded / (1024*1024):.1f} / {total_bytes / (1024*1024):.1f} MB ({pct:.1f}%)", end="", flush=True)
+                            else:
+                                print(f"\r{p_str}Downloaded {downloaded / (1024*1024):.1f} MB", end="", flush=True)
                         else:
-                            print(f"{p_str}Downloaded {downloaded / (1024*1024):.1f} MB")
-                        last_log_time = now
-        if verbose_progress:
-            print()
-        else:
-            print(f"{p_str}Finished downloading {url}")
+                            if now - last_log_time >= 5:
+                                if total_bytes:
+                                    pct = (downloaded / total_bytes) * 100
+                                    print(f"{p_str}Downloaded {downloaded / (1024*1024):.1f} / {total_bytes / (1024*1024):.1f} MB ({pct:.1f}%)")
+                                else:
+                                    print(f"{p_str}Downloaded {downloaded / (1024*1024):.1f} MB")
+                                last_log_time = now
+                if verbose_progress:
+                    print()
+                else:
+                    print(f"{p_str}Finished downloading {url}")
+                return
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 503) and attempt < max_retries:
+                wait_time = attempt * 12
+                print(f"\n{p_str}Received HTTP {e.code} ({e.reason}). Backing off for {wait_time}s (attempt {attempt}/{max_retries})...")
+                time.sleep(wait_time)
+            else:
+                raise e
+        except Exception as e:
+            if attempt < max_retries:
+                wait_time = attempt * 5
+                print(f"\n{p_str}Download error ({e}). Retrying in {wait_time}s (attempt {attempt}/{max_retries})...")
+                time.sleep(wait_time)
+            else:
+                raise e
 
 
 def run_wikiextractor(dump_path: Path, output_dir: Path, processes: int = None, prefix: str = ""):
@@ -144,7 +174,6 @@ def extract_words_from_text(text: str, remove_latin: bool = False, min_length: i
     cleaned_chars = []
     for char in text:
         cat = unicodedata.category(char)
-        # Keep letters (L) and marks (M) - replace punctuation (P), symbols (S), numbers (N) with space
         if cat.startswith("L") or cat.startswith("M"):
             cleaned_chars.append(char)
         else:
@@ -166,10 +195,7 @@ def extract_words_from_text(text: str, remove_latin: bool = False, min_length: i
 
 
 def process_extracted_files(extract_dir: Path, remove_latin: bool = False, min_length: int = 1, prefix: str = "") -> collections.Counter:
-    """
-    Walk through WikiExtractor files and count word frequencies.
-    Handles JSON format, XML <doc> tag format, and raw text format.
-    """
+    """Walk through WikiExtractor files and count word frequencies."""
     p_str = f"{prefix} " if prefix else ""
     counts = collections.Counter()
     file_count = 0
@@ -190,7 +216,6 @@ def process_extracted_files(extract_dir: Path, remove_latin: bool = False, min_l
                     if not line_str:
                         continue
                     
-                    # Try parsing JSON format
                     if line_str.startswith("{") and line_str.endswith("}"):
                         try:
                             doc = json.loads(line_str)
@@ -203,7 +228,6 @@ def process_extracted_files(extract_dir: Path, remove_latin: bool = False, min_l
                         except json.JSONDecodeError:
                             pass
                     
-                    # Handle XML <doc> / </doc> format or raw text
                     if line_str.startswith("<doc") or line_str.startswith("</doc>"):
                         if current_article_lines:
                             article_text = "\n".join(current_article_lines)
@@ -226,41 +250,48 @@ def process_extracted_files(extract_dir: Path, remove_latin: bool = False, min_l
     return counts
 
 
-def process_single_dump(url_or_path: str, args, multi_threaded: bool = False) -> tuple[bool, str]:
-    """Process a single Wikipedia dump URL or file path. Returns (success, result_message)."""
-    lang = args.lang or infer_language_code(url_or_path)
+def download_task(link: str, args, multi_threaded: bool):
+    """Download single dump file (throttled)."""
+    lang = args.lang or infer_language_code(link)
     prefix = f"[{lang}]"
-    p_str = f"{prefix} "
-    print(f"{p_str}Target language code: {lang}")
-    
-    if args.output:
-        if multi_threaded:
-            output_path = Path(args.output).parent / f"{lang}_full.txt.gz"
-        else:
-            output_path = Path(args.output).resolve()
-    else:
-        lang_dir = DATA_DIR / lang
-        output_path = lang_dir / f"{lang}_full.txt.gz"
-        
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    
-    is_url = url_or_path.startswith("http://") or url_or_path.startswith("https://")
+    is_url = link.startswith("http://") or link.startswith("https://")
     temp_dir = Path(tempfile.mkdtemp(prefix=f"wiki_import_{lang}_"))
     
+    if is_url:
+        filename = Path(link).name
+        dump_file = temp_dir / filename
+        try:
+            download_file(link, dump_file, prefix=prefix, verbose_progress=not multi_threaded)
+        except Exception as e:
+            return link, False, f"Download failed: {e}", None, temp_dir
+    else:
+        dump_file = Path(link).resolve()
+        if not dump_file.exists():
+            return link, False, f"Local file {dump_file} does not exist.", None, temp_dir
+
+    return link, True, "Downloaded", dump_file, temp_dir
+
+
+def process_task(link: str, dump_file: Path, temp_dir: Path, args, multi_threaded: bool):
+    """Extract and process downloaded dump file."""
+    lang = args.lang or infer_language_code(link)
+    prefix = f"[{lang}]"
+    p_str = f"{prefix} "
+    
     try:
-        if is_url:
-            filename = Path(url_or_path).name
-            dump_file = temp_dir / filename
-            download_file(url_or_path, dump_file, prefix=prefix, verbose_progress=not multi_threaded)
+        if args.output:
+            if multi_threaded:
+                output_path = Path(args.output).parent / f"{lang}_full.txt.gz"
+            else:
+                output_path = Path(args.output).resolve()
         else:
-            dump_file = Path(url_or_path).resolve()
-            if not dump_file.exists():
-                msg = f"{p_str}Error: Local file {dump_file} does not exist."
-                print(msg)
-                return False, msg
-                
+            lang_dir = DATA_DIR / lang
+            output_path = lang_dir / f"{lang}_full.txt.gz"
+            
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         extract_dir = temp_dir / "extracted"
-        processes = args.processes if args.processes else (1 if multi_threaded else None)
+        
+        processes = args.processes if args.processes else 1
         run_wikiextractor(dump_file, extract_dir, processes=processes, prefix=prefix)
         
         print(f"{p_str}Extracting words and computing frequencies...")
@@ -268,7 +299,6 @@ def process_single_dump(url_or_path: str, args, multi_threaded: bool = False) ->
             extract_dir, remove_latin=args.remove_latin, min_length=args.min_length, prefix=prefix
         )
         
-        # Filter by min_freq and sort
         sorted_words = [
             (word, count)
             for word, count in counts.items()
@@ -284,13 +314,13 @@ def process_single_dump(url_or_path: str, args, multi_threaded: bool = False) ->
         file_size_kb = output_path.stat().st_size / 1024
         msg = f"{p_str}Successfully generated {output_path} ({file_size_kb:.1f} KB, {len(sorted_words)} words)."
         print(msg)
-        return True, msg
+        return link, True, msg
     except Exception as e:
-        msg = f"{p_str}Failed processing {url_or_path}: {e}"
+        msg = f"{p_str}Failed processing {link}: {e}"
         print(msg)
-        return False, msg
+        return link, False, msg
     finally:
-        if not args.keep_temp:
+        if not args.keep_temp and temp_dir and temp_dir.exists():
             print(f"{p_str}Cleaning up temporary directory {temp_dir}...")
             shutil.rmtree(temp_dir, ignore_errors=True)
 
@@ -311,8 +341,20 @@ def main():
     parser.add_argument(
         "-t", "--threads",
         type=int,
+        default=0,
+        help="Number of concurrent CPU extraction/processing threads (default: 0 = use all CPU cores).",
+    )
+    parser.add_argument(
+        "-dt", "--download-threads",
+        type=int,
         default=1,
-        help="Number of concurrent download/import worker threads (default: 1; set to 0 or -1 to use all CPU cores).",
+        help="Number of concurrent download connections (default: 1, to prevent Wikipedia HTTP 429 rate limits).",
+    )
+    parser.add_argument(
+        "--stagger",
+        type=float,
+        default=1.0,
+        help="Stagger delay in seconds between starting consecutive downloads (default: 1.0s).",
     )
     parser.add_argument(
         "--lang",
@@ -372,31 +414,43 @@ def main():
         
     cpu_cores = os.cpu_count() or 4
     if args.threads <= 0:
-        max_workers = cpu_cores
+        max_proc_workers = cpu_cores
     else:
-        max_workers = args.threads
+        max_proc_workers = args.threads
         
-    multi_threaded = len(links) > 1 and max_workers > 1
+    max_dl_workers = max(1, args.download_threads)
+    multi_threaded = len(links) > 1 and max_proc_workers > 1
     
-    print(f"Processing {len(links)} dump(s) using {max_workers} worker thread(s)... (CPU cores available: {cpu_cores})")
+    print(f"Importing {len(links)} dump(s)...")
+    print(f"Download workers: {max_dl_workers} (Stagger delay: {args.stagger}s) | CPU Extraction workers: {max_proc_workers} (CPU cores: {cpu_cores})")
     
     results = []
-    if multi_threaded:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-            future_to_link = {
-                executor.submit(process_single_dump, link, args, True): link
-                for link in links
-            }
-            for future in concurrent.futures.as_completed(future_to_link):
-                link = future_to_link[future]
-                try:
-                    success, msg = future.result()
-                    results.append((link, success, msg))
-                except Exception as exc:
-                    results.append((link, False, str(exc)))
-    else:
-        for link in links:
-            success, msg = process_single_dump(link, args, multi_threaded=False)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_dl_workers) as dl_executor, \
+         concurrent.futures.ThreadPoolExecutor(max_workers=max_proc_workers) as proc_executor:
+        
+        futures = []
+        for i, link in enumerate(links):
+            if i > 0 and args.stagger > 0:
+                time.sleep(args.stagger)
+                
+            def make_job(url_link):
+                def job():
+                    # 1. Throttled Download
+                    d_link, d_ok, d_msg, dump_file, temp_dir = download_task(url_link, args, multi_threaded)
+                    if not d_ok:
+                        if temp_dir and temp_dir.exists() and not args.keep_temp:
+                            shutil.rmtree(temp_dir, ignore_errors=True)
+                        return d_link, False, d_msg
+                        
+                    # 2. Hand off to CPU Thread Pool as soon as download completes
+                    proc_future = proc_executor.submit(process_task, d_link, dump_file, temp_dir, args, multi_threaded)
+                    return proc_future.result()
+                return job
+
+            futures.append(dl_executor.submit(make_job(link)))
+
+        for future in concurrent.futures.as_completed(futures):
+            link, success, msg = future.result()
             results.append((link, success, msg))
             
     print("\n" + "=" * 50)
