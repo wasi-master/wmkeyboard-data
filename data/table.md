@@ -4,7 +4,7 @@
 | Acehnese | ace | 109.0 kB | 286.6 kB | 27,984 | - | - | - | - | - | - |
 | Afrikaans | af | 1.4 MB | 3.9 MB | 288,488 | 1.4 kB | 3.2 kB | 256 | - | - | - |
 | Akan | ak | 15.9 kB | 36.4 kB | 3,893 | - | - | - | - | - | - |
-| Amharic | am | 412.1 kB | 1.8 MB | 91,579 | - | - | - | - | - | - |
+| Amharic | am | 412.1 kB | 1.8 MB | 91,579 | 324 Bytes | 539 Bytes | 50 | - | - | - |
 | Aragonese | an | 263.3 kB | 748.6 kB | 65,018 | - | - | - | - | - | - |
 | Arabic | ar | 9.7 MB | 42.2 MB | 2,487,447 | 6.3 kB | 14.4 kB | 1,284 | 867.2 kB | 2.3 MB | 211,291 |
 | Moroccan Arabic | ary | 643.9 kB | 2.6 MB | 158,198 | - | - | - | - | - | - |
@@ -12,17 +12,17 @@
 | Asturian | ast | 1.3 MB | 3.5 MB | 292,283 | - | - | - | - | - | - |
 | Avaric | av | 241.2 kB | 1.1 MB | 53,036 | - | - | - | - | - | - |
 | Aymara | ay | 132.9 kB | 397.4 kB | 34,729 | - | - | - | - | - | - |
-| Azerbaijani | az | 3.6 MB | 11.7 MB | 814,123 | - | - | - | - | - | - |
+| Azerbaijani | az | 3.6 MB | 11.7 MB | 814,123 | 268 Bytes | 377 Bytes | 37 | - | - | - |
 | Bashkir | ba | 790.3 kB | 3.4 MB | 159,186 | - | - | - | - | - | - |
 | Balinese | ban | 11.4 kB | 27.4 kB | 2,674 | - | - | - | - | - | - |
 | Bavarian | bar | 1.4 MB | 4.3 MB | 339,781 | - | - | - | - | - | - |
 | Central Bikol | bcl | 126.3 kB | 403.1 kB | 35,209 | - | - | - | - | - | - |
-| Belarusian | be | 1.7 MB | 7.7 MB | 349,962 | - | - | - | - | - | - |
+| Belarusian | be | 1.7 MB | 7.7 MB | 349,962 | 913 Bytes | 1.9 kB | 136 | - | - | - |
 | Bulgarian | bg | 4.9 MB | 22.1 MB | 1,055,844 | 2.1 kB | 5.1 kB | 336 | - | - | - |
 | Bhojpuri | bho | 49.1 kB | 160.2 kB | 7,304 | - | - | - | - | - | - |
 | Bislama | bi | 25.6 kB | 61.1 kB | 6,558 | - | - | - | - | - | - |
 | Bambara | bm | 56.2 kB | 156.6 kB | 13,745 | - | - | - | - | - | - |
-| Bangla | bn | 1.7 MB | 12.6 MB | 451,348 | - | - | - | 708.4 kB | 2.1 MB | 187,030 |
+| Bangla | bn | 1.7 MB | 12.6 MB | 451,348 | 318 Bytes | 964 Bytes | 40 | 708.4 kB | 2.1 MB | 187,030 |
 | Tibetan | bo | 309.5 kB | 1.9 MB | 19,157 | - | - | - | - | - | - |
 | Breton | br | 558.0 kB | 1.5 MB | 128,028 | - | - | - | - | - | - |
 | Bodo | brx | 74.8 kB | 310.7 kB | 10,900 | - | - | - | - | - | - |
@@ -33,7 +33,7 @@
 | Chavacano | cbk | 102.9 kB | 280.6 kB | 25,598 | - | - | - | - | - | - |
 | Min Dong Chinese | cdo | 303.1 kB | 694.1 kB | 35,459 | - | - | - | - | - | - |
 | Chechen | ce | 332.3 kB | 1.4 MB | 73,434 | - | - | - | - | - | - |
-| Cebuano | ceb | 1.3 MB | 4.8 MB | 383,771 | - | - | - | - | - | - |
+| Cebuano | ceb | 1.3 MB | 4.8 MB | 383,771 | 177 Bytes | 231 Bytes | 18 | - | - | - |
 | Cherokee | chr | 28.9 kB | 112.3 kB | 6,500 | - | - | - | - | - | - |
 | Central Kurdish | ckb | 863.8 kB | 4.0 MB | 201,528 | - | - | - | - | - | - |
 | Corsican | co | 119.8 kB | 340.0 kB | 30,522 | - | - | - | - | - | - |
@@ -41,7 +41,7 @@
 | Czech | cs | 7.0 MB | 21.8 MB | 1,719,446 | 1.1 kB | 2.2 kB | 241 | - | - | - |
 | Kashubian | csb | 255.2 kB | 785.0 kB | 63,525 | - | - | - | - | - | - |
 | Chuvash | cv | 172.4 kB | 666.6 kB | 35,945 | - | - | - | - | - | - |
-| Welsh | cy | 545.0 kB | 1.4 MB | 123,099 | - | - | - | - | - | - |
+| Welsh | cy | 545.0 kB | 1.4 MB | 123,099 | 1.1 kB | 2.3 kB | 266 | - | - | - |
 | Danish | da | 3.1 MB | 9.6 MB | 685,713 | 948 Bytes | 1.9 kB | 185 | - | - | - |
 | Dagbani | dag | 353.4 kB | 950.7 kB | 91,863 | - | - | - | - | - | - |
 | German | de | 5.5 MB | 17.4 MB | 1,153,001 | 3.3 kB | 8.1 kB | 622 | - | - | - |
@@ -65,7 +65,7 @@
 | Friulian | fur | 200.2 kB | 578.9 kB | 53,308 | - | - | - | - | - | - |
 | Western Frisian | fy | 633.5 kB | 1.8 MB | 138,753 | - | - | - | - | - | - |
 | Irish | ga | 810.9 kB | 2.4 MB | 188,674 | - | - | - | - | - | - |
-| Scottish Gaelic | gd | 291.1 kB | 788.7 kB | 71,344 | - | - | - | - | - | - |
+| Scottish Gaelic | gd | 291.1 kB | 788.7 kB | 71,344 | 914 Bytes | 1.7 kB | 174 | - | - | - |
 | Galician | gl | 1.2 MB | 3.3 MB | 268,205 | 398 Bytes | 651 Bytes | 74 | - | - | - |
 | Guarani | gn | 127.4 kB | 376.6 kB | 30,178 | - | - | - | - | - | - |
 | Swiss German | gsw | 1.0 MB | 3.0 MB | 229,834 | - | - | - | - | - | - |
@@ -95,14 +95,14 @@
 | Lojban | jbo | 6.3 kB | 18.9 kB | 2,412 | - | - | - | - | - | - |
 | Javanese | jv | 591.7 kB | 1.6 MB | 144,058 | - | - | - | - | - | - |
 | Georgian | ka | 1.6 MB | 10.8 MB | 335,324 | - | - | - | - | - | - |
-| Kabyle | kab | 70.7 kB | 209.3 kB | 19,417 | - | - | - | - | - | - |
+| Kabyle | kab | 70.7 kB | 209.3 kB | 19,417 | 164 Bytes | 188 Bytes | 21 | - | - | - |
 | Kabardian | kbd | 193.4 kB | 874.5 kB | 43,188 | - | - | - | - | - | - |
 | Kongo | kg | 4.6 kB | 11.3 kB | 1,205 | - | - | - | - | - | - |
 | Kikuyu | ki | 329.7 kB | 1.0 MB | 86,175 | - | - | - | - | - | - |
 | Kazakh | kk | 1.8 MB | 8.0 MB | 361,083 | - | - | - | - | - | - |
 | Kalaallisut | kl | 492.8 kB | 2.3 MB | 110,455 | - | - | - | - | - | - |
-| Khmer | km | 155.7 kB | 1.2 MB | 9,427 | - | - | - | - | - | - |
-| Kannada | kn | 2.9 MB | 19.6 MB | 549,589 | - | - | - | 8.7 MB | 43.7 MB | 2,717,878 |
+| Khmer | km | 155.7 kB | 1.2 MB | 9,427 | 972 Bytes | 3.0 kB | 132 | - | - | - |
+| Kannada | kn | 2.9 MB | 19.6 MB | 549,589 | 1.0 kB | 3.0 kB | 140 | 8.7 MB | 43.7 MB | 2,717,878 |
 | Korean | ko | 2.8 MB | 10.8 MB | 675,331 | 11.8 kB | 30.0 kB | 3,094 | - | - | - |
 | Konkani | kok | 220.5 kB | 668.3 kB | 58,449 | - | - | - | - | - | - |
 | Kashmiri | ks | 3.5 kB | 9.7 kB | 467 | - | - | - | - | - | - |
@@ -110,7 +110,7 @@
 | Komi | kv | 229.0 kB | 953.8 kB | 49,462 | - | - | - | - | - | - |
 | Cornish | kw | 194.1 kB | 516.5 kB | 49,355 | - | - | - | - | - | - |
 | Kyrgyz | ky | 1.7 MB | 7.5 MB | 336,397 | - | - | - | - | - | - |
-| Latin | la | 716.3 kB | 2.3 MB | 184,648 | - | - | - | - | - | - |
+| Latin | la | 716.3 kB | 2.3 MB | 184,648 | 936 Bytes | 1.8 kB | 174 | - | - | - |
 | Ladino | lad | 239.8 kB | 703.4 kB | 61,092 | - | - | - | - | - | - |
 | Luxembourgish | lb | 734.2 kB | 2.1 MB | 152,991 | - | - | - | - | - | - |
 | Lezghian | lez | 268.0 kB | 1.2 MB | 59,601 | - | - | - | - | - | - |
@@ -125,17 +125,17 @@
 | Madurese | mad | 338 Bytes | 475 Bytes | 55 | - | - | - | - | - | - |
 | Maithili | mai | 354.7 kB | 1.3 MB | 49,795 | - | - | - | - | - | - |
 | Eastern Mari | mhr | 285.8 kB | 1.2 MB | 62,439 | - | - | - | - | - | - |
-| Māori | mi | 67.4 kB | 174.2 kB | 16,654 | - | - | - | - | - | - |
+| Māori | mi | 67.4 kB | 174.2 kB | 16,654 | 305 Bytes | 504 Bytes | 58 | - | - | - |
 | Minangkabau | min | 723.7 kB | 2.4 MB | 145,708 | - | - | - | - | - | - |
 | Macedonian | mk | 1.3 MB | 5.8 MB | 293,121 | 1.3 kB | 2.8 kB | 192 | - | - | - |
 | Malayalam | ml | 1.3 MB | 9.7 MB | 250,542 | 2.5 kB | 7.4 kB | 388 | 954.3 kB | 3.8 MB | 237,194 |
-| Mongolian | mn | 641.5 kB | 2.7 MB | 137,799 | - | - | - | - | - | - |
+| Mongolian | mn | 641.5 kB | 2.7 MB | 137,799 | 1.0 kB | 1.9 kB | 178 | - | - | - |
 | Manipuri | mni | 275.6 kB | 1.6 MB | 61,810 | - | - | - | - | - | - |
-| Marathi | mr | 1.7 MB | 10.1 MB | 331,817 | - | - | - | 4.1 MB | 18.8 MB | 1,317,776 |
+| Marathi | mr | 1.7 MB | 10.1 MB | 331,817 | 2.0 kB | 5.4 kB | 308 | 4.1 MB | 18.8 MB | 1,317,776 |
 | Malay | ms | 1.1 MB | 3.1 MB | 242,279 | 1.1 kB | 2.1 kB | 201 | - | - | - |
-| Maltese | mt | 341.7 kB | 974.0 kB | 79,257 | - | - | - | - | - | - |
+| Maltese | mt | 341.7 kB | 974.0 kB | 79,257 | 1.1 kB | 2.2 kB | 223 | - | - | - |
 | Mirandese | mwl | 259.9 kB | 743.7 kB | 63,640 | - | - | - | - | - | - |
-| Burmese | my | 340.7 kB | 2.2 MB | 49,585 | - | - | - | - | - | - |
+| Burmese | my | 340.7 kB | 2.2 MB | 49,585 | 1.1 kB | 2.4 kB | 162 | - | - | - |
 | Nahuatl languages | nah | 85.8 kB | 257.2 kB | 19,578 | - | - | - | - | - | - |
 | Min Nan Chinese | nan | 1.3 MB | 3.5 MB | 310,331 | - | - | - | - | - | - |
 | Neapolitan | nap | 222 Bytes | 282 Bytes | 48 | - | - | - | - | - | - |
@@ -158,6 +158,7 @@
 | Ossetic | os | 62.1 kB | 227.6 kB | 12,863 | - | - | - | - | - | - |
 | Punjabi | pa | 1.1 MB | 5.5 MB | 226,706 | - | - | - | 1.3 MB | 4.6 MB | 426,465 |
 | Pangasinan | pag | 53.2 kB | 139.5 kB | 13,489 | - | - | - | - | - | - |
+| Pampanga | pam | - | - | - | - | - | - | - | - | - |
 | Papiamento | pap | 222.2 kB | 598.0 kB | 53,695 | - | - | - | - | - | - |
 | Polish | pl | 6.2 MB | 19.1 MB | 1,481,466 | 25.3 kB | 123.6 kB | 8,971 | - | - | - |
 | Plateau Malagasy | plt | 260.1 kB | 746.6 kB | 59,918 | - | - | - | - | - | - |
@@ -187,7 +188,7 @@
 | Sinhala | si | 811.0 kB | 4.5 MB | 163,154 | - | - | - | 5.4 MB | 14.0 MB | 989,853 |
 | Slovak | sk | 3.0 MB | 9.3 MB | 746,834 | 2.8 kB | 6.1 kB | 586 | - | - | - |
 | Slovenian | sl | 3.2 MB | 10.0 MB | 842,678 | 843 Bytes | 1.6 kB | 167 | - | - | - |
-| Samoan | sm | 48.5 kB | 122.8 kB | 12,149 | - | - | - | - | - | - |
+| Samoan | sm | 48.5 kB | 122.8 kB | 12,149 | 637 Bytes | 1.4 kB | 116 | - | - | - |
 | Shona | sna | 711.4 kB | 2.3 MB | 180,882 | - | - | - | - | - | - |
 | Somali | so | 133.5 kB | 377.6 kB | 34,258 | - | - | - | - | - | - |
 | Albanian | sq | 901.2 kB | 2.7 MB | 240,759 | 1.0 kB | 2.0 kB | 179 | - | - | - |
@@ -204,15 +205,15 @@
 | Atayal | tay | 95.3 kB | 246.0 kB | 26,311 | - | - | - | - | - | - |
 | Tulu | tcy | 160.3 kB | 885.2 kB | 33,567 | - | - | - | - | - | - |
 | Telugu | te | 2.1 MB | 12.6 MB | 393,342 | 2.3 kB | 6.7 kB | 317 | 7.2 MB | 34.8 MB | 2,270,502 |
-| Tetum | tet | 87.8 kB | 230.2 kB | 22,227 | - | - | - | - | - | - |
+| Tetum | tet | 87.8 kB | 230.2 kB | 22,227 | 124 Bytes | 117 Bytes | 11 | - | - | - |
 | Tajik | tg | 692.3 kB | 2.8 MB | 144,177 | - | - | - | - | - | - |
 | Thai | th | 41.2 MB | 273.7 MB | 4,024,497 | 7.7 kB | 38.5 kB | 1,715 | - | - | - |
 | Tigrinya | ti | 23.0 kB | 103.7 kB | 5,411 | - | - | - | - | - | - |
 | Turkmen | tk | 320.7 kB | 1.0 MB | 79,436 | - | - | - | - | - | - |
 | Filipino | tl | 631.9 kB | 1.7 MB | 144,149 | 696 Bytes | 1.5 kB | 165 | - | - | - |
-| Klingon | tlh | 6.8 kB | 19.8 kB | 2,428 | - | - | - | - | - | - |
+| Klingon | tlh | 6.8 kB | 19.8 kB | 2,428 | 218 Bytes | 277 Bytes | 33 | - | - | - |
 | Tswana | tn | 108.6 kB | 377.1 kB | 33,977 | - | - | - | - | - | - |
-| Tongan | to | 41.4 kB | 105.0 kB | 10,181 | - | - | - | - | - | - |
+| Tongan | to | 41.4 kB | 105.0 kB | 10,181 | 412 Bytes | 754 Bytes | 68 | - | - | - |
 | Toki Pona | tok | 695 Bytes | 1.7 kB | 178 | - | - | - | - | - | - |
 | Tok Pisin | tpi | 26.9 kB | 62.9 kB | 6,763 | - | - | - | - | - | - |
 | Turkish | tr | 8.1 MB | 29.6 MB | 2,027,282 | 1.7 kB | 4.0 kB | 370 | - | - | - |
@@ -224,7 +225,7 @@
 | Uyghur | ug | 374.3 kB | 1.8 MB | 83,651 | - | - | - | - | - | - |
 | Ukrainian | uk | 1.8 MB | 8.6 MB | 409,369 | 27.8 kB | 126.8 kB | 7,070 | - | - | - |
 | Urdu | ur | 541.6 kB | 2.5 MB | 154,781 | 244 Bytes | 444 Bytes | 46 | 507.8 kB | 1.1 MB | 110,489 |
-| Uzbek | uz | 741.7 kB | 2.3 MB | 176,272 | - | - | - | - | - | - |
+| Uzbek | uz | 741.7 kB | 2.3 MB | 176,272 | 777 Bytes | 1.4 kB | 165 | - | - | - |
 | Venda | ve | 45.7 kB | 162.5 kB | 13,743 | - | - | - | - | - | - |
 | Venetian | vec | 766.9 kB | 2.3 MB | 205,090 | - | - | - | - | - | - |
 | Vietnamese | vi | 3.1 MB | 8.4 MB | 605,499 | 1.6 kB | 4.1 kB | 443 | - | - | - |
@@ -235,10 +236,10 @@
 | Wu Chinese | wuu | 7.0 MB | 16.9 MB | 587,097 | - | - | - | - | - | - |
 | Xhosa | xh | 325.6 kB | 1.1 MB | 87,838 | - | - | - | - | - | - |
 | Mingrelian | xmf | 795.4 kB | 5.1 MB | 175,039 | - | - | - | - | - | - |
-| Yiddish | yi | 212.4 kB | 877.2 kB | 46,500 | - | - | - | - | - | - |
+| Yiddish | yi | 212.4 kB | 877.2 kB | 46,500 | 1.1 kB | 2.4 kB | 173 | - | - | - |
 | Yoruba | yo | 124.5 kB | 324.3 kB | 27,710 | - | - | - | - | - | - |
 | Zhuang | za | 19.3 kB | 51.5 kB | 4,549 | - | - | - | - | - | - |
 | Standard Moroccan Tamazight | zgh | 243.6 kB | 1.3 MB | 58,474 | - | - | - | - | - | - |
 | Chinese (China) | zh_cn | 3.3 MB | 8.3 MB | 766,436 | 8.4 kB | 17.3 kB | 1,811 | - | - | - |
 | Chinese (Taiwan) | zh_tw | 2.6 MB | 6.8 MB | 617,231 | 8.4 kB | 17.3 kB | 1,811 | - | - | - |
-| Zulu | zu | 1.5 MB | 4.8 MB | 367,932 | - | - | - | - | - | - |
+| Zulu | zu | 1.5 MB | 4.8 MB | 367,932 | 634 Bytes | 1.2 kB | 140 | - | - | - |
