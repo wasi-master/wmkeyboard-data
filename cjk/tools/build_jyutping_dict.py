@@ -49,6 +49,33 @@ def clean_reading(raw_jp: str):
     return "".join(syls), syls
 
 
+# Han ideographs (basic, Ext A/B/C, compatibility) plus the CJK punctuation that
+# legitimately appears inside a headword.
+_HAN_RANGES = (
+    (0x3400, 0x4DBF), (0x4E00, 0x9FFF), (0xF900, 0xFAFF),
+    (0x20000, 0x2A6DF), (0x2A700, 0x2EBEF), (0x2F800, 0x2FA1F),
+)
+_CJK_PUNCT = set("\u3000、。〃〈〉《》「」『』【】〔〕〖〗・…—‧")
+
+
+def is_han_word(word: str) -> bool:
+    """
+    True only if every character is Han or CJK punctuation.
+
+    CC-Canto carries entries whose headword is English or mixed — 亞head, IP,
+    uncle, 開Band, 豬仔Plan, and bare % signs — which are meaningless in a
+    Chinese IME and are dropped. Checking a whitelist of Han rather than
+    blacklisting [A-Za-z] matters: a good share of them use FULLWIDTH Latin
+    (ｐｏｗｅｒ, Ｖａｎ仔), which a naive ASCII test walks straight past.
+    """
+    if not word:
+        return False
+    return all(
+        any(lo <= ord(c) <= hi for lo, hi in _HAN_RANGES) or c in _CJK_PUNCT
+        for c in word
+    )
+
+
 def load_syllable_inventory(syllables_path: Path) -> set:
     """Loads toneless Jyutping syllable inventory."""
     if not syllables_path.exists():
@@ -131,7 +158,7 @@ def parse_and_build(rime_data: dict, canto_text: str):
                 wt_str = parts[2].strip() if len(parts) >= 3 else ""
 
                 reading, syls = clean_reading(raw_jp)
-                if not reading or not word:
+                if not reading or not word or not is_han_word(word):
                     continue
 
                 w_len = len(word)
@@ -174,7 +201,7 @@ def parse_and_build(rime_data: dict, canto_text: str):
         if m:
             trad, simp, raw_jp = m.groups()
             reading, syls = clean_reading(raw_jp)
-            if not reading or not trad:
+            if not reading or not trad or not is_han_word(trad):
                 continue
 
             w_len = len(trad)
