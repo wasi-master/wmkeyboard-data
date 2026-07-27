@@ -13,20 +13,20 @@ That lives separately.
 
 | Folder | What | Source |
 |---|---|---|
-| [`data/`](data/) | Per-language word-frequency lists (160+ languages, `<lang>/<lang>_full.txt.gz`, plus optional offensive lists) | Various (see [`data/README.md`](data/README.md)) |
+| [`data/`](data/) | Per-language word-frequency lists (`<lang>/<lang>_full.txt.gz`), optional offensive lists (`<lang_offensive.txt.gz`), and emoji search dictionaries (`<lang>/<lang>_emoji.json.gz`) across 160+ languages | Various (see [`data/README.md`](data/README.md)) |
 | [`cjk/`](cjk/) | Chinese Pinyin (`pinyin.tsv`), Japanese kana (`ja_kana.tsv`) and Chinese stroke (`stroke.tsv`) conversion tables, plus the build scripts under `cjk/tools/` — see [`cjk/README.md`](cjk/README.md) | CC-CEDICT, Mozc, BSD 2-Clause |
 
-The `data/` word lists are **gzip-compressed** (`<lang>_full.txt.gz` and `<lang>_offensive.txt.gz`) so every
-file stays under GitHub's 100 MB limit — `gunzip` to get the plain
-`{word} {count}` text. The `cjk/` tables are stored uncompressed.
+The `data/` word lists and emoji dictionaries are **gzip-compressed** (`<lang>_full.txt.gz`, `<lang>_offensive.txt.gz`, and `<lang>_emoji.json.gz`) so every
+file stays under GitHub's 100 MB limit — `gunzip` to get the plain text/JSON data. The `cjk/` tables are stored uncompressed.
+
 
 ## Licensing & attribution
 
-- **`data/`** — the frequency word lists and offensive word lists are sourced from various
+- **`data/`** — the frequency word lists, offensive word lists, and emoji dictionaries are sourced from various
   open-source projects including Hermit Dave's FrequencyWords, the Leipzig Corpora Collection,
-  and others. Most lists are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/),
-  but some are under MIT, Public Domain, or CC BY-SA 3.0. See [`data/README.md`](data/README.md)
+  [KDE kemoji](https://github.com/KDE/kemoji) / Unicode CLDR, and others. Frequency lists are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), MIT, Public Domain, or CC BY-SA 3.0. Emoji dictionaries are derived from Unicode CLDR annotations & Unicode Emoji Data under the [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). See [`data/README.md`](data/README.md)
   for the per-language attribution table and full licensing details.
+
 - **`cjk/`** — `pinyin.tsv` from [CC-CEDICT](https://www.mdbg.net/chinese/dictionary?page=cc-cedict)
   (CC BY-SA 4.0); `ja_kana.tsv` from the [Google Mozc](https://github.com/google/mozc)
   OSS dictionary (BSD 3-Clause); `stroke.tsv` from

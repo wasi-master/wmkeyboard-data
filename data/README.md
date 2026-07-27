@@ -16,11 +16,32 @@ Some languages also include an optional offensive word list:
 <lang>/<lang>_offensive.txt.gz
 ```
 
+Emoji dictionaries are stored as gzip-compressed JSON files:
+
+```
+<lang>/<lang>_emoji.json.gz
+```
+
 After decompression, each frequency list contains one entry per line:
 
 ```text
 word frequency
 ```
+
+After decompression, each emoji dictionary contains a JSON array of objects:
+
+```json
+[
+  {
+    "emoji": "😀",
+    "name": "grinning face",
+    "keywords": ["cheerful", "cheery", "face", "grin", "grinning", "happy", "laugh", "nice", "smile", "smiling", "teeth"],
+    "category": "Smileys & Emotion"
+  }
+]
+```
+
+
 
 ## Sources
 
@@ -43,6 +64,9 @@ This repository redistributes and packages data from the following open-source p
 | [Ardalambion Quenya Wordlist](https://ardalambion.net/quen-eng.htm) | `qya` |
 | [lipu Linku Toki Pona Dictionary](https://linku.la) | `tok` |
 | [motaitalic/devanagari-documentation](https://github.com/motaitalic/devanagari-documentation) | `bho`, `brx`, `doi`, `ks`, `mai`, `raj` |
+| [KDE/kemoji](https://github.com/KDE/kemoji) (Unicode CLDR & Unicode Emoji Data) | Emoji dictionaries (`<lang>_emoji.json.gz`) for 141 languages |
+
+
 
 Some datasets have been reformatted, compressed, or reorganized for consistency. Original attribution and licensing remain unchanged.
 
@@ -97,6 +121,9 @@ Each dictionary retains the license of its original source.
 | `ta` | [MIT](https://github.com/vigneshwaran-chandrasekaran/tamil-language-words-list/blob/master/LICENSE) |
 | `jbo` | Public Domain |
 | `bn` | Public Domain (from [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist)) |
+| Emoji dictionaries (`<lang>_emoji.json.gz`) | [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (derived from Unicode CLDR annotations & Unicode Emoji Data via [KDE/kemoji](https://github.com/KDE/kemoji)) |
+
 | Repository code | MIT |
+
 
 Please preserve the required attribution when redistributing or creating derivative works from these datasets.

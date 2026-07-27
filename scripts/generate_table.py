@@ -6,7 +6,7 @@ import humanize
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 
-def get_counts(file_path):
+def get_counts(file_path, is_json=False):
     if not os.path.exists(file_path):
         return 0, 0, 0
     
@@ -18,11 +18,18 @@ def get_counts(file_path):
         
     line_count = 0
     
-    with gzip.open(file_path, 'rt', encoding='utf-8') as f:
-        for _ in f:
-            line_count += 1
+    if is_json:
+        import json
+        with gzip.open(file_path, 'rt', encoding='utf-8') as f:
+            data = json.load(f)
+            line_count = len(data)
+    else:
+        with gzip.open(file_path, 'rb') as f:
+            line_count = sum(chunk.count(b'\n') for chunk in iter(lambda: f.read(1024 * 1024), b''))
             
     return file_size, extracted_size, line_count
+
+
 
 def get_language_name(code):
     try:
@@ -57,10 +64,13 @@ def main():
         full_file = os.path.join(lang_dir, f"{lang_code}_full.txt.gz")
         offensive_file = os.path.join(lang_dir, f"{lang_code}_offensive.txt.gz")
         rom_file = os.path.join(lang_dir, f"{lang_code}_rom.txt.gz")
+        emoji_file = os.path.join(lang_dir, f"{lang_code}_emoji.json.gz")
         
         full_size, full_ext_size, full_count = get_counts(full_file)
         offensive_size, off_ext_size, offensive_count = get_counts(offensive_file)
         rom_size, rom_ext_size, rom_count = get_counts(rom_file)
+        emoji_size, emoji_ext_size, emoji_count = get_counts(emoji_file, is_json=True)
+
         
         lang_name = get_language_name(lang_code)
         
@@ -76,11 +86,14 @@ def main():
             "rom_size": rom_size,
             "rom_ext_size": rom_ext_size,
             "rom_count": rom_count,
+            "emoji_size": emoji_size,
+            "emoji_ext_size": emoji_ext_size,
+            "emoji_count": emoji_count,
         })
     
     # Generate Markdown Table
-    print("| Language Name | Language Code | Wordlist Size | Extracted Wordlist Size | Word Count | Profanity List Size | Extracted Profanity List Size | Profanity List Count | Romanized Wordlist Size | Extracted Romanized Wordlist Size | Romanized Wordlist Count |")
-    print("|---|---|---|---|---|---|---|---|---|---|---|")
+    print("| Language Name | Language Code | Wordlist Size | Extracted Wordlist Size | Word Count | Profanity List Size | Extracted Profanity List Size | Profanity List Count | Romanized Wordlist Size | Extracted Romanized Wordlist Size | Romanized Wordlist Count | Emoji Dict Size | Extracted Emoji Dict Size | Emoji Count |")
+    print("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     
     for lang in languages:
         row = [
@@ -95,8 +108,12 @@ def main():
             format_size(lang["rom_size"]),
             format_size(lang["rom_ext_size"]),
             format_count(lang["rom_count"]),
+            format_size(lang["emoji_size"]),
+            format_size(lang["emoji_ext_size"]),
+            format_count(lang["emoji_count"]),
         ]
         print("| " + " | ".join(row) + " |")
 
 if __name__ == "__main__":
     main()
+
