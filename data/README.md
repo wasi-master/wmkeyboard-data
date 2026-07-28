@@ -64,6 +64,14 @@ This repository redistributes and packages data from the following open-source p
 | [Ardalambion Quenya Wordlist](https://ardalambion.net/quen-eng.htm) | `qya` |
 | [lipu Linku Toki Pona Dictionary](https://linku.la) | `tok` |
 | [motaitalic/devanagari-documentation](https://github.com/motaitalic/devanagari-documentation) | `bho`, `brx`, `doi`, `ks`, `mai`, `raj` |
+| [Zaanthai/balochi-dictionary](https://huggingface.co/datasets/Zaanthai/balochi-dictionary) & [mainkilora/Balochi-Multilingual-dataset](https://huggingface.co/datasets/mainkilora/Balochi-Multilingual-dataset) | `bgn` |
+| [Unicode CLDR](https://github.com/unicode-org/cldr) | `blo` |
+| [amlan107/chakma-nmt-complete-dataset](https://huggingface.co/datasets/amlan107/chakma-nmt-complete-dataset) & [dipongkar01/chakma-language](https://huggingface.co/datasets/dipongkar01/chakma-language) | `ccp` |
+| [Tagalog Wikipedia Dump & Hermit Dave FrequencyWords](https://dumps.wikimedia.org/tlwiki/) | `fil` |
+| [eBible Corpus](https://huggingface.co/datasets/DavidCBaines/ebible_corpus) & [Glot500](https://huggingface.co/datasets/cis-lmu/Glot500) | `quc` |
+| [eBible Corpus](https://huggingface.co/datasets/DavidCBaines/ebible_corpus), [arndri/rohingya-tweet-id](https://huggingface.co/datasets/arndri/rohingya-tweet-id) & [freococo/rohingya_asr_audio](https://huggingface.co/datasets/freococo/rohingya_asr_audio) | `rhg` |
+| [ETCBC Peshitta Syriac Corpus](https://github.com/ETCBC/peshitta) | `syr` |
+| [Cantonese Wikipedia Dump (`zh_yuewiki`)](https://dumps.wikimedia.org/zh_yuewiki/) & [OpenCC](https://github.com/BYVoid/OpenCC) | `yue`, `yue_Hans` |
 | [KDE/kemoji](https://github.com/KDE/kemoji) (Unicode CLDR & Unicode Emoji Data) | Emoji dictionaries (`<lang>_emoji.json.gz`) for 141 languages |
 
 
@@ -119,6 +127,14 @@ Each dictionary retains the license of its original source.
 | `ab`, `ace`, `ady`, `alt`, `ami`, `ang`, `ann`, `anp`, `arc`, `arz`, `atj`, `av`, `avk`, `awa`, `ay`, `azb`, `bar`, `bbc`, `bdr`, `be-tarask`, `bew`, `bh`, `bi`, `bik`, `bjn`, `blk`, `bol`, `bpy`, `btm`, `bxr`, `cbk`, `cbk-zam`, `cdo`, `ch`, `chr`, `chy`, `cr`, `crh`, `csb`, `cu`, `dag`, `dga`, `din`, `diq`, `dsb`, `dtp`, `dty`, `dv`, `dz`, `eml`, `ext`, `fat`, `fj`, `fon`, `frp`, `frr`, `fur`, `gag`, `gan`, `gcr`, `gd`, `glk`, `gom`, `gor`, `got`, `gpe`, `guc`, `gur`, `guw`, `hak`, `haw`, `hif`, `hsb`, `hyw`, `iba`, `igl`, `ik`, `inh`, `isv`, `iu`, `jam`, `kaa`, `kai`, `kaj`, `kbd`, `kbp`, `kcg`, `kge`, `knc`, `koi`, `krc`, `ksh`, `kus`, `kv`, `kw`, `lad`, `lbe`, `lez`, `lfn`, `lij`, `lld`, `lmo`, `loz`, `ltg`, `lub`, `lzh`, `mag`, `map-bms`, `mdf`, `mg`, `mhr`, `mi`, `mni`, `mnw`, `mos`, `mrj`, `myv`, `mzn`, `nah`, `nan`, `nds`, `nds-nl`, `new`, `nia`, `nov`, `nqo`, `nrm`, `nso`, `nup`, `olo`, `or`, `pag`, `pam`, `pap`, `pcd`, `pcm`, `pdc`, `pfl`, `pi`, `pnb`, `pnt`, `ppl`, `pwn`, `rif`, `rki`, `rmy`, `roa-tara`, `rsk`, `rue`, `rup`, `rw`, `sah`, `sat`, `scn`, `sg`, `sgs`, `shi`, `shn`, `skr`, `sm`, `smn`, `sn`, `srn`, `ss`, `stq`, `su`, `syl`, `szl`, `szy`, `tay`, `tdd`, `tet`, `tig`, `tly`, `to`, `tpi`, `trv`, `tum`, `tw`, `ty`, `tyv`, `udm`, `vec`, `vep`, `vls`, `vro`, `wuu`, `xal`, `xmf`, `yue`, `zea`, `zgh`, `zh` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) (Wikimedia Data Dumps) |
 | `aa`, `af`, `ak`, `am`, `an`, `as`, `az`, `ba`, `be`, `bm`, `bo`, `br`, `ce`, `co`, `cv`, `cy`, `div`, `ee`, `eo`, `eu`, `ff`, `fo`, `fy`, `gl`, `gn`, `gu`, `gv`, `ha`, `hi`, `ht`, `hy`, `ia`, `ie`, `ig`, `ina`, `io`, `jv`, `ka`, `kg`, `ki`, `kk`, `kl`, `km`, `kn`, `koi`, `ky`, `lg`, `li`, `ln`, `lo`, `lv`, `mn`, `mr`, `ms`, `mt`, `my`, `myv`, `nd`, `ne`, `nn`, `nr`, `nv`, `ny`, `oc`, `om`, `os`, `pa`, `ps`, `qu`, `rm`, `rn`, `sco`, `se`, `sh`, `sna`, `so`, `ssw`, `st`, `sun`, `sw`, `te`, `tg`, `ti`, `tk`, `tl`, `tn`, `ts`, `tt`, `ug`, `uz`, `ve`, `vi`, `vo`, `wa`, `wo`, `xh`, `yi`, `yo`, `za`, `zu` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `ta` | [MIT](https://github.com/vigneshwaran-chandrasekaran/tamil-language-words-list/blob/master/LICENSE) |
+| `bgn` | [Apache 2.0](https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md) / [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `blo` | [Unicode License Agreement](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) |
+| `ccp` | [MIT](https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/mit.md) |
+| `fil` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `quc` | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| `rhg` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) / Public Domain |
+| `syr` | [MIT](https://github.com/ETCBC/peshitta/blob/master/LICENSE) |
+| `yue`, `yue_Hans` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 | `jbo` | Public Domain |
 | `bn` | Public Domain (from [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist)) |
 | Emoji dictionaries (`<lang>_emoji.json.gz`) | [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (derived from Unicode CLDR annotations & Unicode Emoji Data via [KDE/kemoji](https://github.com/KDE/kemoji)) |
