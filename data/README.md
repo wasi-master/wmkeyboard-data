@@ -111,6 +111,22 @@ Nepali was taken from [Boredoom17/Nepali-Corpus](https://huggingface.co/datasets
 Sinhala was made using [deshanksuman/Augmented_SinhalatoRomanizedSinhala_Dataset](https://huggingface.co/datasets/deshanksuman/Augmented_SinhalatoRomanizedSinhala_Dataset) which is under [Apache 2.0](https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md)
 
 
+### N-gram Lists
+
+Some languages include word bigram/trigram frequency lists
+(`<lang>/<prefix>_bigrams.txt.gz`, `<lang>/<prefix>_trigrams.txt.gz`) used for
+next-word prediction. Each line is `<word1> <word2> [<word3>] <count>`, sorted
+by count descending.
+
+The English lists (`en/en_bigrams.txt.gz`, `en/en_trigrams.txt.gz`) are built
+with [`scripts/import_leipzig_ngrams.py`](../scripts/import_leipzig_ngrams.py)
+from the [Leipzig Corpora Collection](https://wortschatz.uni-leipzig.de/en)
+sentence corpora `eng_news_2024_1M` and `eng-com_web-public_2018_1M`
+([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); D. Goldhahn, T. Eckart & U. Quasthoff:
+Building Large Monolingual Dictionaries at the Leipzig Corpora Collection: From 100 to 200 Languages.
+LREC 2012).
+
+
 ## Licensing
 
 Each dictionary retains the license of its original source.
