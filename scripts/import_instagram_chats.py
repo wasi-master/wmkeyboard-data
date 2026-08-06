@@ -52,8 +52,12 @@ MENTION = re.compile(r"@[\w.]+")
 EDITED_SUFFIX = re.compile(r"\s*\(edited\)\s*$")
 
 URL = re.compile(r"https?://\S+|www\.\S+")
-# Latin-script word: letters plus internal apostrophes (e.g. don't, o'rokom)
-WORD = re.compile(r"[a-z]+(?:'[a-z]+)*")
+# Latin-script word: letters plus internal apostrophes (e.g. don't, o'rokom).
+# A letter run touching a digit is thrown away rather than split: with a number
+# row on the keyboard, "kisu" gets mistyped as "ki6u", and splitting that would
+# quietly file "ki" and "u" as two real words. Nothing can recover the intended
+# spelling, so the whole token goes.
+WORD = re.compile(r"(?<![0-9a-z])[a-z]+(?:'[a-z]+)*(?![0-9a-z])")
 # Sentence-ish boundaries: n-grams must not span these
 SENT_SPLIT = re.compile(r"[.!?,;:\n।…]+")
 
