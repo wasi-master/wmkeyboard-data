@@ -70,6 +70,7 @@ This repository redistributes and packages data from the following open-source p
 | [Tagalog Wikipedia Dump & Hermit Dave FrequencyWords](https://dumps.wikimedia.org/tlwiki/) | `fil` |
 | [eBible Corpus](https://huggingface.co/datasets/DavidCBaines/ebible_corpus) & [Glot500](https://huggingface.co/datasets/cis-lmu/Glot500) | `quc` |
 | [eBible Corpus](https://huggingface.co/datasets/DavidCBaines/ebible_corpus), [arndri/rohingya-tweet-id](https://huggingface.co/datasets/arndri/rohingya-tweet-id) & [freococo/rohingya_asr_audio](https://huggingface.co/datasets/freococo/rohingya_asr_audio) | `rhg` |
+| [Glot500 Corpus](https://huggingface.co/datasets/cis-lmu/Glot500) | `ace`, `ak`, `an`, `arz`, `ast`, `ban`, `bar`, `bik`, `bjn`, `bxr`, `ceb`, `crh`, `cv`, `diq`, `dsb`, `dv`, `frr`, `gag`, `hil`, `hsb`, `ilo`, `jbo`, `kaa`, `kg`, `ksh`, `ln`, `mhr`, `min`, `myv`, `nap`, `nr`, `ny`, `pag`, `pam`, `pms`, `quc`, `sah`, `se`, `sg`, `stq`, `tlh`, `tok`, `udm`, `vec`, `vro`, `wa`, `war`, `xal` |
 | [ETCBC Peshitta Syriac Corpus](https://github.com/ETCBC/peshitta) | `syr` |
 | [Cantonese Wikipedia Dump (`zh_yuewiki`)](https://dumps.wikimedia.org/zh_yuewiki/) & [OpenCC](https://github.com/BYVoid/OpenCC) | `yue`, `yue_Hans` |
 | [KDE/kemoji](https://github.com/KDE/kemoji) (Unicode CLDR & Unicode Emoji Data) | Emoji dictionaries (`<lang>_emoji.json.gz`) for 141 languages |
