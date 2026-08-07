@@ -127,6 +127,62 @@ sentence corpora `eng_news_2024_1M` and `eng-com_web-public_2018_1M`
 Building Large Monolingual Dictionaries at the Leipzig Corpora Collection: From 100 to 200 Languages.
 LREC 2012).
 
+The Bengali lists (`bn/bn_bigrams.txt.gz`, `bn/bn_trigrams.txt.gz`) come from
+the same script and the same collection, over 4.8 million sentences and 58.5
+million words:
+
+| Corpus | Sentences | Weight |
+|---|---|---|
+| `ben-bd_web_2017_1M` | 1,000,000 | 3 |
+| `ben-bd_web_2014_100K` | 100,000 | 3 |
+| `ben_newscrawl_2017_1M` | 1,000,000 | 1 |
+| `ben_newscrawl_2015_1M` | 1,000,000 | 1 |
+| `ben_wikipedia_2021_1M` | 1,000,000 | 1 |
+| `ben_news_2020_300K` | 300,000 | 1 |
+| `ben_news_2019_300K` | 300,000 | 1 |
+| `ben_newscrawl_2011_100K` | 100,000 | 1 |
+
+The two web corpora count triple. A keyboard has to predict what someone is
+writing to a friend, and news and encyclopedia prose is not that, so the
+register closest to real typing gets to outrank the ones that are mainly there
+for vocabulary breadth. It changes what survives: the app reads only the head
+of these files, so the weighting decides which pairs reach the phone at all.
+
+Two things about the Bengali spelling are worth knowing before regenerating
+these:
+
+- **Every word is one that `bn_full.txt.gz` already knows.** The build gates
+  its tokens on that word list, and an unknown word ends the n-gram rather
+  than joining it. 97% of the corpus passes; nearly all of the rest is
+  Bijoy-era font mojibake (`সংক্রামত্ম` for `সংক্রান্ত`) or a conjunct that got
+  split. Since the keyboard can only offer a word its dictionary holds, a pair
+  naming a word outside it would be a row that can never fire.
+- **The nukta is decomposed**: য় is stored as য + U+09BC, not as U+09DF. That
+  is plain NFC, because U+09DC, U+09DD and U+09DF are Unicode composition
+  exclusions, so NFC takes them apart and never puts them back. It is also
+  what `bn_full.txt.gz` uses and what the Probhat and Jatiya layouts type.
+  Avro is the exception: it commits the precomposed form.
+
+Rebuild them with:
+
+```sh
+python3 scripts/import_leipzig_ngrams.py --lang bn --script bengali \
+    --counter memory --vocab data/bn/bn_full.txt.gz \
+    --max-bigrams 400000 --max-trigrams 200000 \
+    https://downloads.wortschatz-leipzig.de/corpora/ben-bd_web_2017_1M.tar.gz#3 \
+    https://downloads.wortschatz-leipzig.de/corpora/ben-bd_web_2014_100K.tar.gz#3 \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2017_1M.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2015_1M.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_wikipedia_2021_1M.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_news_2020_300K.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_news_2019_300K.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2011_100K.tar.gz
+```
+
+The romanized Bengali lists (`bn/bn_rom_*`) are a different thing entirely, and
+personal rather than corpus-built: see
+[`scripts/import_facebook_chats.py`](../scripts/import_facebook_chats.py).
+
 
 ## Licensing
 
@@ -153,7 +209,8 @@ Each dictionary retains the license of its original source.
 | `syr` | [MIT](https://github.com/ETCBC/peshitta/blob/master/LICENSE) |
 | `yue`, `yue_Hans` | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
 | `jbo` | Public Domain |
-| `bn` | Public Domain (from [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist)) |
+| `bn` word list | Public Domain (from [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist)) |
+| `bn` n-gram lists (`bn_bigrams`, `bn_trigrams`) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (Leipzig Corpora Collection) |
 | Emoji dictionaries (`<lang>_emoji.json.gz`) | [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (derived from Unicode CLDR annotations & Unicode Emoji Data via [KDE/kemoji](https://github.com/KDE/kemoji)) |
 
 | Repository code | MIT |
