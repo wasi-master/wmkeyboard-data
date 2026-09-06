@@ -471,8 +471,12 @@ def parse_sense(sense: dict, pos: str) -> dict:
     quotes = [q for _, q in quotations[:MAX_QUOTATIONS] if q["ref"]]
     if quotes:
         out["quotations"] = quotes
-    syn = dedupe([s.get("word", "").strip() for s in sense.get("synonyms", []) or []])
-    ant = dedupe([s.get("word", "").strip() for s in sense.get("antonyms", []) or []])
+    # Entries carrying a `source` were pulled in from a Thesaurus: page — a
+    # hundred loosely related words ("rate", "blast", "drag" for castigate)
+    # that would make nonsense triggers and swamp the card. Only the synonyms
+    # an editor listed under the sense itself are kept.
+    syn = dedupe([s.get("word", "").strip() for s in sense.get("synonyms", []) or [] if "source" not in s])
+    ant = dedupe([s.get("word", "").strip() for s in sense.get("antonyms", []) or [] if "source" not in s])
     if syn:
         out["synonyms"] = syn
     if ant:
@@ -883,8 +887,8 @@ class Builder:
         top_syn: list[str] = []
         top_ant: list[str] = []
         for entry in entries or []:
-            top_syn += [s.get("word", "").strip() for s in entry.get("synonyms", []) or []]
-            top_ant += [s.get("word", "").strip() for s in entry.get("antonyms", []) or []]
+            top_syn += [s.get("word", "").strip() for s in entry.get("synonyms", []) or [] if "source" not in s]
+            top_ant += [s.get("word", "").strip() for s in entry.get("antonyms", []) or [] if "source" not in s]
         sense_syn = [s for sense in senses for s in sense.get("synonyms", [])]
         sense_ant = [a for sense in senses for a in sense.get("antonyms", [])]
         synonyms = dedupe(top_syn + sense_syn, key=str.lower)
@@ -989,9 +993,9 @@ class Builder:
         entries = self.kaikki.get(word)
         synonyms: list[str] = []
         for entry in entries or []:
-            synonyms += [x.get("word", "").strip() for x in entry.get("synonyms", []) or []]
+            synonyms += [x.get("word", "").strip() for x in entry.get("synonyms", []) or [] if "source" not in x]
             for sense in entry.get("senses", []) or []:
-                synonyms += [x.get("word", "").strip() for x in sense.get("synonyms", []) or []]
+                synonyms += [x.get("word", "").strip() for x in sense.get("synonyms", []) or [] if "source" not in x]
         synonyms += self.wordnet.synonyms(word)
         zipf_w = self.zipf.get(word)
         forms = set(kaikki_forms(entries or [], word))

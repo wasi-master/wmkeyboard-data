@@ -231,3 +231,14 @@ def test_gzip_is_deterministic():
 def test_strip_built():
     data = b.gzip_bytes(b.encode_json({"pack": {"built": "2026-09-07"}}))
     assert b'"built":""' in b.strip_built(data)
+
+
+def test_thesaurus_imports_are_dropped_from_senses():
+    sense = {
+        "glosses": ["To punish or reprimand someone severely."],
+        "synonyms": [{"word": "rebuke"}, {"word": "rate", "source": "Thesaurus:criticize"}],
+        "antonyms": [{"word": "praise"}, {"word": "flatter", "source": "Thesaurus:praise"}],
+    }
+    parsed = b.parse_sense(sense, "verb")
+    assert parsed["synonyms"] == ["rebuke"]
+    assert parsed["antonyms"] == ["praise"]

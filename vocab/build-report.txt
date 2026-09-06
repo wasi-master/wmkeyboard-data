@@ -1,0 +1,31 @@
+# Vocabulary pack build report
+built: 2026-09-07
+lists: ws1, ws2, b333
+
+== ws1 (Word Smart 1): 850 words
+    ipa_cmu: 8
+    kaikki: 850
+    no_ipa: 2
+    no_triggers: 377
+    wordnet_only: 4
+    translation languages: 60 kept of 309 seen (>= 10% coverage)
+    trigger fan-out capped at 5:
+    bitter: kept ['acerbic', 'acrid', 'acrimonious', 'caustic', 'vitriolic'], dropped ['virulent']
+    gentle: kept ['assuage', 'indulgent', 'mollify', 'patrician', 'placate'], dropped ['pacify', 'docile', 'appease', 'aristocratic']
+    miserable: kept ['despondent', 'hapless', 'lugubrious', 'paltry', 'plaintive'], dropped ['abject']
+== ws2 (Word Smart 2): 829 words
+    ipa_cmu: 17
+    kaikki: 828
+    kaikki_missing: 1
+    no_definition: 1
+    no_ipa: 3
+    no_triggers: 392
+    wordnet_only: 3
+    translation languages: 60 kept of 362 seen (>= 10% coverage)
+== b333 (Barron's 333): 332 words
+    ipa_cmu: 7
+    kaikki: 332
+    no_ipa: 1
+    no_triggers: 164
+    wordnet_only: 3
+    translation languages: 56 kept of 296 seen (>= 10% coverage)
