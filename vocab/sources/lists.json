@@ -1,0 +1,13 @@
+[
+  {"id": "ws1",    "name": "Word Smart 1",        "short": "WS1",    "file": "word_smart_1.json",        "description": "Princeton Review Word Smart, first list."},
+  {"id": "ws2",    "name": "Word Smart 2",        "short": "WS2",    "file": "word_smart_2.json",        "description": "Princeton Review Word Smart, second list."},
+  {"id": "b333",   "name": "Barron's 333",        "short": "333",    "file": "barrons_333.json",         "description": "Barron's 333 high-frequency GRE words."},
+  {"id": "b800",   "name": "Barron's 800",        "short": "800",    "file": "barrons_800.json",         "description": "Barron's 800 essential GRE words."},
+  {"id": "b1100",  "name": "Barron's 1100",       "short": "1100",   "file": "barrons_1100.json",        "description": "Barron's 1100 Words You Need to Know."},
+  {"id": "mg1000", "name": "Magoosh 1000",        "short": "M1000",  "file": "magoosh_1000.json",        "description": "Magoosh GRE vocabulary, 1000 words."},
+  {"id": "k900",   "name": "Kaplan 900",          "short": "K900",   "file": "kaplan_900.json",          "description": "Kaplan GRE vocabulary, 900 words."},
+  {"id": "p700",   "name": "Powerscore 700",      "short": "P700",   "file": "powerscore_700.json",      "description": "PowerScore GRE vocabulary, 700 words."},
+  {"id": "sn1000", "name": "SparkNotes 1000",     "short": "SN1000", "file": "sparknotes_1000.json",     "description": "SparkNotes GRE vocabulary, 1000 words."},
+  {"id": "mp1000", "name": "Manhattan Prep 1000", "short": "MP1000", "file": "manhattan_prep_1000.json", "description": "Manhattan Prep GRE vocabulary, 1000 words."},
+  {"id": "gm1100", "name": "GregMat 1100",        "short": "GM1100", "file": "gregmat_1100.json",        "description": "GregMat GRE vocabulary, 1100 words."}
+]

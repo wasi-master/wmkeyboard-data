@@ -14,6 +14,7 @@ That lives separately.
 | Folder | What | Source |
 |---|---|---|
 | [`data/`](data/) | Per-language word-frequency lists (`<lang>/<lang>_full.txt.gz`), optional offensive lists (`<lang_offensive.txt.gz`), and emoji search dictionaries (`<lang>/<lang>_emoji.json.gz`) across 160+ languages | Various (see [`data/README.md`](data/README.md)) |
+| [`vocab/`](vocab/) | Vocabulary packs for the Vocabulary tool (`<lang>/<packId>.wmvocab.json.gz`) plus per-language translation sidecars, built from GRE word lists with Wiktionary and WordNet — see [`vocab/README.md`](vocab/README.md) | Wiktionary (kaikki.org), WordNet, CMUdict, FrequencyWords |
 | [`cjk/`](cjk/) | Chinese Pinyin (`pinyin.tsv`), Japanese kana (`ja_kana.tsv`) and Chinese stroke (`stroke.tsv`) conversion tables, plus the build scripts under `cjk/tools/` — see [`cjk/README.md`](cjk/README.md) | CC-CEDICT, Mozc, BSD 2-Clause |
 
 The `data/` word lists and emoji dictionaries are **gzip-compressed** (`<lang>_full.txt.gz`, `<lang>_offensive.txt.gz`, and `<lang>_emoji.json.gz`) so every
@@ -33,3 +34,9 @@ file stays under GitHub's 100 MB limit — `gunzip` to get the plain text/JSON d
   [yefeijiang/Chinese-characters-code-table](https://github.com/yefeijiang/Chinese-characters-code-table)
   (BSD 2-Clause). Per-file formats, checksums, sources and rebuild steps are in
   [`cjk/README.md`](cjk/README.md); the build scripts are in [`cjk/tools/`](cjk/tools/).
+
+- **`vocab/`** — definitions, examples and translations are Wiktionary text via
+  [kaikki.org](https://kaikki.org/) under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/),
+  with WordNet 3.0 (WordNet License), the CMU Pronouncing Dictionary (BSD 2-Clause) and the repo's own
+  OpenSubtitles frequency list (CC BY-SA 4.0) filling gaps. Every pack carries an `attribution` block; see
+  [`vocab/README.md`](vocab/README.md).
