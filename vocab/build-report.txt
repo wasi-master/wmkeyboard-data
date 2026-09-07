@@ -1,6 +1,6 @@
 # Vocabulary pack build report
 built: 2026-09-07
-lists: ws1, ws2, b333
+lists: ws1, ws2, b333, b800, b1100, mg1000, k900, p700, sn1000, mp1000, gm1100
 
 == ws1 (Word Smart 1): 850 words
     ipa_cmu: 8
@@ -8,7 +8,7 @@ lists: ws1, ws2, b333
     no_ipa: 2
     no_triggers: 377
     wordnet_only: 4
-    translation languages: 60 kept of 309 seen (>= 10% coverage)
+    translation languages: 60 kept of 309 seen (>= 10% coverage); 2365 romanisations generated
     trigger fan-out capped at 5:
     bitter: kept ['acerbic', 'acrid', 'acrimonious', 'caustic', 'vitriolic'], dropped ['virulent']
     gentle: kept ['assuage', 'indulgent', 'mollify', 'patrician', 'placate'], dropped ['pacify', 'docile', 'appease', 'aristocratic']
@@ -21,11 +21,97 @@ lists: ws1, ws2, b333
     no_ipa: 3
     no_triggers: 392
     wordnet_only: 3
-    translation languages: 60 kept of 362 seen (>= 10% coverage)
+    translation languages: 60 kept of 362 seen (>= 10% coverage); 2281 romanisations generated
 == b333 (Barron's 333): 332 words
     ipa_cmu: 7
     kaikki: 332
     no_ipa: 1
     no_triggers: 164
     wordnet_only: 3
-    translation languages: 56 kept of 296 seen (>= 10% coverage)
+    translation languages: 56 kept of 296 seen (>= 10% coverage); 889 romanisations generated
+== b800 (Barron's 800): 794 words
+    details_only: 3
+    ipa_cmu: 21
+    kaikki: 791
+    kaikki_missing: 3
+    no_ipa: 9
+    no_triggers: 401
+    wordnet_only: 11
+    translation languages: 58 kept of 371 seen (>= 10% coverage); 1496 romanisations generated
+    trigger fan-out capped at 5:
+    calm: kept ['allay', 'equanimity', 'halcyon', 'mollify', 'quiescent'], dropped ['appease']
+== b1100 (Barron's 1100): 1085 words
+    details_only: 3
+    ipa_cmu: 25
+    kaikki: 972
+    kaikki_missing: 113
+    no_definition: 114
+    no_ipa: 172
+    no_triggers: 562
+    wordnet_only: 16
+    translation languages: 56 kept of 359 seen (>= 10% coverage); 1646 romanisations generated
+    trigger fan-out capped at 5:
+    calm: kept ['allay', 'equanimity', 'halcyon', 'mollify', 'tranquil'], dropped ['sedate']
+== mg1000 (Magoosh 1000): 1000 words
+    ipa_cmu: 33
+    kaikki: 1000
+    no_ipa: 22
+    no_triggers: 481
+    wordnet_only: 9
+    translation languages: 56 kept of 818 seen (>= 10% coverage); 1811 romanisations generated
+    trigger fan-out capped at 5:
+    dull: kept ['insipid', 'obtuse', 'prosaic', 'stultify', 'tarnish'], dropped ['muted']
+    gentle: kept ['assuage', 'conciliate', 'docile', 'mollify', 'placate'], dropped ['appease']
+== k900 (Kaplan 900): 761 words
+    details_only: 1
+    ipa_cmu: 13
+    kaikki: 760
+    kaikki_missing: 1
+    no_definition: 2
+    no_ipa: 17
+    no_triggers: 401
+    wordnet_only: 7
+    translation languages: 55 kept of 383 seen (>= 10% coverage); 1327 romanisations generated
+== p700 (Powerscore 700): 698 words
+    ipa_cmu: 13
+    kaikki: 698
+    no_ipa: 7
+    no_triggers: 324
+    wordnet_only: 6
+    translation languages: 55 kept of 358 seen (>= 10% coverage); 1316 romanisations generated
+== sn1000 (SparkNotes 1000): 990 words
+    ipa_cmu: 13
+    kaikki: 990
+    no_ipa: 3
+    no_triggers: 445
+    wordnet_only: 4
+    translation languages: 57 kept of 352 seen (>= 10% coverage); 1910 romanisations generated
+    trigger fan-out capped at 5:
+    break: kept ['contravene', 'hiatus', 'relegate', 'respite', 'transgress'], dropped ['divulge', 'disclose']
+    calm: kept ['allay', 'appease', 'equanimity', 'mollify', 'tranquil'], dropped ['serene']
+== mp1000 (Manhattan Prep 1000): 993 words
+    details_only: 4
+    ipa_cmu: 23
+    kaikki: 992
+    kaikki_missing: 1
+    no_ipa: 11
+    no_triggers: 462
+    wordnet_only: 8
+    translation languages: 58 kept of 520 seen (>= 10% coverage); 1898 romanisations generated
+== gm1100 (GregMat 1100): 744 words
+    ipa_cmu: 28
+    kaikki: 744
+    no_ipa: 9
+    no_triggers: 360
+    wordnet_only: 2
+    translation languages: 61 kept of 366 seen (>= 10% coverage); 1261 romanisations generated
+    trigger fan-out capped at 5:
+    beat: kept ['bewildering', 'flummoxed', 'mystifying', 'nonplussed', 'perplexing'], dropped ['perplexed', 'baffling']
+    calm: kept ['appease', 'lull', 'mollify', 'quiescent', 'tranquil'], dropped ['serene']
+    dark: kept ['disconsolate', 'dreary', 'glum', 'morose', 'sullen'], dropped ['obscure']
+    gentle: kept ['assuage', 'docile', 'mollify', 'pacify', 'placate'], dropped ['appease']
+    miserable: kept ['despondent', 'lugubrious', 'mournful', 'plaintive', 'woeful'], dropped ['paltry']
+    pose: kept ['bewildering', 'flummoxed', 'mystifying', 'nonplussed', 'perplexing'], dropped ['perplexed', 'baffling']
+    puzzle: kept ['bewildering', 'flummoxed', 'mystifying', 'nonplussed', 'perplexing'], dropped ['perplexed', 'baffling']
+    stick: kept ['bewildering', 'flummoxed', 'mystifying', 'nonplussed', 'perplexing'], dropped ['perplexed', 'baffling']
+    still: kept ['lull', 'placid', 'quiescent', 'stagnant', 'tranquil'], dropped ['appease', 'silent']

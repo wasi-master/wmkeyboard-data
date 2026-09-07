@@ -1,3 +1,4 @@
 # Build dependencies for scripts/build_vocab_packs.py
 nltk>=3.9
 pytest>=8
+Unidecode>=1.3

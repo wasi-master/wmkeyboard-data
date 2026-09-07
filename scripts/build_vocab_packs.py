@@ -14,7 +14,9 @@ Sources, in order of preference:
   * the repo's own English frequency list (`data/en/en_full.txt.gz`), whose
     Zipf-scale frequencies decide what counts as a plainer word;
   * `vocab/sources/word_details.json` for mnemonics and stress respellings;
-  * `vocab/translations/<code>.json` for hand-written glosses (Bengali).
+  * `vocab/translations/<code>.json` for hand-written glosses (Bengali);
+  * `scripts/romanize.py` for the romanisation of any non-Latin gloss that
+    Wiktionary did not spell out.
 
 Translations Wiktionary lists for other languages are written beside the pack
 as per-language sidecars (`<id>.tr.<code>.json.gz`) so the app downloads only
@@ -51,6 +53,9 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from romanize import fill_romanizations  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[1]
 VOCAB = REPO / "vocab"
@@ -1074,6 +1079,10 @@ def build_pack(spec: dict, all_specs: list[dict], builder: Builder, hand_tr: dic
             glosses = table.get(word)
             if glosses:
                 target[word] = {"w": glosses}
+    # Every non-Latin gloss gets a romanisation: Wiktionary's where it gave
+    # one, the deterministic spelling from romanize.py where it did not, so
+    # the app can match what a user types on a romanised layout.
+    romanized = sum(fill_romanizations(table) for table in translations.values())
     pack = {
         "format": FORMAT,
         "version": VERSION,
@@ -1102,7 +1111,7 @@ def build_pack(spec: dict, all_specs: list[dict], builder: Builder, hand_tr: dic
     covered = {code: len(table) for code, table in translations.items()}
     kept = {code: n for code, n in covered.items() if n >= TRANSLATION_MIN_COVERAGE * total or code in hand_tr}
     report.append(f"    translation languages: {len(kept)} kept of {len(covered)} seen "
-                  f"(>= {int(TRANSLATION_MIN_COVERAGE * 100)}% coverage)")
+                  f"(>= {int(TRANSLATION_MIN_COVERAGE * 100)}% coverage); {romanized} romanisations generated")
     if fanout_lines:
         report.append(f"    trigger fan-out capped at {TRIGGER_FANOUT}:")
         report.extend(fanout_lines)

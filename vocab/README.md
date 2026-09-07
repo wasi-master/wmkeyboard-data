@@ -19,6 +19,7 @@ vocab/sources/lists.json                     the word lists that become packs
 vocab/sources/lists/*.json                   one plain JSON array per list
 vocab/sources/word_details.json              mnemonics and stress respellings
 vocab/translations/<code>.json               hand-written glosses (Bengali)
+scripts/romanize.py                          romanisations for glosses Wiktionary left bare
 vocab/build-report.txt                       what the last build could not find
 ```
 
