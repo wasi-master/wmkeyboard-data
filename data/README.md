@@ -73,7 +73,7 @@ This repository redistributes and packages data from the following open-source p
 | [Glot500 Corpus](https://huggingface.co/datasets/cis-lmu/Glot500) | `ace`, `ak`, `an`, `arz`, `ast`, `ban`, `bar`, `bik`, `bjn`, `bxr`, `ceb`, `crh`, `cv`, `diq`, `dsb`, `dv`, `frr`, `gag`, `hil`, `hsb`, `ilo`, `jbo`, `kaa`, `kg`, `ksh`, `ln`, `mhr`, `min`, `myv`, `nap`, `nr`, `ny`, `pag`, `pam`, `pms`, `quc`, `sah`, `se`, `sg`, `stq`, `tlh`, `tok`, `udm`, `vec`, `vro`, `wa`, `war`, `xal` |
 | [ETCBC Peshitta Syriac Corpus](https://github.com/ETCBC/peshitta) | `syr` |
 | [Cantonese Wikipedia Dump (`zh_yuewiki`)](https://dumps.wikimedia.org/zh_yuewiki/) & [OpenCC](https://github.com/BYVoid/OpenCC) | `yue`, `yue_Hans` |
-| [KDE/kemoji](https://github.com/KDE/kemoji) (Unicode CLDR & Unicode Emoji Data) | Emoji dictionaries (`<lang>_emoji.json.gz`) for 141 languages |
+| [KDE/kemoji](https://github.com/KDE/kemoji) (Unicode CLDR & Unicode Emoji Data) | Emoji dictionaries (`<lang>_emoji.json.gz`) for 141 languages, plus Banglish (`bn_rom`) transliterated from the Bengali one |
 
 
 
@@ -182,6 +182,12 @@ python3 scripts/import_leipzig_ngrams.py --lang bn --script bengali \
 The romanized Bengali lists (`bn/bn_rom_*`) are a different thing entirely, and
 personal rather than corpus-built: see
 [`scripts/import_facebook_chats.py`](../scripts/import_facebook_chats.py).
+
+The Banglish emoji dictionary (`bn/bn_rom_emoji.json.gz`) is built, not
+imported: the Bengali pack's keywords and names transliterated into the Latin
+spellings people chat in, ranked by the `bn_rom` word list, with the English
+pack's keywords alongside. See
+[`scripts/build_bn_rom_emoji.py`](../scripts/build_bn_rom_emoji.py).
 
 
 ## Licensing
