@@ -13,7 +13,7 @@ That lives separately.
 
 | Folder | What | Source |
 |---|---|---|
-| [`data/`](data/) | Per-language word-frequency lists (`<lang>/<lang>_full.txt.gz`), optional offensive lists (`<lang_offensive.txt.gz`), and emoji search dictionaries (`<lang>/<lang>_emoji.json.gz`) across 160+ languages | Various (see [`data/README.md`](data/README.md)) |
+| [`data/`](data/) | Per-language word-frequency lists (`<lang>/<lang>_full.txt.gz`), AOSP LatinIME's curated lists for 23 languages (`<lang>/<stem>_aosp.txt.gz`), optional offensive lists (`<lang_offensive.txt.gz`), and emoji search dictionaries (`<lang>/<lang>_emoji.json.gz`) across 160+ languages | Various (see [`data/README.md`](data/README.md)) |
 | [`vocab/`](vocab/) | Vocabulary packs for the Vocabulary tool (`<lang>/<packId>.wmvocab.json.gz`) plus per-language translation sidecars, built from GRE word lists with Wiktionary and WordNet — see [`vocab/README.md`](vocab/README.md) | Wiktionary (kaikki.org), WordNet, CMUdict, FrequencyWords |
 | [`cjk/`](cjk/) | Chinese Pinyin (`pinyin.tsv`), Japanese kana (`ja_kana.tsv`) and Chinese stroke (`stroke.tsv`) conversion tables, plus the build scripts under `cjk/tools/` — see [`cjk/README.md`](cjk/README.md) | CC-CEDICT, Mozc, BSD 2-Clause |
 
@@ -25,7 +25,7 @@ file stays under GitHub's 100 MB limit — `gunzip` to get the plain text/JSON d
 
 - **`data/`** — the frequency word lists, offensive word lists, and emoji dictionaries are sourced from various
   open-source projects including Hermit Dave's FrequencyWords, the Leipzig Corpora Collection,
-  [KDE kemoji](https://github.com/KDE/kemoji) / Unicode CLDR, and others. Frequency lists are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), MIT, Public Domain, or CC BY-SA 3.0. Emoji dictionaries are derived from Unicode CLDR annotations & Unicode Emoji Data under the [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). See [`data/README.md`](data/README.md)
+  [KDE kemoji](https://github.com/KDE/kemoji) / Unicode CLDR, and others. Frequency lists are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), MIT, Public Domain, or CC BY-SA 3.0. The `_aosp` lists are from AOSP LatinIME, Copyright (C) The Android Open Source Project, under the [Apache License 2.0](data/LICENSE-AOSP-APACHE-2.0.txt). Emoji dictionaries are derived from Unicode CLDR annotations & Unicode Emoji Data under the [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/). See [`data/README.md`](data/README.md)
   for the per-language attribution table and full licensing details.
 
 - **`cjk/`** — `pinyin.tsv` from [CC-CEDICT](https://www.mdbg.net/chinese/dictionary?page=cc-cedict)

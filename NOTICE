@@ -1,0 +1,11 @@
+WM Keyboard data
+
+This repository redistributes, in modified form, the word lists of AOSP
+LatinIME (platform/packages/inputmethods/LatinIME, dictionaries/):
+
+  Copyright (C) The Android Open Source Project
+  Licensed under the Apache License, Version 2.0; see
+  data/LICENSE-AOSP-APACHE-2.0.txt.
+
+They are the data/*/*_aosp.txt.gz files. scripts/import_aosp.py generates
+them and describes what was changed.
