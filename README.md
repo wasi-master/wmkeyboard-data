@@ -16,6 +16,7 @@ That lives separately.
 | [`data/`](data/) | Per-language word-frequency lists (`<lang>/<lang>_full.txt.gz`), AOSP LatinIME's curated lists for 23 languages (`<lang>/<stem>_aosp.txt.gz`), optional offensive lists (`<lang_offensive.txt.gz`), and emoji search dictionaries (`<lang>/<lang>_emoji.json.gz`) across 160+ languages | Various (see [`data/README.md`](data/README.md)) |
 | [`vocab/`](vocab/) | Vocabulary packs for the Vocabulary tool (`<lang>/<packId>.wmvocab.json.gz`) plus per-language translation sidecars, built from GRE word lists with Wiktionary and WordNet — see [`vocab/README.md`](vocab/README.md) | Wiktionary (kaikki.org), WordNet, CMUdict, FrequencyWords |
 | [`cjk/`](cjk/) | Chinese Pinyin (`pinyin.tsv`), Japanese kana (`ja_kana.tsv`) and Chinese stroke (`stroke.tsv`) conversion tables, plus the build scripts under `cjk/tools/` — see [`cjk/README.md`](cjk/README.md) | CC-CEDICT, Mozc, BSD 2-Clause |
+| [`keyman/`](keyman/) | Typing rules (`<id>/<id>.kmx.gz`) for the 812 Keyman keyboards WM Keyboard bundles that have any, read only when keyman.com can't serve them — see [`keyman/README.md`](keyman/README.md) | [Keyman](https://keyman.com/) packages, per-keyboard MIT |
 | [`models/`](models/) | Small on-device networks the app fetches on demand, pinned by SHA-256: the sticker editor's background remover (`cutout/u2netp.tflite`, 4.6 MB) — see [`models/README.md`](models/README.md) | U²-Net (Qin et al.), Apache-2.0 |
 
 The `data/` word lists and emoji dictionaries are **gzip-compressed** (`<lang>_full.txt.gz`, `<lang>_offensive.txt.gz`, and `<lang>_emoji.json.gz`) so every
@@ -40,6 +41,12 @@ file stays under GitHub's 100 MB limit — `gunzip` to get the plain text/JSON d
   ([xuebinqin/U-2-Net](https://github.com/xuebinqin/U-2-Net), Apache-2.0), converted to LiteRT from the ONNX
   export [rembg](https://github.com/danielgatis/rembg) publishes. Provenance and checksums are in
   [`models/README.md`](models/README.md).
+
+- **`keyman/`** — each keyboard's `.kmx` is unmodified from its package on
+  downloads.keyman.com and is MIT licensed by its own copyright holder, named in
+  that folder's `LICENSE.md`. Only keyboards the Keyman API lists as MIT are
+  mirrored. Keyman is a product of SIL Global; this project is not affiliated
+  with it. See [`keyman/README.md`](keyman/README.md).
 
 - **`vocab/`** — definitions, examples and translations are Wiktionary text via
   [kaikki.org](https://kaikki.org/) under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/),
