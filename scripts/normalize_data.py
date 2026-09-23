@@ -265,11 +265,11 @@ LANGUAGE_SCRIPTS = {
     'knc': 'Latin',
     'ko': 'Hangul',
     'koi': 'Cyrillic',
-    'kok': 'Latin',
+    'kok': ('Devanagari', 'Latin'),  # kok_emoji is Devanagari, kok_rom is Romi
     'krc': 'Cyrillic',
     'ks': ('Arabic', 'Devanagari'),
     'ksh': 'Latin',
-    'ku': 'Arabic',
+    'ku': 'Latin',  # Kurmanji; Sorani is ckb
     'kus': 'Latin',
     'kv': 'Cyrillic',
     'kw': 'Latin',
@@ -428,7 +428,7 @@ LANGUAGE_SCRIPTS = {
     'tk': 'Latin',
     'tl': 'Latin',
     'tlh': 'Latin',
-    'tly': ('Arabic', 'Cyrillic', 'Latin'),
+    'tly': 'Latin',
     'tn': 'Latin',
     'to': 'Latin',
     'tok': 'Latin',
@@ -496,8 +496,16 @@ MOJIBAKE_RE = re.compile(r"(Ã.|Â.|â€.|â€™|â€œ|â€|ï¿½)")
 # ----------------------------------------------------------------------
 # Unicode helpers
 # ----------------------------------------------------------------------
+# NFKC folds these into the plain letter (ʷ → w, ⵯ → ⵡ), which erases the
+# labialization mark Berber orthographies spell with (usggʷas, ⵓⵙⴳⴳⵯⴰⵙ).
+NFKC_KEEP = re.compile("([\u02b7\u2d6f])")
+
+
 def normalize_unicode(word):
-    word = unicodedata.normalize("NFKC", word)
+    word = "".join(
+        part if NFKC_KEEP.fullmatch(part) else unicodedata.normalize("NFKC", part)
+        for part in NFKC_KEEP.split(word)
+    )
     word = unicodedata.normalize("NFC", word)
     return word
 

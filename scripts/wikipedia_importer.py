@@ -169,7 +169,12 @@ def extract_words_from_text(text: str, remove_latin: bool = False, min_length: i
     Normalize text, remove punctuation, digits, symbols,
     and optionally filter out Latin script words.
     """
-    text = unicodedata.normalize("NFKC", text)
+    # NFKC would fold ʷ → w and ⵯ → ⵡ, erasing the labialization mark Berber
+    # orthographies spell with, so those two are kept out of it.
+    text = "".join(
+        part if part in ("\u02b7", "\u2d6f") else unicodedata.normalize("NFKC", part)
+        for part in re.split("([\u02b7\u2d6f])", text)
+    )
     
     cleaned_chars = []
     for char in text:
