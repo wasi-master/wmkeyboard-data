@@ -670,9 +670,134 @@ def normalize_apostrophes(word):
 
 
 # ----------------------------------------------------------------------
+# English speech-transcription noise (WM Keyboard #304)
+# ----------------------------------------------------------------------
+# en_full is counted from OpenSubtitles, so it spells speech as subtitlers
+# write it: cut-off words ("that-"), sentence-final stops ("no."), stutters
+# ("n-no", "c-c-can") and stretched words ("nooo", "thaaat", "ccan"). The
+# rules are lexical and English-only; other languages double letters and
+# reduplicate on purpose.
+ENGLISH_NOISE_LANGUAGES = {"en"}
+
+# Rule 1 keeps an entry ending in "." when it is an abbreviation with an
+# interior dot (u.s., a.m., e.g., ph.d.), or one of these.
+EN_ABBREVIATIONS = {
+    "approx.", "bros.", "capt.", "co.", "col.", "corp.", "cpl.", "dept.",
+    "dr.", "esq.", "etc.", "ft.", "gen.", "inc.", "jr.", "lt.", "ltd.",
+    "maj.", "messrs.", "mlle.", "mme.", "mr.", "mrs.", "ms.", "mt.", "prof.",
+    "pvt.", "rev.", "sgt.", "sr.", "st.", "vs.",
+}
+EN_INTERIOR_DOT_ABBREV_RE = re.compile(r"^(?:[^\W\d_]{1,3}\.){2,}$")
+
+# Rule 2 keeps these compounds, whose first part happens to start the rest.
+EN_HYPHEN_COMPOUNDS = {
+    "b-ball", "b-boy", "b-boys", "c-collar", "co-conspirator",
+    "co-conspirators", "co-counsel", "d-day", "h-hour", "no-nonsense",
+    "north-northeast", "north-northwest", "pre-prepared", "pro-prosecution",
+    "r-rated", "re-read", "re-reading", "re-record", "re-recorded",
+    "re-recording", "re-register", "re-release", "re-released", "re-review",
+    "south-southeast", "south-southwest", "t-test",
+}
+
+# Rule 3 keeps these, spelled with a run or a doubled first letter.
+EN_ELONGATION_WORDS = {
+    "brrr", "bzzz", "grrr", "mma", "mmm-hmm", "mmmhmm", "pffft", "pssst",
+    "www", "wwe", "zzz", "zzzz",
+}
+EN_LETTER_RUN_RE = re.compile(r"([^\W\d_])\1\1")
+EN_ROMAN_NUMERAL_RE = re.compile(
+    r"^m{0,3}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})$"
+)
+# A doubled first letter ("ccan") is a stretch only when the undoubled word
+# is at least this many times as frequent ("lama" 1428 vs "llama" 566 is not).
+EN_DOUBLED_FIRST_RATIO = 20
+
+
+def load_attested_words(language_dir: Path) -> set[str]:
+    """Words of the curated AOSP lists beside the counted one, lowercased."""
+    attested = set()
+    for aosp in language_dir.glob("*_aosp.txt.gz"):
+        with gzip.open(aosp, "rt", encoding="utf-8") as f:
+            for line in f:
+                if not line.startswith("#"):
+                    attested.add(line.rsplit(" ", 1)[0].lower())
+    return attested
+
+
+def is_hyphen_stutter(word: str) -> bool:
+    head, sep, rest = word.partition("-")
+    if not sep or not head or len(head) >= len(rest) or not rest.startswith(head):
+        return False
+    # Reduplications ("ha-ha-ha", "la-la-la") and their plurals ("no-nos",
+    # "tom-toms") repeat a whole syllable rather than a false start.
+    if len(head) < 2:
+        return True
+    return rest != head + "s" and any(part != head for part in word.split("-"))
+
+
+def english_noise_rule(word: str, counts: dict, attested: set[str]):
+    """Name of the rule `word` breaks, or None to keep it."""
+    lower = word.lower()
+    if lower in attested:
+        return None
+    if lower.endswith(("-", ".")):
+        if lower in EN_ABBREVIATIONS or EN_INTERIOR_DOT_ABBREV_RE.match(lower):
+            return None
+        return "en_cut_off"
+    if lower in EN_HYPHEN_COMPOUNDS or lower in EN_ELONGATION_WORDS:
+        return None
+    if is_hyphen_stutter(lower):
+        return "en_stutter"
+    if EN_LETTER_RUN_RE.search(lower) and not EN_ROMAN_NUMERAL_RE.match(lower):
+        return "en_letter_run"
+    if len(lower) >= 3 and lower[0] == lower[1] and lower[0].isalpha():
+        if counts.get(lower[1:], 0) >= EN_DOUBLED_FIRST_RATIO * counts[lower]:
+            return "en_doubled_first"
+    return None
+
+
+def drop_english_noise(merged: dict, attested: set[str], stats, removed) -> dict:
+    counts = defaultdict(int)
+    for word, freq in merged.items():
+        counts[word.lower()] += freq
+    kept = {}
+    for word, freq in merged.items():
+        rule = english_noise_rule(word, counts, attested)
+        if rule is None:
+            kept[word] = freq
+        else:
+            stats[rule] += 1
+            stats[f"{rule}_count"] += freq
+            removed[rule].append((word, freq))
+    return kept
+
+
+# ----------------------------------------------------------------------
+# Persian and Perso-Arabic character normalization (WM Keyboard #393)
+# ----------------------------------------------------------------------
+# OpenSubtitles and web scrapes for Persian frequently mix Arabic Yeh (ي,
+# U+064A) and Arabic Kaf (ك, U+0643) into Persian text, typed on Windows
+# Arabic layouts or unconfigured systems. Standard Persian orthography uses
+# Persian Yeh (ی, U+06CC) and Keheh (ک, U+06A9). Alef Maksura (ى, U+0649) is
+# likewise written as Persian Yeh in standard modern Persian. Tatweel / Kashida
+# (ـ, U+0640) is decorative typographic elongation rather than part of any
+# word's spelling and prevents swipe/glide matching against layout letter keys.
+PERSIAN_SCRIPT_LANGUAGES = {"fa", "glk", "mzn", "azb"}
+
+
+def normalize_persian_script(word: str) -> str:
+    """Normalize Arabic Yeh, Kaf, Alef Maksura, and strip Tatweel for Persian script."""
+    word = word.replace("\u064a", "\u06cc")  # Arabic Yeh (ي) -> Persian Yeh (ی)
+    word = word.replace("\u0649", "\u06cc")  # Alef Maksura (ى) -> Persian Yeh (ی)
+    word = word.replace("\u0643", "\u06a9")  # Arabic Kaf (ك) -> Persian Keheh (ک)
+    word = word.replace("\u0640", "")        # Tatweel / Kashida (ـ)
+    return word
+
+
+# ----------------------------------------------------------------------
 # Main processing
 # ----------------------------------------------------------------------
-def process_file(path):
+def process_file(path, dry_run=False, show=0):
     language = path.parent.name
     print(f"\nProcessing {path}")
     offensive = "_offensive" in path.name
@@ -688,6 +813,11 @@ def process_file(path):
         word, fixed = fix_mojibake(word)
         if fixed:
             stats["mojibake_fixed"] += 1
+        if language in PERSIAN_SCRIPT_LANGUAGES:
+            norm_fa = normalize_persian_script(word)
+            if norm_fa != word:
+                stats["persian_script_normalized"] += 1
+                word = norm_fa
         word = word.strip()
         if not word:
             stats["empty"] += 1
@@ -706,7 +836,23 @@ def process_file(path):
     for word, freq in cleaned:
         if word not in merged or freq > merged[word]:
             merged[word] = freq
+    removed = defaultdict(list)
+    if language in ENGLISH_NOISE_LANGUAGES and path.name.endswith("_full.txt.gz"):
+        merged = drop_english_noise(merged, load_attested_words(path.parent), stats, removed)
     result = sorted(merged.items(), key=lambda x: (-x[1], x[0]))
+    report = {
+        "file": str(path),
+        "before": len(entries),
+        "after": len(result),
+        "removed": dict(stats),
+    }
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    for rule, items in removed.items():
+        if show:
+            items.sort(key=lambda x: (-x[1], x[0]))
+            print(f"top {rule}: " + ", ".join(f"{w} {c}" for w, c in items[:show]))
+    if dry_run:
+        return report
     # Securely create a temp file name by appending .tmp to the full original name
     tmp = path.parent / f"{path.name}.tmp"
 
@@ -719,13 +865,6 @@ def process_file(path):
         tmp.replace(path)
     else:
         raise FileNotFoundError(f"Failed to create temporary file: {tmp}")
-    report = {
-        "file": str(path),
-        "before": len(entries),
-        "after": len(result),
-        "removed": dict(stats),
-    }
-    print(json.dumps(report, ensure_ascii=False, indent=2))
     return report
 
 
@@ -745,6 +884,18 @@ def main():
         action="store_true",
         dest="git_flag",
         help="Shorthand flag to normalize only new/updated files according to git status.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Report what would be removed without rewriting any file.",
+    )
+    parser.add_argument(
+        "--show",
+        type=int,
+        default=0,
+        metavar="N",
+        help="Also print the N most frequent entries each English noise rule removes.",
     )
     parser.add_argument(
         "files",
@@ -768,7 +919,7 @@ def main():
 
     reports = []
     for file in files:
-        reports.append(process_file(file))
+        reports.append(process_file(file, dry_run=args.dry_run, show=args.show))
 
     report_path = Path("normalization_report.json")
     with open(report_path, "w", encoding="utf-8") as f:
