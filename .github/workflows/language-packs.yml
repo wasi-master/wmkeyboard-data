@@ -1,0 +1,68 @@
+name: Language packs
+
+# Rebuilds the offline language packs (one zip per data/ folder, see
+# scripts/build_language_packs.py) and keeps them on the `language-packs`
+# release, which WM Keyboard links from each language's screen. Packs whose
+# bytes did not change are left alone: the zips are deterministic, and GitHub
+# reports each asset's SHA-256, so an unchanged folder costs no upload.
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'data/**/*.gz'
+      - 'cjk/*.tsv'
+      - 'scripts/build_language_packs.py'
+      - '.github/workflows/language-packs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: language-packs
+  cancel-in-progress: false
+
+jobs:
+  packs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: language-packs
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build
+        run: python scripts/build_language_packs.py dist > built.tsv
+
+      - name: Make sure the release exists
+        run: |
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --title "Offline language packs" --notes-file - <<'EOF'
+          One zip per language folder, for a phone that cannot download: fetch the pack for your language here (on any device), then in WM Keyboard open **Settings › Languages › (the language) › Language pack › Import** and pick the zip.
+
+          Each pack holds that folder's word lists, word pairs and emoji names, and for Chinese, Japanese and Cantonese their conversion dictionaries. Files are named as they are in the repository, so the app recognises each one; you can also import single files from `data/` the same way.
+
+          These are rebuilt automatically whenever the data changes. Licences are inside each zip (LICENSE, NOTICE, and cjk/LICENSE_*).
+          EOF
+          fi
+
+      - name: Upload changed packs
+        run: |
+          gh release view "$TAG" --json assets \
+            --jq '.assets[] | "\(.name)\t\(.digest // "")"' > published.tsv
+          uploaded=0
+          while IFS=$'\t' read -r name size; do
+            digest="sha256:$(sha256sum "dist/$name" | cut -d' ' -f1)"
+            if grep -qxF "$name	$digest" published.tsv; then
+              continue
+            fi
+            echo "uploading $name ($size bytes)"
+            gh release upload "$TAG" --clobber "dist/$name"
+            uploaded=$((uploaded + 1))
+          done < built.tsv
+          echo "$uploaded packs uploaded, $(wc -l < built.tsv) built"
