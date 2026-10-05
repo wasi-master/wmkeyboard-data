@@ -206,6 +206,92 @@ python3 scripts/import_leipzig_ngrams.py --lang bn --script bengali \
     https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2011_100K.tar.gz
 ```
 
+Every other language with a pair list is built the same way, from the same
+collection, by
+[`scripts/import_leipzig_ngrams.py`](../scripts/import_leipzig_ngrams.py) in
+its `generic` mode. Per language it takes at most two corpora: the most recent
+conversational one (a `web` or `community` corpus, weighted ×3, for the same
+reason the Bengali web corpora are) and the most recent news one (×1), with
+Wikipedia standing in when either is missing. A language the collection has no
+1M-sentence corpus for gets up to four smaller ones instead, and a lower count
+floor (2 rather than 5). The lists stop at 150,000 bigrams and 75,000
+trigrams, which is as much as the app reads.
+
+`generic` normalizes the corpus and the word list alike (NFKC, NFC,
+lowercase; the app lowercases and NFCs what it looks up), keeps the zero-width
+non-joiner where the word list uses it (Persian می‌کنم), and admits a token
+only if the language's `<lang>_full.txt.gz` already has it, so an unknown word
+ends the n-gram instead of joining it.
+
+| Language | Code | Corpora (weight) | Bigrams | Trigrams |
+|---|---|---|---:|---:|
+| Hindi | `hi` | `hin-in_web_2015_1M` ×3, `hin_news_2022_1M` ×1 | 150,000 | 75,000 |
+| Urdu | `ur` | `urd-in_web_2015_100K` ×3, `urd_newscrawl_2016_1M` ×1 | 150,000 | 75,000 |
+| Marathi | `mr` | `mar-in_web_2015_300K` ×3, `mar_newscrawl_2016_1M` ×1 | 150,000 | 75,000 |
+| Gujarati | `gu` | `guj_newscrawl_2016_300K` ×1, `guj_newscrawl_2011_300K` ×1 | 150,000 | 75,000 |
+| Punjabi | `pa` | `pan-in_web_2015_100K` ×3, `pan_wikipedia_2021_300K` ×1 | 150,000 | 75,000 |
+| Odia | `or` | `ori_wikipedia_2021_100K` ×1 | 93,108 | 32,141 |
+| Assamese | `as` | `asm_wikipedia_2021_100K` ×1 | 111,107 | 46,719 |
+| Tamil | `ta` | `tam-lk_web_2020_1M` ×3, `tam_newscrawl_2011_1M` ×1 | 150,000 | 75,000 |
+| Telugu | `te` | `tel_newscrawl_2011_300K` ×1, `tel_wikipedia_2021_300K` ×1, `tel_wikipedia_2016_300K` ×1, `tel_wikipedia_2014_300K` ×1 | 150,000 | 75,000 |
+| Kannada | `kn` | `kan_wikipedia_2021_300K` ×1, `kan_wikipedia_2016_300K` ×1, `kan_wikipedia_2011_300K` ×1 | 150,000 | 75,000 |
+| Malayalam | `ml` | `mal_wikipedia_2021_300K` ×1, `mal_wikipedia_2016_300K` ×1 | 150,000 | 75,000 |
+| Persian | `fa` | `pes-ir_web_2019_1M` ×3, `fas_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Arabic | `ar` | `ara-eg_web_2015_300K` ×3, `ara_news_2022_1M` ×1 | 150,000 | 75,000 |
+| Spanish | `es` | `spa_web_2016_1M` ×3, `spa_news_2024_1M` ×1 | 150,000 | 75,000 |
+| French | `fr` | `fra-ca_web_2020_1M` ×3, `fra_news_2024_1M` ×1 | 150,000 | 75,000 |
+| German | `de` | `deu-com_web_2021_1M` ×3, `deu_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Portuguese | `pt` | `por-pt_web_2015_1M` ×3, `por_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Russian | `ru` | `rus_web_2002_1M` ×3, `rus_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Italian | `it` | `ita_web_2011_1M` ×3, `ita_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Turkish | `tr` | `tur-tr_web_2019_1M` ×3, `tur_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Indonesian | `id` | `ind-com_web_2018_1M` ×3, `ind_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Vietnamese | `vi` | `vie-vn_web_2015_1M` ×3, `vie_news_2022_1M` ×1 | 150,000 | 75,000 |
+| Polish | `pl` | `pol-com_web_2018_1M` ×3, `pol_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Dutch | `nl` | `nld_news_2024_1M` ×1, `nld_wikipedia_2021_1M` ×1 | 150,000 | 75,000 |
+| Ukrainian | `uk` | `ukr-ua_web_2019_1M` ×3, `ukr_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Korean | `ko` | `kor-kr_web_2020_1M` ×3, `kor_news_2022_1M` ×1 | 150,000 | 75,000 |
+| Romanian | `ro` | `ron-ro_web_2015_1M` ×3, `ron_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Greek | `el` | `ell-gr_web_2015_1M` ×3, `ell_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Czech | `cs` | `ces_web_2012_1M` ×3, `ces_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Hungarian | `hu` | `hun-hu_web_2019_1M` ×3, `hun_news_2024_1M` ×1 | 150,000 | 75,000 |
+| Swedish | `sv` | `swe-se_web_2020_1M` ×3, `swe_news_2023_1M` ×1 | 150,000 | 75,000 |
+| Hebrew | `he` | `heb_news_2020_1M` ×1, `heb_wikipedia_2021_1M` ×1 | 150,000 | 75,000 |
+| Malay | `ms` | `msa-my_web_2013_1M` ×3, `msa_newscrawl_2016_300K` ×1 | 150,000 | 75,000 |
+| Swahili | `sw` | `swa_wikipedia_2021_100K` ×1, `swa_wikipedia_2016_100K` ×1 | 150,000 | 75,000 |
+| Tagalog | `tl` | `tgl_wikipedia_2021_100K` ×1, `tgl_wikipedia_2016_100K` ×1, `tgl_wikipedia_2014_100K` ×1 | 150,000 | 75,000 |
+| Nepali | `ne` | `nep-np_web_2015_1M` ×3, `nep_news_2020_300K` ×1 | 150,000 | 75,000 |
+| Sinhala | `si` | `sin_wikipedia_2021_100K` ×1, `sin_wikipedia_2016_100K` ×1, `sin_wikipedia_2014_100K` ×1, `sin_wikipedia_2011_100K` ×1 | 150,000 | 75,000 |
+| Azerbaijani | `az` | `aze_newscrawl_2013_1M` ×1, `aze_wikipedia_2021_1M` ×1 | 150,000 | 75,000 |
+| Uzbek | `uz` | `uzb_newscrawl_2011_100K` ×1, `uzb_wikipedia_2021_100K` ×1, `uzb_wikipedia_2016_100K` ×1, `uzb_wikipedia_2014_100K` ×1 | 150,000 | 75,000 |
+| Kazakh | `kk` | `kaz_newscrawl_2016_1M` ×1 | 150,000 | 63,794 |
+| Danish | `da` | `dan-dk_web_2019_1M` ×3, `dan_newscrawl_2023_1M` ×1 | 150,000 | 75,000 |
+| Finnish | `fi` | `fin_web_2002_1M` ×3, `fin_news_2022_1M` ×1 | 150,000 | 75,000 |
+| Norwegian Bokmål | `nb` | `nob-no_web_2020_1M` ×3, `nob_newscrawl_2019_1M` ×1 | 150,000 | 75,000 |
+| Slovak | `sk` | `slk-sk_web_2016_1M` ×3, `slk_newscrawl_2016_1M` ×1 | 150,000 | 75,000 |
+| Bulgarian | `bg` | `bul_news_2022_1M` ×1, `bul_wikipedia_2021_1M` ×1 | 150,000 | 75,000 |
+| Serbian | `sr` | `srp-rs_web_2016_1M` ×3, `srp_wikipedia_2021_1M` ×1 | 150,000 | 75,000 |
+| Croatian | `hr` | `hrv-hr_web_2015_1M` ×3, `hrv_news_2020_1M` ×1 | 150,000 | 75,000 |
+| Catalan | `ca` | `cat_newscrawl_2016_1M` ×1, `cat_wikipedia_2021_1M` ×1 | 150,000 | 75,000 |
+
+The Leipzig corpus names change from release to release and the listing at
+`api.wortschatz-leipzig.de` is not reliably reachable, so the corpora above were
+found by asking the download server for names in the collection's own pattern
+(`{iso639-3}[-{country}|-com]_{genre}_{year}_{size}`). To rebuild one, pass the
+corpora from its row with their weights:
+
+```sh
+python3 scripts/import_leipzig_ngrams.py --lang fa --script generic \
+    --counter memory --vocab data/fa/fa_full.txt.gz \
+    --max-bigrams 150000 --max-trigrams 75000 \
+    https://downloads.wortschatz-leipzig.de/corpora/pes-ir_web_2019_1M.tar.gz#3 \
+    https://downloads.wortschatz-leipzig.de/corpora/fas_news_2024_1M.tar.gz
+```
+
+The memory counter packs a trigram into one 64-bit number, so it uses only the
+2,097,151 commonest words of a longer list (Hungarian, Finnish, Arabic and
+Turkish have more). The words it leaves out are each seen about once.
+
 The romanized Bengali lists (`bn/bn_rom_*`) are a different thing entirely, and
 personal rather than corpus-built: see
 [`scripts/import_facebook_chats.py`](../scripts/import_facebook_chats.py).
@@ -224,6 +310,7 @@ Each dictionary retains the license of its original source.
 | Dataset | License |
 |---------|---------|
 | Most frequency lists | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| `*_bigrams`, `*_trigrams` built from the Leipzig Corpora Collection | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 | `ur` | [MIT](https://github.com/urduhack/urdu-words/blob/master/LICENSE) |
 | `si` | [MIT](https://github.com/kasunw22/sinhala-para-dict/blob/main/LICENSE) |
 | `tlh` | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |

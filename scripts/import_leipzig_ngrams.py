@@ -15,7 +15,7 @@ N-grams never cross sentence boundaries, and within a sentence anything
 non-space between two tokens (a digit, a comma, a danda) breaks the window too,
 so a pair is only ever recorded for words that were genuinely adjacent.
 
-Two tokenizers ship, chosen with --script:
+Three tokenizers ship, chosen with --script:
 
   latin    (default) text is lowercased, curly apostrophes are normalized, and
            only tokens matching [a-z]+(?:'[a-z]+)* — e.g. "don't" — are kept.
@@ -25,6 +25,15 @@ Two tokenizers ship, chosen with --script:
            tokens are runs of Bengali letters and signs, structurally validated
            (see is_valid_bengali) so mis-segmented and mojibake fragments never
            reach the output.
+
+  generic  any script written with spaces between words. Text is NFKC- then
+           NFC-normalized and lowercased, zero-width joiners are deleted, and
+           curly apostrophes become straight ones. The alphabet is read off
+           the --vocab word list itself: every letter and combining mark it
+           uses, plus the apostrophe and the zero-width non-joiner (Persian's
+           half-space) only where its words contain them. The word list is
+           normalized the same way, and an apostrophe at a token's edge is a
+           quotation mark, not part of the word. Needs --vocab.
 
 Sources may be weighted. A corpus written `URL#3` contributes each of its
 counts three times, which is how a register the keyboard actually has to
@@ -226,6 +235,69 @@ def prepare_latin(sentence: str) -> str:
     return sentence.lower().replace("\u2019", "'").replace("\u02BC", "'")
 
 
+ZWNJ = "\u200c"
+ZWJ = "\u200d"
+GENERIC_MAX_TOKEN_LEN = 32
+
+
+def normalize_generic(text: str) -> str:
+    text = unicodedata.normalize("NFC", unicodedata.normalize("NFKC", text)).lower()
+    return text.replace(ZWJ, "").replace("\u2019", "'").replace("\u02BC", "'")
+
+
+def generic_alphabet(words):
+    """The letters and marks the word list spells with, as a regex class."""
+    chars = set()
+    apostrophe = False
+    zwnj = False
+    for w in words:
+        for ch in w:
+            if unicodedata.category(ch)[0] in "LM":
+                chars.add(ord(ch))
+            elif ch == "'":
+                apostrophe = True
+            elif ch == ZWNJ:
+                zwnj = True
+    if apostrophe:
+        chars.add(ord("'"))
+    if zwnj:
+        chars.add(ord(ZWNJ))
+    ranges = []
+    for c in sorted(chars):
+        if ranges and c == ranges[-1][1] + 1:
+            ranges[-1][1] = c
+        else:
+            ranges.append([c, c])
+    body = "".join(
+        f"\\U{lo:08X}" if lo == hi else f"\\U{lo:08X}-\\U{hi:08X}" for lo, hi in ranges
+    )
+    return re.compile("[" + body + "]+")
+
+
+class GenericTokenizer(Tokenizer):
+    """Tokenizer over a word list's own alphabet; see the module docstring."""
+
+    def __call__(self, sentence: str):
+        sentence = normalize_generic(sentence)
+        runs = []
+        run = []
+        pos = 0
+        for match in self.pattern.finditer(sentence):
+            if sentence[pos:match.start()].strip() and run:
+                runs.append(run)
+                run = []
+            token = match.group(0).strip("'")
+            if token and len(token) <= self.max_length and token in self.vocab:
+                run.append(token)
+            elif run:
+                runs.append(run)
+                run = []
+            pos = match.end()
+        if run:
+            runs.append(run)
+        return runs
+
+
 def make_tokenizer(script: str, vocab):
     if script == "latin":
         return Tokenizer(LATIN_TOKEN_RE, LATIN_MAX_TOKEN_LEN, prepare_latin, None, vocab)
@@ -237,19 +309,36 @@ def make_tokenizer(script: str, vocab):
             is_valid_bengali,
             vocab,
         )
+    if script == "generic":
+        if vocab is None:
+            raise ValueError("--script generic needs --vocab")
+        return GenericTokenizer(generic_alphabet(vocab), GENERIC_MAX_TOKEN_LEN, vocab=vocab)
     raise ValueError(f"unknown --script {script}")
 
 
-def load_vocab(path: Path):
-    """The accepted words, sorted so a word's id is reproducible across runs."""
+def load_vocab(path: Path, normalize=None, limit=None):
+    """The accepted words, sorted so a word's id is reproducible across runs.
+
+    [limit] keeps only the first that many distinct words, which in a
+    frequency-sorted list are the commonest.
+    """
     opener = gzip.open if path.suffix == ".gz" else open
     words = set()
     with opener(path, "rt", encoding="utf-8", errors="ignore") as f:
         for line in f:
+            if limit is not None and len(words) >= limit:
+                break
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
-            words.add(line.rsplit(" ", 1)[0])
+            word = line.rsplit(" ", 1)[0]
+            if normalize is not None:
+                # Spelled the way the tokenizer spells the corpus; a compound
+                # written with a space or an underscore is never one token.
+                word = normalize(word)
+                if not word or " " in word or "_" in word:
+                    continue
+            words.add(word)
     return sorted(words)
 
 
@@ -339,6 +428,9 @@ class DiskSink:
 
     def write_trigrams(self, out_gz, min_count, max_items):
         return combine(self.trigram_kv, out_gz, min_count, max_items, self.tmp_dir)
+
+
+MEMORY_VOCAB_LIMIT = (1 << 21) - 1
 
 
 class MemorySink:
@@ -507,7 +599,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Build n-gram lists from Leipzig sentence corpora")
     parser.add_argument("sources", nargs="+", help="corpus tarball URLs or paths, optionally suffixed #weight")
     parser.add_argument("--lang", required=True, help="target data/<lang> folder")
-    parser.add_argument("--script", default="latin", choices=("latin", "bengali"))
+    parser.add_argument("--script", default="latin", choices=("latin", "bengali", "generic"))
     parser.add_argument("--prefix", help="output filename prefix (default: --lang)")
     parser.add_argument("--vocab", help="word list a token must appear in")
     parser.add_argument("--counter", default="disk", choices=("disk", "memory"))
@@ -525,7 +617,12 @@ def main() -> None:
     words = None
     vocab = None
     if args.vocab:
-        words = load_vocab(Path(args.vocab))
+        # The memory backend packs a trigram into one int64 in base
+        # len(vocab), so the vocabulary has to stay below 2^21. The words it
+        # drops are the tail of lists like Hungarian's 3.1M, seen once each.
+        limit = MEMORY_VOCAB_LIMIT if args.counter == "memory" else None
+        normalize = normalize_generic if args.script == "generic" else None
+        words = load_vocab(Path(args.vocab), normalize, limit)
         vocab = frozenset(words)
         print(f"Vocabulary gate: {len(words)} words from {args.vocab}")
     if args.counter == "memory" and words is None:
