@@ -9,3 +9,11 @@ LatinIME (platform/packages/inputmethods/LatinIME, dictionaries/):
 
 They are the data/*/*_aosp.txt.gz files. scripts/import_aosp.py generates
 them and describes what was changed.
+
+It also redistributes the word list of desktop Avro Phonetic (ibus-avro,
+avrodict.js) as data/bn/bn_avro_dictionary.txt.gz:
+
+  Copyright (C) OmicronLab
+  Licensed under the Mozilla Public License 1.1; see
+  data/LICENSE-AVRO-MPL-1.1.txt. Only the encoding changed; data/README.md
+  says how.

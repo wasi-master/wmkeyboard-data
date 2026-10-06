@@ -107,6 +107,16 @@ its `f` value are kept, and lines are sorted by frequency.
 | `pt/pt_aosp` | `pt_PT` |
 | `pt_br/pt_br_aosp` | `pt_BR` |
 
+### Desktop Avro dictionary
+
+`bn/bn_avro_dictionary.txt.gz` is the word list of desktop Avro Phonetic,
+ibus-avro's `avrodict.js` ([omicronlab/ibus-avro](https://github.com/omicronlab/ibus-avro)),
+Copyright (C) OmicronLab, licensed under the
+[Mozilla Public License 1.1](LICENSE-AVRO-MPL-1.1.txt). WM Keyboard downloads it
+for its Avro candidate list. Only the encoding changed: one word per line, each
+of Avro's tables opened by an `@name` line, and the source's eleven `\u0200c`
+typos written as the `\u200c` (ZWNJ) they were meant to be.
+
 ### Offensive Word Lists
 
 The `<lang>_offensive.txt.gz` files contain offensive, profane, and sensitive words to be used for content filtering. They are aggregated from various permissive open-source repositories:
