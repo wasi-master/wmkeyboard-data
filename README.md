@@ -17,6 +17,7 @@ That lives separately.
 | [`vocab/`](vocab/) | Vocabulary packs for the Vocabulary tool (`<lang>/<packId>.wmvocab.json.gz`) plus per-language translation sidecars, built from GRE word lists with Wiktionary and WordNet — see [`vocab/README.md`](vocab/README.md) | Wiktionary (kaikki.org), WordNet, CMUdict, FrequencyWords |
 | [`cjk/`](cjk/) | Chinese Pinyin (`pinyin.tsv`), Japanese kana (`ja_kana.tsv`) and Chinese stroke (`stroke.tsv`) conversion tables, plus the build scripts under `cjk/tools/` — see [`cjk/README.md`](cjk/README.md) | CC-CEDICT, Mozc, BSD 2-Clause |
 | [`keyman/`](keyman/) | Typing rules (`<id>/<id>.kmx.gz`) for the 812 Keyman keyboards WM Keyboard bundles that have any, read only when keyman.com can't serve them — see [`keyman/README.md`](keyman/README.md) | [Keyman](https://keyman.com/) packages, per-keyboard MIT |
+| [`fonts/`](fonts/) | Fonts the app fetches for a layout whose letters no phone font has: Klingon pIqaD — see [`fonts/README.md`](fonts/README.md) | Klingon pIqaD HaSta, SIL OFL 1.1 |
 | [`models/`](models/) | Small on-device networks the app fetches on demand, pinned by SHA-256: the sticker editor's background remover (`cutout/u2netp.tflite`, 4.6 MB) — see [`models/README.md`](models/README.md) | U²-Net (Qin et al.), Apache-2.0 |
 
 The `data/` word lists and emoji dictionaries are **gzip-compressed** (`<lang>_full.txt.gz`, `<lang>_offensive.txt.gz`, and `<lang>_emoji.json.gz`) so every
