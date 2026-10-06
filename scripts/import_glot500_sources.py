@@ -77,6 +77,16 @@ GLOT500_MAP = {
 # Regexp for tokenization across different scripts
 WORD_TOKENIZER = re.compile(r"[\w'-]+", re.UNICODE)
 
+# Languages where a capital is a different letter rather than a sentence
+# position: folding them merges distinct words (Klingon qaH "sir" and QaH
+# "help"), so their words keep the case they are written in.
+CASE_SIGNIFICANT = {"tlh"}
+
+
+def fold(text: str, lang_code: str) -> str:
+    return text if lang_code in CASE_SIGNIFICANT else text.lower()
+
+
 def load_existing_wordlist(lang_dir: Path, lang_code: str) -> collections.Counter:
     """Load existing word list and frequencies from <lang>_full.txt.gz if present."""
     full_gz = lang_dir / f"{lang_code}_full.txt.gz"
@@ -92,13 +102,13 @@ def load_existing_wordlist(lang_dir: Path, lang_code: str) -> collections.Counte
                     continue
                 parts = line.split()
                 if len(parts) >= 2 and parts[-1].isdigit():
-                    word = " ".join(parts[:-1]).lower()
+                    word = fold(" ".join(parts[:-1]), lang_code)
                     freq = int(parts[-1])
                 elif len(parts) == 1:
-                    word = parts[0].lower()
+                    word = fold(parts[0], lang_code)
                     freq = 1
                 else:
-                    word = line.lower()
+                    word = fold(line, lang_code)
                     freq = 1
                 
                 # Basic sanity check
@@ -110,7 +120,7 @@ def load_existing_wordlist(lang_dir: Path, lang_code: str) -> collections.Counte
     return counter
 
 
-def extract_glot500_frequencies(configs: list) -> collections.Counter:
+def extract_glot500_frequencies(configs: list, lang_code: str = "") -> collections.Counter:
     """Extract word frequencies from Glot500 HuggingFace dataset configs."""
     counter = collections.Counter()
     for conf in configs:
@@ -121,7 +131,7 @@ def extract_glot500_frequencies(configs: list) -> collections.Counter:
                 text = item.get("text", "")
                 if not text:
                     continue
-                tokens = WORD_TOKENIZER.findall(text.lower())
+                tokens = WORD_TOKENIZER.findall(fold(text, lang_code))
                 for tok in tokens:
                     # Filter pure numeric tokens and overly short punctuation artifacts
                     if not tok.isdigit() and len(tok) > 1 or (len(tok) == 1 and tok.isalpha()):
@@ -162,7 +172,7 @@ def main():
         existing_count = len(existing)
         print(f"  Existing words: {existing_count:,}")
         
-        glot_counter = extract_glot500_frequencies(configs)
+        glot_counter = extract_glot500_frequencies(configs, lang_code)
         glot_count = len(glot_counter)
         print(f"  Glot500 extracted words: {glot_count:,}")
         
