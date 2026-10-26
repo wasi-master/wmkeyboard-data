@@ -441,9 +441,99 @@ def build_kaikki(source: Path, out: Path) -> int:
     return write_pack(out, header, packed, redirects)
 
 
+# ---------------------------------------------------------------- Bengali
+
+KAIKKI_BENGALI_SOURCE = CACHE / "kaikki-Bengali.jsonl"
+BENGALI = re.compile(r"^[\u0980-\u09FF\u200C\u200D]+$")
+
+
+def build_kaikki_bengali(source: Path, out: Path) -> int:
+    """
+    Bengali words with English glosses, from English Wiktionary's Bengali
+    entries via kaikki.org (the plain, ungzipped JSONL it publishes per
+    language): what the Dictionary tool shows for a Bengali word typed or
+    selected, with no network. The romanization stands where the IPA goes.
+    Every entry is kept (the extract is small), and each inflected form the
+    entry lists redirects to it.
+    """
+    by_word: dict[str, dict] = {}
+    redirects: dict[str, set[str]] = collections.defaultdict(set)
+    with source.open(encoding="utf-8") as f:
+        for line in f:
+            record = json.loads(line)
+            word = record.get("word", "")
+            if record.get("lang_code") != "bn" or not BENGALI.match(word):
+                continue
+            pos = KAIKKI_POS.get(record.get("pos", ""))
+            if pos is None:
+                continue
+            roman = ""
+            for form in record.get("forms", []):
+                tags = set(form.get("tags", []))
+                text = form.get("form", "")
+                if "romanization" in tags and not roman:
+                    roman = clean(text)
+                elif BENGALI.match(text) and text != word and form.get("source") != "inflection-template":
+                    redirects[text].add(word)
+            senses = []
+            for sense in record.get("senses", []):
+                tags = set(sense.get("tags", []))
+                targets = [x.get("word", "") for x in sense.get("form_of", []) + sense.get("alt_of", [])]
+                if tags & REDIRECT_TAGS and targets:
+                    for t in targets:
+                        if BENGALI.match(t):
+                            redirects[word].add(t)
+                    continue
+                if tags & SKIP_SENSE_TAGS:
+                    continue
+                glosses = sense.get("glosses") or []
+                if not glosses:
+                    continue
+                definition = trim(clean(glosses[-1]), KAIKKI_MAX_DEFINITION)
+                example = ""
+                for ex in sense.get("examples", []):
+                    text = clean(ex.get("text"))
+                    english = clean(ex.get("english") or ex.get("translation"))
+                    if text and len(text) <= KAIKKI_MAX_EXAMPLE:
+                        example = trim(text + (" — " + english if english else ""), KAIKKI_MAX_EXAMPLE * 2)
+                        break
+                synonyms = [s.get("word", "") for s in sense.get("synonyms", []) if not s.get("source")]
+                senses.append((definition, example, synonyms[:MAX_SYNONYMS], []))
+            if not senses:
+                continue
+            record_out = by_word.setdefault(word, {"ipa": roman, "pos": collections.OrderedDict()})
+            if not record_out["ipa"]:
+                record_out["ipa"] = roman
+            bucket = record_out["pos"].setdefault(pos, [])
+            seen = {s[0] for s in bucket}
+            for definition, example, synonyms, antonyms in senses:
+                if len(bucket) >= KAIKKI_MAX_SENSES or definition in seen:
+                    continue
+                seen.add(definition)
+                bucket.append((definition, example, synonyms, antonyms))
+    packed = {}
+    for word, record in by_word.items():
+        fields = [
+            sense_field(pos, d, e, s, a)
+            for pos, senses in record["pos"].items()
+            for d, e, s, a in senses
+        ]
+        packed[word] = (record["ipa"], fields[:KAIKKI_MAX_WORD_SENSES])
+    header = {
+        "id": "bn_wiktionary",
+        "name": "Bengali–English Wiktionary (offline)",
+        "lang": "bn",
+        "license": "CC-BY-SA-4.0 OR GFDL-1.3",
+        "attribution": "English Wiktionary's Bengali entries via kaikki.org, CC BY-SA 4.0 and GFDL",
+        "source": "kaikki-Bengali.jsonl sha256:" + sha256(source)[:16],
+    }
+    return write_pack(out, header, packed, redirects)
+
+
 PACKS = {
-    "oewn": (OEWN_SOURCE, build_oewn),
-    "wiktionary": (KAIKKI_SOURCE, build_kaikki),
+    "oewn": (OEWN_SOURCE, build_oewn, "en"),
+    "wiktionary": (KAIKKI_SOURCE, build_kaikki, "en"),
+    "bn_wiktionary": (KAIKKI_BENGALI_SOURCE, build_kaikki_bengali, "bn"),
 }
 
 
@@ -464,12 +554,12 @@ def main() -> int:
     failed = False
     with tempfile.TemporaryDirectory() as tmp:
         for pack_id in ids:
-            source, build = PACKS[pack_id]
+            source, build, lang = PACKS[pack_id]
             if not source.is_file():
                 print(f"{pack_id}: missing {source.relative_to(ROOT)}; see the docstring for where to get it", file=sys.stderr)
                 failed = True
                 continue
-            final = OUT_DIR / f"{pack_id}.wmdict.gz"
+            final = ROOT / "dictionary" / lang / f"{pack_id}.wmdict.gz"
             target = Path(tmp) / final.name if args.check else final
             count = build(source, target)
             size = target.stat().st_size
