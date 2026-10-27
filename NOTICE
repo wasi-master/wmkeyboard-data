@@ -97,6 +97,23 @@ data/README.md lists under "eBible and Glot500 Word Lists") count the words of:
   Glot500-c, https://huggingface.co/datasets/cis-lmu/Glot500
   A collection of openly licensed text; see the dataset card for each source.
 
+The Uzbek (Latin) word list and word bigram and trigram lists
+(data/uz/uz_full.txt.gz, data/uz/uz_bigrams.txt.gz,
+data/uz/uz_trigrams.txt.gz) count the words of:
+
+  UzCrawl, https://huggingface.co/datasets/tahrirchi/uz-crawl
+  (revision 8fff2d17bb2607c5d875199c8a7256a4a7ce7e39), by Mukhammadsaid
+  Mamasaidov and Abror Shopulatov (Tahrirchi).
+  Licensed under the Apache License, Version 2.0; see
+  data/LICENSE-AOSP-APACHE-2.0.txt for the licence text.
+
+  UzBooks V2, https://huggingface.co/datasets/tahrirchi/uz-books-v2
+  (revision aac9c105622abf1b554640793d1fe17ab2ff28d9), by Mukhammadsaid
+  Mamasaidov and Abror Shopulatov (Tahrirchi).
+  Licensed under the MIT License; see data/LICENSE-UZBOOKS-MIT.txt.
+
+Only word and word-sequence counts are redistributed.
+
 The `models` release (not this tree) carries files repackaged from Google's
 EmbeddingGemma 2 LiteRT-LM bundles (litert-community on Hugging Face):
 
