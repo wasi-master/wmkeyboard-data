@@ -10,6 +10,42 @@ LatinIME (platform/packages/inputmethods/LatinIME, dictionaries/):
 They are the data/*/*_aosp.txt.gz files. scripts/import_aosp.py generates
 them and describes what was changed.
 
+data/en/en_au_aosp.txt.gz starts from the en_AU list of LineageOS LatinIME
+(LineageOS/android_packages_inputmethods_LatinIME, dictionaries/), itself
+made from AOSP's en_GB list:
+
+  Copyright (C) The Android Open Source Project
+  Copyright (C) The LineageOS Project
+  Licensed under the Apache License, Version 2.0.
+
+data/en/en_ca_aosp.txt.gz and data/en/en_au_aosp.txt.gz are respelled for
+Canada and Australia by scripts/import_aosp_regional_en.py, which reads the
+regional spelling codes of the English Speller Database (ESDB, formerly
+SCOWL, https://github.com/en-wl/wordlist). Its notice:
+
+  Copyright 2000-2026 by Kevin Atkinson
+
+  Permission to use, copy, modify, distribute, and sell any part of the
+  English Speller Database (ESDB, previously known as SCOWLv2), or word
+  lists created from it, is hereby granted without fee, provided that the
+  above copyright notice appears in all copies and that both the above
+  copyright notice and this notice appear in supporting documentation.
+  Kevin Atkinson makes no representations about the suitability of this
+  database for any purpose.  It is provided "as is" without express or
+  implied warranty.
+
+  The initial information for Australian English comes from Benjamin Titze:
+
+  Copyright 2016 by Benjamin Titze
+
+  Permission to use, copy, modify, distribute and sell this array, the
+  associated software, and its documentation for any purpose is hereby
+  granted without fee, provided that the above copyright notice appears
+  in all copies and that both that copyright notice and this permission
+  notice appear in supporting documentation. Benjamin Titze makes no
+  representations about the suitability of this array for any
+  purpose. It is provided "as is" without express or implied warranty.
+
 It also redistributes the word list of desktop Avro Phonetic (ibus-avro,
 avrodict.js) as data/bn/bn_avro_dictionary.txt.gz:
 

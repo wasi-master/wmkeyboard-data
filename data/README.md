@@ -107,9 +107,29 @@ its `f` value are kept, and lines are sorted by frequency.
 | `cs`, `da`, `de`, `el`, `es`, `fi`, `fr`, `hr`, `it`, `lt`, `lv`, `nb`, `nl`, `pl`, `ro`, `ru`, `sl`, `sr`, `sv`, `tr` | same code |
 | `en/en_aosp` | `en_US` |
 | `en/en_gb_aosp` | `en_GB` |
+| `en/en_ca_aosp` | `en_US`, respelled Canadian (below) |
+| `en/en_au_aosp` | LineageOS's `en_AU`, respelled Australian (below) |
 | `he/he_aosp` | `iw` |
 | `pt/pt_aosp` | `pt_PT` |
 | `pt_br/pt_br_aosp` | `pt_BR` |
+
+AOSP has no Canadian or Australian list, so
+[`scripts/import_aosp_regional_en.py`](../scripts/import_aosp_regional_en.py)
+makes them from the nearest one, keeping its frequencies and changing only the
+spelling, with the regional spelling codes of the
+[English Speller Database](https://github.com/en-wl/wordlist) (ESDB, formerly
+SCOWL; Copyright 2000-2026 Kevin Atkinson, Australian data Copyright 2016
+Benjamin Titze, permissive notice in [`NOTICE`](../NOTICE)):
+
+- `en/en_ca_aosp` is AOSP's `en_US` with American spellings Canada does not use
+  swapped for Canadian ones (`center` to `centre`, `traveled` to `travelled`;
+  about 730 words). `-ize` stays, as in Canada.
+- `en/en_au_aosp` is the `en_AU` list of
+  [LineageOS LatinIME](https://github.com/LineageOS/android_packages_inputmethods_LatinIME/tree/lineage-21.0/dictionaries)
+  (Apache 2.0; LineageOS made it from AOSP's `en_GB` in 2015), with a dozen
+  British spellings Australia does not use swapped (`programme` to `program`).
+
+The script's docstring has the exact rule and the few words it leaves alone.
 
 ### Desktop Avro dictionary
 
@@ -677,7 +697,7 @@ Each dictionary retains the license of its original source.
 | `jbo` | Public Domain |
 | `bn` word list | Public Domain (from [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist)) |
 | `bn` n-gram lists (`bn_bigrams`, `bn_trigrams`) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (Leipzig Corpora Collection) |
-| AOSP word lists (`<stem>_aosp.txt.gz`) | [Apache 2.0](LICENSE-AOSP-APACHE-2.0.txt), Copyright (C) The Android Open Source Project |
+| AOSP word lists (`<stem>_aosp.txt.gz`) | [Apache 2.0](LICENSE-AOSP-APACHE-2.0.txt), Copyright (C) The Android Open Source Project (`en_au_aosp`: also The LineageOS Project); `en_ca_aosp` and `en_au_aosp` respelled with ESDB data under its own notice (see [`NOTICE`](../NOTICE)) |
 | Emoji dictionaries (`<lang>_emoji.json.gz`) | [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (derived from Unicode CLDR annotations & Unicode Emoji Data via [KDE/kemoji](https://github.com/KDE/kemoji)) |
 
 | Repository code | MIT |
