@@ -1,4 +1,4 @@
-The optional Mozc engine for Japanese: libwmmozc.so, built from Mozc 3.34.6239
+The optional Mozc engine for Japanese: libwmmozc.so, built from Mozc 3.35.6354
 (https://github.com/google/mozc) with Abseil and Protocol Buffers, and the
 Mozc dictionary (mozc.data) it downloads, built from Mozc's sources at the
 same release. Their notices follow, as each project ships them.
