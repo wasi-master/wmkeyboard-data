@@ -294,6 +294,15 @@ it, romanized the app's way, which word the space bar would commit:
 | `ben_news_2020_300K` (3.6M tokens) | 77.8% | 80.8% |
 | `ben-bd_web_2014_100K` (1.4M tokens) | 79.0% | 81.3% |
 
+Those inputs are written by the app's own romanizer, so they measure ranking and
+flatter it: nobody's real spelling is in them. On real romanized typing, with
+the app's spelling map on, the same change moves little:
+
+| Real typing | Before | `bn_full_v2` |
+|---|---:|---:|
+| [Dakshina](https://github.com/google-research-datasets/dakshina) sentences (114k words, romanized by hand) | 64.0% | 65.2% |
+| [BanglaTLit](https://github.com/farhanishmam/BanglaTLit) val + test (20k words, social media posts) | 66.5% | 66.5% |
+
 Rebuild with:
 
 ```sh
