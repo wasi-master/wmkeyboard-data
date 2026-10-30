@@ -323,6 +323,27 @@ python3 scripts/import_leipzig_unigrams.py --script bengali \
 then `scripts/build_phonetic_indexes.sh ../WMKeyboard bn`, since the Bangla
 index is filed over this list.
 
+#### Bangla spellings for the app's map
+
+The app's own `bn_rom.tsv` and `en_bn.tsv` gained about 1,700 spellings from
+[BanglaTLit](https://github.com/farhanishmam/BanglaTLit) (MIT), by
+[`scripts/mine_bn_spellings.py`](../scripts/mine_bn_spellings.py): romanized
+comments from TrickBD that people annotated with the Bangla they mean. Each pair
+is in 2+ posts with at least half of a spelling's posts, and every result was read
+by hand; the script lists what that review took out. BanglaTLit's train file also
+holds Dakshina's Wikipedia sentences, which are excluded so Dakshina stays a fair
+test. Thresholds were set on BanglaTLit's validation split, and neither test below
+informed them.
+
+| Real typing, Space commits the word | Before | After | In first 4 chips, after |
+|---|---:|---:|---:|
+| BanglaTLit test (14.7k words) | 68.3% | 74.3% | 80.0% |
+| Dakshina sentences (114k words) | 65.3% | 66.5% | 71.3% |
+
+[`scripts/phonetic_index/RealTyping.kt`](../scripts/phonetic_index/RealTyping.kt)
+replays the app's commit path to measure this, and its output over the script's
+list is what `--apply` reads.
+
 Every other language with a pair list is built the same way, from the same
 collection, by
 [`scripts/import_leipzig_ngrams.py`](../scripts/import_leipzig_ngrams.py) in
@@ -746,6 +767,7 @@ Each dictionary retains the license of its original source.
 | `jbo` | Public Domain |
 | `bn` word list | Public Domain (from [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist)) |
 | `bn` n-gram lists (`bn_bigrams`, `bn_trigrams`) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (Leipzig Corpora Collection) |
+| Spellings mined by `mine_bn_spellings.py` | [MIT](https://github.com/farhanishmam/BanglaTLit/blob/main/LICENSE) (BanglaTLit) |
 | `bn_full_v2` word counts | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (Leipzig Corpora Collection); the words themselves as `bn` word list |
 | AOSP word lists (`<stem>_aosp.txt.gz`) | [Apache 2.0](LICENSE-AOSP-APACHE-2.0.txt), Copyright (C) The Android Open Source Project (`en_au_aosp`: also The LineageOS Project); `en_ca_aosp` and `en_au_aosp` respelled with ESDB data under its own notice (see [`NOTICE`](../NOTICE)) |
 | Emoji dictionaries (`<lang>_emoji.json.gz`) | [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (derived from Unicode CLDR annotations & Unicode Emoji Data via [KDE/kemoji](https://github.com/KDE/kemoji)) |
