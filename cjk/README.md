@@ -26,6 +26,7 @@ header comments.
 | `jyutping_syllables.txt` | `syllable` — valid toneless Cantonese Jyutping syllable inventory (lowercase ASCII) | 701 rows · ~3.1 KB | [lshk-org/jyutping-table](https://github.com/lshk-org/jyutping-table) | CC BY 4.0 |
 | `hanja.tsv` | `reading⇥word⇥freq` — Hangul word → Hanja, frequency being the row's rank under its reading | ~303k · 7.4 MB | [libhangul](https://github.com/libhangul/libhangul) `data/hanja/hanja.txt`, via `tools/build_hanja.py` | BSD-3-Clause (`LICENSE_hanja.txt`) |
 | `kiwi/kiwi-model-0.24.1.zip` | Kiwi's base model, the release's `kiwi_model_v0.24.1_base.tgz` repacked flat as a zip, for Korean spacing correction | 9 files · 88 MB | [bab2min/Kiwi](https://github.com/bab2min/Kiwi) | Apache-2.0 (`kiwi/LICENSE`, `kiwi/NOTICE`) |
+| `louis/louis-tables-3.39.0.zip` | The translation tables of [liblouis 3.39.0](https://github.com/liblouis/liblouis), every table file in the release flat as a zip, for contracted braille. Not a reading table | 3.6 MB | LGPL-2.1-or-later, `LICENSE_louis.txt` |
 | `zinnia/*.model` | zinnia handwriting models, not reading tables: Japanese, Simplified and Traditional Chinese. See [`zinnia/README.md`](zinnia/README.md) | 26–52 MB each | [Tegaki](https://github.com/tegaki/tegaki) 0.3, trained on Tomoe | LGPL 2.1 |
 
 Stroke classes: `1`=一 (héng), `2`=丨 (shù), `3`=丿 (piě), `4`=丶 (diǎn), `5`=乙 (zhé).
