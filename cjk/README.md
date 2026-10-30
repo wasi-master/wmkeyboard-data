@@ -21,6 +21,7 @@ header comments.
 | `ja_kana.tsv` | `reading⇥word⇥freq` — hiragana reading → kanji/kana surface | ~1.08M · 40 MB | [Google Mozc](https://github.com/google/mozc) OSS dictionary (`dictionary_oss`) | BSD 3-Clause |
 | `stroke.tsv` | `strokeCode⇥hanzi⇥freq` — 1–5 stroke-class sequence → Simplified Hanzi | ~20.9k · 445 KB | [yefeijiang/Chinese-characters-code-table](https://github.com/yefeijiang/Chinese-characters-code-table); frequencies from CC-CEDICT ordering | BSD 2-Clause |
 | `cangjie.tsv` | `code⇥hanzi⇥freq` — 1–5 Cangjie radical code (lowercase ASCII a–y) → Hanzi | ~29.2k · 351 KB | [Unicode Unihan Database](https://www.unicode.org/Public/UCD/latest/ucd/Unihan.zip) (`kCangjie` field) | Unicode License V3 |
+| `wubi86.tsv` | `code⇥word⇥freq` — 1–4 Wubi 86 code (lowercase ASCII a–y) → Simplified Hanzi characters and phrases, with the source's web hit counts halved | ~93.3k · 1.7 MB | [ibus-table-chinese](https://github.com/mike-fabian/ibus-table-chinese) `wubi-jidian86.txt` (Jidian table by Wozy), via `tools/build_wubi_dict.py` | Freely redistributable (`LICENSE_wubi.txt`) |
 | `jyutping.tsv` | `reading⇥word⇥freq` — toneless concatenated Jyutping (lowercase ASCII) → Traditional Hanzi | ~162.6k · 3.4 MB | [rime-cantonese](https://github.com/rime/rime-cantonese) & [CC-Canto](https://cantonese.org/); frequencies and generated standard-vocabulary rows from [`data/zh_tw`](../data/zh_tw) | CC BY 4.0 / CC BY-SA 3.0 / CC BY-SA 4.0 |
 | `s2t_phrases.txt` | `simplified⇥traditional [alternatives…]` — Simplified word → its Traditional spelling, OpenCC text format, sorted by key; the first value is the conversion. Used by Traditional output, not for typing | ~49.8k · 1.0 MB | [OpenCC](https://github.com/BYVoid/OpenCC) 1.4.2: `STPhrases` plus `STPhrases_GeneratedFromRegionalPhrases` | Apache-2.0 |
 | `jyutping_syllables.txt` | `syllable` — valid toneless Cantonese Jyutping syllable inventory (lowercase ASCII) | 701 rows · ~3.1 KB | [lshk-org/jyutping-table](https://github.com/lshk-org/jyutping-table) | CC BY 4.0 |
@@ -53,6 +54,7 @@ pinyin.tsv    2489699  8baab4c758499272e36dba4bda4253317a4f93bb88bcf386ea86196c5
 ja_kana.tsv  41531397  189214b81968c857d7cb020c52fc087ee44918ab28534194f79ea66f45c17a70
 stroke.tsv     445573  87d790c976b28e54107aef1af4ea3cea6e608500de0bcb3c01af7d8f1f8c52e8
 cangjie.tsv    351337  77a5a4c054019e3a3ea875e86a37cb08b71ce29392b6680208bb0c5749feb25d
+wubi86.tsv    1742116  fe1e2da8e2db4d0265bb8295817f96ea32c607c3ffe5a9e6d557b7f5d57abff6
 jyutping.tsv  3416241  cc0666179df615846328ed1e86b621919553d8ff30905f30d0b6ff45315bcfba
 s2t_phrases.txt 1021797  a8c1ff12191edfc8dc435d23736e2bf097357650ea195f51767d397c5b70908c
 ```
@@ -67,6 +69,7 @@ python3 tools/build_cedict_pinyin.py   # → pinyin_v2.tsv (from CC-CEDICT; read
 python3 tools/build_mozc_ja_kana.py    # → ja_kana.tsv  (from Mozc)
 python3 tools/build_stroke_dict.py     # → stroke.tsv   (needs pinyin.tsv for freq)
 python3 tools/build_cangjie_dict.py    # → cangjie.tsv  (from Unihan)
+python3 tools/build_wubi_dict.py       # → wubi86.tsv   (from ibus-table-chinese, pinned revision)
 python3 tools/build_jyutping_dict.py   # → jyutping.tsv (from rime-cantonese & CC-Canto; reads data/zh_tw for frequencies)
 ```
 

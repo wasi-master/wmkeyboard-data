@@ -1,0 +1,27 @@
+wubi86.tsv is cut from the Jidian Wubi 86 table in ibus-table-chinese:
+
+    https://github.com/mike-fabian/ibus-table-chinese
+    tables/wubi-jidian/wubi-jidian86.txt
+    revision 44301450e681c23d60301747856c74b5b9d1312e, SERIAL_NUMBER 20250526
+
+That file carries its own licence line, quoted here in full:
+
+    LICENSE = Freely redistributable without restriction
+
+    AUTHOR = Wozy <wozy.in@gmail.com>
+
+Its changelog credits Chen Xing <cxcxcxcx@gmail.com> (conversion from the
+JidianWubi table), Yu Yuwei <acevery@gmail.com> (Jidian 6, Google frequencies)
+and Ding-Yi Chen <dchen@redhat.com>.
+
+ibus-table-chinese as a whole is GPL-3.0, with each table under its own terms.
+Fedora packages this table on its own as ibus-table-chinese-wubi-jidian, under
+License: LicenseRef-Fedora-UltraPermissive. Debian ships the same table in
+rime-wubi, whose copyright file lists it as derived from ibus-table (LGPL) and
+based on the original work of Wang Yongmin (public domain).
+
+Changes here: rows filtered and weights halved, by tools/build_wubi_dict.py.
+
+The Haifeng Wubi table in the same repository was not used. Its COPYING is BSD
+3-Clause, but its README says the table may not be used in commercial programs
+without permission.
