@@ -70,10 +70,16 @@ private fun bundledBangla(): List<Pair<String, Int>> {
     return requireNotNull(MappedTrie.open(packed)) { "bn: the bundled list does not read back" }.entries()
 }
 
+/**
+ * The list [lang]'s table is filed over, the one the app's catalog downloads:
+ * Bangla's counted `bn_full_v2` since table revision 2, `<lang>_full` elsewhere.
+ */
+private fun listName(lang: String): String = if (lang == "bn") "bn_full_v2.txt.gz" else "${lang}_full.txt.gz"
+
 fun main(args: Array<String>) {
     val data = File(args[0])
     for (lang in args.drop(1)) {
-        val list = File(data, "$lang/${lang}_full.txt.gz")
+        val list = File(data, "$lang/${listName(lang)}")
         // Through the app's own trie and back, as a download goes: the trie
         // merges duplicates and snaps frequencies, and the index is filed from
         // what the trie hands back, in its order.

@@ -65,7 +65,7 @@ This repository redistributes and packages data from the following open-source p
 | [ebukva/bs_BA](https://github.com/ebukva/bs_BA) (Hunspell, expanded by [`scripts/import_bs_hunspell.py`](../scripts/import_bs_hunspell.py)) over the OpenSubtitles counts | `bs` |
 | [kasunw22/sinhala-para-dict](https://github.com/kasunw22/sinhala-para-dict) | `si` |
 | [vigneshwaran-chandrasekaran/tamil-language-words-list](https://github.com/vigneshwaran-chandrasekaran/tamil-language-words-list) | `ta` |
-| [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist) | `bn` |
+| [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist) | `bn` (the words; `bn_full_v2`'s counts are from the Leipzig corpora, see [Bangla word frequencies](#bangla-word-frequencies)) |
 | [Leipzig Corpora Collection](https://wortschatz.uni-leipzig.de/de) | `aa`, `af`, `ak`, `am`, `an`, `as`, `az`, `ba`, `be`, `bm`, `bo`, `br`, `ce`, `co`, `cv`, `cy`, `div`, `ee`, `eo`, `eu`, `ff`, `fo`, `fy`, `gl`, `gn`, `gu`, `gv`, `ha`, `hi`, `ht`, `hy`, `ia`, `ie`, `ig`, `ina`, `io`, `jv`, `ka`, `kg`, `ki`, `kk`, `kl`, `km`, `kn`, `koi`, `kok`, `ky`, `lg`, `li`, `ln`, `lo`, `lv`, `mn`, `mr`, `ms`, `mt`, `my`, `myv`, `nd`, `ne`, `nn`, `nr`, `nv`, `ny`, `oc`, `om`, `os`, `pa`, `ps`, `qu`, `rm`, `sco`, `se`, `sh`, `sna`, `so`, `ssw`, `st`, `sun`, `sw`, `te`, `tg`, `ti`, `tk`, `tl`, `tn`, `ts`, `tt`, `ug`, `uz`, `ve`, `vi`, `vo`, `wa`, `wo`, `xh`, `yi`, `yo`, `za`, `zu` |
 | [Tatoeba sentence corpus](https://tatoeba.org/), counted by [`scripts/import_tatoeba_words.py`](../scripts/import_tatoeba_words.py) | `arq`, `ber`, `bzt`, `ckt`, `dar`, `enm`, `fkv`, `gcf`, `gos`, `grc`, `hbo`, `hoc` (`hoc_latn`), `hrx`, `isv` (`isv_latn`), `kha`, `kzj`, `mus`, `nnb`, `nus`, `orv`, `ota` (`ota_full` and `ota_latn`), `pau`, `prg`, `rif`, `rn`, `rom`, `sdh`, `swc`, `swg`, `thv`, `ttq` |
 | [eBible corpus](https://github.com/BibleNLP/ebible) and [Glot500](https://huggingface.co/datasets/cis-lmu/Glot500), counted by [`scripts/import_corpus_words.py`](../scripts/import_corpus_words.py) | `acm`, `afb`, `ajp`, `aln`, `apc`, `arn`, `bba`, `bem`, `dgr`, `emp`, `kaa` (`kaa_latn`), `kac`, `kam`, `kek`, `kjh`, `knf`, `nch`, `ngu`, `nop`, `tgo`, `umb`, `uz` (`uz_cyrl`) |
@@ -273,6 +273,44 @@ python3 scripts/import_leipzig_ngrams.py --lang bn --script bengali \
     https://downloads.wortschatz-leipzig.de/corpora/ben_news_2019_300K.tar.gz \
     https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2011_100K.tar.gz
 ```
+
+#### Bangla word frequencies
+
+`bn/bn_full.txt.gz` is a bare word list: every one of its 451,348 words says
+`1`. `bn/bn_full_v2.txt.gz` is the same words with real counts, made by
+[`scripts/import_leipzig_unigrams.py`](../scripts/import_leipzig_unigrams.py)
+over the eight corpora and weights above, with the n-gram build's tokenizer, so
+a word is counted exactly where a pair would have been. 248,000 of the words
+occur in the 58.5 million tokens; every count has 2 added, so the 203,000 that
+never occur stay in the list at 2, above the app's noise cut. Sorted by count,
+ties in code-point order. `bn_full.txt.gz` stays unchanged for the app versions
+that fetch it.
+
+Measured by leaving one corpus out of the counts and asking, for each word of
+it, romanized the app's way, which word the space bar would commit:
+
+| Held out | Today (flat list, bundled ranking) | `bn_full_v2` with the bundled frequencies added ×4 |
+|---|---:|---:|
+| `ben_news_2020_300K` (3.6M tokens) | 77.8% | 80.8% |
+| `ben-bd_web_2014_100K` (1.4M tokens) | 79.0% | 81.3% |
+
+Rebuild with:
+
+```sh
+python3 scripts/import_leipzig_unigrams.py --script bengali \
+    --vocab data/bn/bn_full.txt.gz --out data/bn/bn_full_v2.txt.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben-bd_web_2017_1M.tar.gz#3 \
+    https://downloads.wortschatz-leipzig.de/corpora/ben-bd_web_2014_100K.tar.gz#3 \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2017_1M.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2015_1M.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_wikipedia_2021_1M.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_news_2020_300K.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_news_2019_300K.tar.gz \
+    https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2011_100K.tar.gz
+```
+
+then `scripts/build_phonetic_indexes.sh ../WMKeyboard bn`, since the Bangla
+index is filed over this list.
 
 Every other language with a pair list is built the same way, from the same
 collection, by
@@ -697,6 +735,7 @@ Each dictionary retains the license of its original source.
 | `jbo` | Public Domain |
 | `bn` word list | Public Domain (from [tahmid02016/bangla-wordlist](https://github.com/tahmid02016/bangla-wordlist)) |
 | `bn` n-gram lists (`bn_bigrams`, `bn_trigrams`) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (Leipzig Corpora Collection) |
+| `bn_full_v2` word counts | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (Leipzig Corpora Collection); the words themselves as `bn` word list |
 | AOSP word lists (`<stem>_aosp.txt.gz`) | [Apache 2.0](LICENSE-AOSP-APACHE-2.0.txt), Copyright (C) The Android Open Source Project (`en_au_aosp`: also The LineageOS Project); `en_ca_aosp` and `en_au_aosp` respelled with ESDB data under its own notice (see [`NOTICE`](../NOTICE)) |
 | Emoji dictionaries (`<lang>_emoji.json.gz`) | [Unicode License Agreement (v3)](https://www.unicode.org/license.txt) / [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/) (derived from Unicode CLDR annotations & Unicode Emoji Data via [KDE/kemoji](https://github.com/KDE/kemoji)) |
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Rebuilds data/<lang>/<lang>_phonetic_v<format>r<fold>.wmpi.gz, the phonetic
-# index WM Keyboard folds over data/<lang>/<lang>_full.txt.gz, for every
+# index WM Keyboard folds over data/<lang>/<lang>_full.txt.gz (Bangla's over
+# bn_full_v2.txt.gz, the list with corpus counts), for every
 # language whose index is a table (wasi-master/wmkeyboard#716).
 #
 # Compiles WM Keyboard's own fold code (core/language transliteration) and its
@@ -45,10 +46,22 @@ esac
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
+# Khipro's spec files are fetched on the phone (Android and coroutines), and no
+# fold reads Khipro, so its three files stay out. The JNI loaders live in
+# core/language's engine package and core/prediction's PredictionNative.
+ENGINE="$APP/core/language/src/main/java/com/wasimaster/wmkeyboard/core/engine"
+SOURCES=()
+for f in "$SRC"/*.kt; do
+    case "$(basename "$f")" in
+        Khipro.kt | KhiproRomanizer.kt | KhiproSpecs.kt) ;;
+        *) SOURCES+=("$f") ;;
+    esac
+done
 "$KOTLINC/bin/kotlinc" -nowarn -d "$WORK/classes" \
-    "$SRC"/*.kt \
+    "${SOURCES[@]}" "$ENGINE/NativeEngine.kt" "$ENGINE/NativeHandles.kt" \
     "$TRIE/Trie.kt" "$TRIE/TrieWalker.kt" "$TRIE/TrieCompleter.kt" "$TRIE/PackedTrie.kt" \
     "$TRIE/PackedTrieCodec.kt" "$TRIE/RankFloorCache.kt" "$TRIE/MappedTrie.kt" "$TRIE/DictionaryLoader.kt" \
+    "$TRIE/PredictionNative.kt" \
     "$ROOT/scripts/phonetic_index/PhoneticIndexTables.kt"
 "$JAVA_HOME/bin/java" -Xmx6g -Dwmkeyboard.engine.lib="$LIB" -Dwmkeyboard.app="$APP" \
     -cp "$WORK/classes:$KOTLINC/lib/kotlin-stdlib.jar" PhoneticIndexTablesKt \
