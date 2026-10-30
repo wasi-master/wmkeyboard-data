@@ -30,6 +30,7 @@ header comments.
 | `tashkeel/catt-eo-v2.int8.onnx` | [CATT](https://github.com/abjadai/catt)'s encoder-only checkpoint `best_eo_mlm_ns_epoch_193.pt` (release v2), exported to one ONNX graph and quantized to int8, for adding tashkeel. Not a reading table | 21 MB | Apache-2.0, `LICENSE_catt.txt` |
 | `hunspell/hunspell-tr-1.1.1.zip` | [hunspell-tr](https://github.com/tdd-ai/hunspell-tr)'s `tr_TR.aff` and `tr_TR.dic`, unchanged, for checking Turkish. Not a reading table | 14.5 MB | MPL-2.0, `LICENSE_hunspell_tr.txt` |
 | `furigana/ja_furigana.tsv` | `word⇥reading⇥freq` sorted by bytes: `ja_kana.tsv`'s words holding kanji, each with its commonest reading, for adding furigana. Not a conversion table | ~656k · 24 MB | [Google Mozc](https://github.com/google/mozc), BSD-3-Clause, `LICENSE_mozc.txt` |
+| `yo/ru_yo_safe.txt` | [eyo-kernel](https://github.com/e2yo/eyo-kernel)'s `dictionary/safe.txt`, unchanged, for restoring ё in Russian. Not a reading table | 14.6k lines · 865 KB | MIT, `LICENSE_eyo.txt` |
 | `zinnia/*.model` | zinnia handwriting models, not reading tables: Japanese, Simplified and Traditional Chinese. See [`zinnia/README.md`](zinnia/README.md) | 26–52 MB each | [Tegaki](https://github.com/tegaki/tegaki) 0.3, trained on Tomoe | LGPL 2.1 |
 
 Stroke classes: `1`=一 (héng), `2`=丨 (shù), `3`=丿 (piě), `4`=丶 (diǎn), `5`=乙 (zhé).
