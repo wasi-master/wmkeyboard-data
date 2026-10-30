@@ -200,6 +200,8 @@ Bangla is taken from [istiaqfuad/bangla-english-banglish-pairs](https://huggingf
 The following languages are taken from the [Aksharantar Corpus](https://huggingface.co/datasets/ai4bharat/Aksharantar) which is under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/): Hindi, Urdu, Tamil, Telugu, Malayalam, Punjabi, Marathi, Gujarati, Kannada
 
 
+The `<lang>_rom_v2.txt.gz` lists of Bangla, Gujarati, Hindi, Kannada, Malayalam, Marathi, Punjabi, Sinhala, Tamil, Telugu and Urdu add the [Dakshina dataset](https://github.com/google-research-datasets/dakshina) to the list named `<lang>_rom.txt.gz`, and are under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) as Dakshina is. Dakshina supplies romanizations native speakers wrote for Wikipedia's words, and word counts from 10,000 romanized sentences per language. `scripts/merge_dakshina_rom.py` builds them. Roark, Wolf-Sonkin, Kirov, Mielke, Johny, Demirsahin and Hall, "Processing South Asian Languages Written in the Latin Script: the Dakshina Dataset", LREC 2020.
+
 Arabic was taken from (HadjerHaninebgt7878/ELNER-DZ)[https://huggingface.co/datasets/HadjerHaninebgt7878/ELNER-DZ/] which is under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 Nepali was taken from [Boredoom17/Nepali-Corpus](https://huggingface.co/datasets/Boredoom17/Nepali-Corpus) specifically the romanized subset which is under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)

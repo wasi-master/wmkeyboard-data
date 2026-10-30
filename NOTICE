@@ -104,3 +104,12 @@ EmbeddingGemma 2 LiteRT-LM bundles (litert-community on Hugging Face):
   Licensed under the Apache License, Version 2.0. Only the container
   format changed; scripts/repack_embeddinggemma2.py says how, and
   models/README.md lists each file.
+
+The data/*/*_rom_v2.txt.gz files merge the Dakshina dataset
+(https://github.com/google-research-datasets/dakshina):
+
+  Copyright Google LLC
+  Licensed under CC BY-SA 4.0, as are those files.
+  https://creativecommons.org/licenses/by-sa/4.0/
+
+scripts/merge_dakshina_rom.py generates them and describes what was changed.
