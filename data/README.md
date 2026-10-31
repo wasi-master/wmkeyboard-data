@@ -431,6 +431,56 @@ The memory counter packs a trigram into one 64-bit number, so it uses only the
 2,097,151 commonest words of a longer list (Hungarian, Finnish, Arabic and
 Turkish have more). The words it leaves out are each seen about once.
 
+### Word lists and pairs from web corpora
+
+Most languages here started with a list counted from their Wikipedia and pairs
+counted from a few Tatoeba sentences, which left Maithili with no pairs at all
+and Amharic with 44 lines' worth. [`scripts/build_corpus_packs.py`](../scripts/build_corpus_packs.py)
+rebuilds both from far larger open corpora, reading each language's sources in
+the order [`scripts/corpus_packs.json`](../scripts/corpus_packs.json) gives until
+it reaches 30 million words (8 million for Thai, Lao, Khmer and Burmese, whose
+words have to be cut one by one):
+
+| Source | Licence | Languages used |
+|---|---|---:|
+| [AI4Bharat Sangraha](https://huggingface.co/datasets/ai4bharat/sangraha), verified split | CC BY 4.0 | 9 |
+| [HPLT 2.0 cleaned](https://huggingface.co/datasets/HPLT/HPLT2.0_cleaned) | CC0 | 125 |
+| [MADLAD-400](https://huggingface.co/datasets/allenai/MADLAD-400), clean split | ODC-BY | 184 |
+| Wikipedia article dumps | CC BY-SA 4.0 | 174 |
+| [Tatoeba](https://tatoeba.org/) sentences, each counted three times | CC BY 2.0 FR | 201 |
+
+341 languages came out of it with pairs, 118 of them with over 100,000. 260 also
+got a word list. A pack that replaced a published one is `<lang>_bigrams_v2` and
+`<lang>_trigrams_v2`, and a list is `<lang>_full_v2`, because released apps fetch
+the old names. The first two lines of the script's docstring say what it writes,
+and the rest says what it refuses: a word in the wrong script, a word its corpus
+uses much less than a neighbouring language does, Hindi or Bengali documents in a
+smaller language's crawl, Zawgyi Burmese, mojibake, repeated lines, and Lua from
+a wiki's Module pages. It also repairs lookalike letters, which turned out to be
+the difference between words and rubble in several languages: Mongolian web text
+is full of Latin letters standing in for Cyrillic ones, Chuvash writes ă for ӑ,
+Ossetian æ for ӕ, Komi ö for ӧ, and Caucasian languages type the palochka as a
+capital I.
+
+Left out on purpose: Shan, Mon and Pa'O (`shn`, `mnw`, `blk`),
+because the keyboard's segmenter is trained on Burmese and cuts them into
+fragments; Karakalpak (`kaa`), whose MADLAD text is Uzbek; Iu Mien and Tausug
+(`ium`, `tsg`), whose text is pinyin-like junk and kitchen-cabinet spam. Web text
+has no way to give Kashmiri in Devanagari, Dogri or Rajasthani much: `doi`, `raj`
+and `gbm` got a few thousand pairs from under 70,000 words. The `ks_arab` folder
+is Kashmiri in the Perso-Arabic script the app's layout types; `ks` is Devanagari.
+
+Rebuild one language with:
+
+```sh
+cargo build --release --example segment_lines   # in WMKeyboard/native/wm-engine
+python3 scripts/build_corpus_packs.py --only mai --work /tmp/packs \
+    --segmenter WMKeyboard/native/wm-engine/target/release/examples/segment_lines
+```
+
+Delete the language's untracked outputs first: a `_bigrams` file left by an
+earlier run reads as a published one, and the next build would name itself `_v2`.
+
 ### eBible and Glot500 Word Lists
 
 22 lists come from the redistributable Bible translations of the

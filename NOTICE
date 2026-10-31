@@ -113,3 +113,14 @@ The data/*/*_rom_v2.txt.gz files merge the Dakshina dataset
   https://creativecommons.org/licenses/by-sa/4.0/
 
 scripts/merge_dakshina_rom.py generates them and describes what was changed.
+
+Files named in scripts/corpus_packs.json were counted over these corpora by
+scripts/build_corpus_packs.py. They hold word and word-sequence counts, not text:
+
+  HPLT 2.0 cleaned, CC0 1.0, https://hplt-project.org/
+  MADLAD-400, Kudugunta et al. 2023, ODC-BY,
+    https://huggingface.co/datasets/allenai/MADLAD-400
+  Sangraha, AI4Bharat, Khan et al. 2024, CC BY 4.0,
+    https://huggingface.co/datasets/ai4bharat/sangraha
+  Wikipedia, CC BY-SA 4.0, https://dumps.wikimedia.org/
+  Tatoeba, CC BY 2.0 FR, https://tatoeba.org/

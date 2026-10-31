@@ -1,0 +1,2769 @@
+{
+ "ab": {
+  "sources": [
+   "w:ab",
+   "t:abk"
+  ]
+ },
+ "ace": {
+  "sources": [
+   "h:ace_Latn#1",
+   "m:ace",
+   "w:ace",
+   "t:ace"
+  ]
+ },
+ "acf": {
+  "script": "LATIN",
+  "sources": [
+   "m:acf",
+   "t:acf"
+  ]
+ },
+ "ach": {
+  "script": "LATIN",
+  "sources": [
+   "m:ach",
+   "t:ach"
+  ]
+ },
+ "acm": {
+  "sources": [
+   "w:acm",
+   "t:acm"
+  ]
+ },
+ "ada": {
+  "script": "LATIN",
+  "sources": [
+   "m:ada",
+   "t:ada"
+  ]
+ },
+ "adh": {
+  "script": "LATIN",
+  "sources": [
+   "m:adh",
+   "t:adh"
+  ]
+ },
+ "ady": {
+  "sources": [
+   "m:ady",
+   "w:ady",
+   "t:ady"
+  ]
+ },
+ "af": {
+  "sources": [
+   "h:afr_Latn#15",
+   "m:af",
+   "w:af",
+   "t:afr"
+  ]
+ },
+ "afb": {
+  "sources": [
+   "w:afb",
+   "t:afb"
+  ]
+ },
+ "ahk": {
+  "script": "LATIN",
+  "sources": [
+   "m:ahk",
+   "t:ahk"
+  ]
+ },
+ "ajp": {
+  "sources": [
+   "w:ajp",
+   "t:ajp"
+  ]
+ },
+ "ak": {
+  "sources": [
+   "h:twi_Latn#1",
+   "m:ak",
+   "w:ak",
+   "t:aka"
+  ]
+ },
+ "aln": {
+  "sources": [
+   "w:aln",
+   "t:aln"
+  ]
+ },
+ "alt": {
+  "sources": [
+   "m:alt",
+   "w:alt",
+   "t:alt"
+  ]
+ },
+ "alz": {
+  "script": "LATIN",
+  "sources": [
+   "m:alz",
+   "t:alz"
+  ]
+ },
+ "am": {
+  "sources": [
+   "h:amh_Ethi#6",
+   "m:am",
+   "w:am",
+   "t:amh"
+  ]
+ },
+ "ami": {
+  "sources": [
+   "w:ami",
+   "t:ami"
+  ]
+ },
+ "an": {
+  "sources": [
+   "w:an",
+   "t:arg"
+  ]
+ },
+ "ann": {
+  "sources": [
+   "m:ann",
+   "w:ann",
+   "t:ann"
+  ]
+ },
+ "anp": {
+  "sources": [
+   "w:anp",
+   "t:anp"
+  ]
+ },
+ "apc": {
+  "sources": [
+   "w:apc",
+   "t:apc"
+  ]
+ },
+ "arn": {
+  "sources": [
+   "m:arn",
+   "w:arn",
+   "t:arn"
+  ]
+ },
+ "arq": {
+  "sources": [
+   "t:arq"
+  ]
+ },
+ "ary": {
+  "sources": [
+   "w:ary",
+   "t:ary"
+  ]
+ },
+ "arz": {
+  "sources": [
+   "w:arz",
+   "t:arz",
+   "m:arz"
+  ]
+ },
+ "ast": {
+  "sources": [
+   "h:ast_Latn#3",
+   "w:ast",
+   "t:ast"
+  ]
+ },
+ "atj": {
+  "sources": [
+   "w:atj",
+   "t:atj"
+  ]
+ },
+ "av": {
+  "sources": [
+   "m:av",
+   "w:av",
+   "t:av"
+  ]
+ },
+ "awa": {
+  "sources": [
+   "m:awa",
+   "w:awa",
+   "t:awa"
+  ]
+ },
+ "ay": {
+  "sources": [
+   "h:ayr_Latn#1",
+   "m:ay",
+   "w:ay",
+   "t:aym"
+  ]
+ },
+ "azb": {
+  "sources": [
+   "h:azb_Arab#2",
+   "t:azb"
+  ]
+ },
+ "ba": {
+  "sources": [
+   "h:bak_Cyrl#3",
+   "m:ba",
+   "w:ba",
+   "t:bak"
+  ]
+ },
+ "ban": {
+  "sources": [
+   "h:ban_Latn#1",
+   "m:ban",
+   "w:ban",
+   "t:ban"
+  ]
+ },
+ "bar": {
+  "sources": [
+   "w:bar",
+   "t:bar"
+  ]
+ },
+ "bas": {
+  "script": "LATIN",
+  "sources": [
+   "m:bas",
+   "t:bas"
+  ]
+ },
+ "bat_smg": {
+  "sources": [
+   "w:bat_smg",
+   "t:bat_smg"
+  ]
+ },
+ "bba": {
+  "sources": [
+   "w:bba",
+   "t:bba"
+  ]
+ },
+ "bbc": {
+  "sources": [
+   "m:bbc",
+   "w:bbc",
+   "t:bbc"
+  ]
+ },
+ "bci": {
+  "script": "LATIN",
+  "sources": [
+   "m:bci",
+   "t:bci"
+  ]
+ },
+ "bcl": {
+  "sources": [
+   "w:bcl",
+   "t:bcl"
+  ]
+ },
+ "bdr": {
+  "sources": [
+   "w:bdr",
+   "t:bdr"
+  ]
+ },
+ "be": {
+  "sources": [
+   "h:bel_Cyrl#34",
+   "m:be",
+   "w:be",
+   "t:bel"
+  ]
+ },
+ "bem": {
+  "sources": [
+   "h:bem_Latn#1",
+   "w:bem",
+   "t:bem"
+  ]
+ },
+ "bew": {
+  "sources": [
+   "m:bew",
+   "w:bew",
+   "t:bew"
+  ]
+ },
+ "bgp": {
+  "script": "ARABIC",
+  "sources": [
+   "m:bgp",
+   "t:bgp"
+  ]
+ },
+ "bho": {
+  "sources": [
+   "h:bho_Deva#1",
+   "m:bho",
+   "w:bho",
+   "t:bho"
+  ]
+ },
+ "bi": {
+  "sources": [
+   "m:bi",
+   "w:bi",
+   "t:bis"
+  ]
+ },
+ "bim": {
+  "script": "LATIN",
+  "sources": [
+   "m:bim",
+   "t:bim"
+  ]
+ },
+ "bjn": {
+  "sources": [
+   "h:bjn_Latn#1",
+   "w:bjn",
+   "t:bjn"
+  ]
+ },
+ "blo": {
+  "sources": [
+   "w:blo",
+   "t:blo"
+  ]
+ },
+ "bm": {
+  "sources": [
+   "h:bam_Latn#1",
+   "m:bm",
+   "w:bm",
+   "t:bam"
+  ]
+ },
+ "bo": {
+  "sources": [
+   "h:bod_Tibt#2",
+   "m:bo",
+   "w:bo",
+   "t:bod"
+  ]
+ },
+ "bpy": {
+  "sources": [
+   "w:bpy",
+   "t:bpy"
+  ]
+ },
+ "bqc": {
+  "script": "LATIN",
+  "sources": [
+   "m:bqc",
+   "t:bqc"
+  ]
+ },
+ "br": {
+  "sources": [
+   "m:br",
+   "w:br",
+   "t:bre"
+  ]
+ },
+ "brx": {
+  "sources": [
+   "s:brx",
+   "m:brx",
+   "w:brx",
+   "t:brx"
+  ]
+ },
+ "btm": {
+  "sources": [
+   "w:btm",
+   "t:btm"
+  ]
+ },
+ "bts": {
+  "script": "BATAK",
+  "sources": [
+   "m:bts",
+   "t:bts"
+  ]
+ },
+ "btx": {
+  "script": "LATIN",
+  "sources": [
+   "m:btx",
+   "t:btx"
+  ]
+ },
+ "bug": {
+  "sources": [
+   "h:bug_Latn#1",
+   "t:bug"
+  ]
+ },
+ "bum": {
+  "script": "LATIN",
+  "sources": [
+   "m:bum",
+   "t:bum"
+  ]
+ },
+ "bus": {
+  "script": "LATIN",
+  "sources": [
+   "m:bus",
+   "t:bus"
+  ]
+ },
+ "bxr": {
+  "sources": [
+   "w:bxr",
+   "t:bxr"
+  ]
+ },
+ "bzt": {
+  "sources": [
+   "t:bzt"
+  ]
+ },
+ "cab": {
+  "script": "LATIN",
+  "sources": [
+   "m:cab",
+   "t:cab"
+  ]
+ },
+ "cbk": {
+  "sources": [
+   "m:cbk",
+   "w:cbk",
+   "t:cbk"
+  ]
+ },
+ "cce": {
+  "script": "LATIN",
+  "sources": [
+   "m:cce",
+   "t:cce"
+  ]
+ },
+ "ccp": {
+  "sources": [
+   "w:ccp",
+   "t:ccp"
+  ]
+ },
+ "ce": {
+  "sources": [
+   "m:ce",
+   "t:che"
+  ]
+ },
+ "ceb": {
+  "sources": [
+   "h:ceb_Latn#2",
+   "m:ceb",
+   "t:ceb"
+  ]
+ },
+ "ch": {
+  "sources": [
+   "m:ch",
+   "w:ch",
+   "t:cha"
+  ]
+ },
+ "chr": {
+  "sources": [
+   "m:chr",
+   "w:chr",
+   "t:chr"
+  ]
+ },
+ "chy": {
+  "sources": [
+   "w:chy",
+   "t:chy"
+  ]
+ },
+ "cjk": {
+  "script": "LATIN",
+  "sources": [
+   "h:cjk_Latn#1",
+   "t:cjk"
+  ]
+ },
+ "ckb": {
+  "sources": [
+   "h:ckb_Arab#4",
+   "m:ckb",
+   "w:ckb",
+   "t:ckb"
+  ]
+ },
+ "ckt": {
+  "sources": [
+   "t:ckt"
+  ]
+ },
+ "cnh": {
+  "script": "LATIN",
+  "sources": [
+   "m:cnh",
+   "t:cnh"
+  ]
+ },
+ "co": {
+  "sources": [
+   "m:co",
+   "w:co",
+   "t:cos"
+  ]
+ },
+ "crh": {
+  "sources": [
+   "h:crh_Latn#1",
+   "m:crh",
+   "w:crh",
+   "t:crh"
+  ]
+ },
+ "crs": {
+  "script": "LATIN",
+  "sources": [
+   "m:crs",
+   "t:crs"
+  ]
+ },
+ "csb": {
+  "sources": [
+   "w:csb",
+   "t:csb"
+  ]
+ },
+ "cv": {
+  "sources": [
+   "m:cv",
+   "w:cv",
+   "t:chv"
+  ]
+ },
+ "cy": {
+  "sources": [
+   "h:cym_Latn#6",
+   "m:cy",
+   "w:cy",
+   "t:cym"
+  ]
+ },
+ "dag": {
+  "sources": [
+   "w:dag",
+   "t:dag"
+  ]
+ },
+ "dar": {
+  "sources": [
+   "t:dar"
+  ]
+ },
+ "dga": {
+  "sources": [
+   "w:dga",
+   "t:dga"
+  ]
+ },
+ "dgr": {
+  "sources": [
+   "w:dgr",
+   "t:dgr"
+  ]
+ },
+ "dik": {
+  "script": "LATIN",
+  "sources": [
+   "h:dik_Latn#1",
+   "t:dik"
+  ]
+ },
+ "din": {
+  "sources": [
+   "h:dik_Latn#1",
+   "m:din",
+   "w:din",
+   "t:din"
+  ]
+ },
+ "diq": {
+  "sources": [
+   "w:diq",
+   "t:diq"
+  ]
+ },
+ "dje": {
+  "script": "LATIN",
+  "sources": [
+   "m:dje",
+   "t:dje"
+  ]
+ },
+ "djk": {
+  "script": "LATIN",
+  "sources": [
+   "m:djk",
+   "t:djk"
+  ]
+ },
+ "doi": {
+  "min_tokens": 20000,
+  "sources": [
+   "s:doi",
+   "m:doi",
+   "w:doi",
+   "t:doi"
+  ]
+ },
+ "dsb": {
+  "sources": [
+   "w:dsb",
+   "t:dsb"
+  ]
+ },
+ "dtp": {
+  "sources": [
+   "m:dtp",
+   "w:dtp",
+   "t:dtp"
+  ]
+ },
+ "dty": {
+  "sources": [
+   "w:dty",
+   "t:dty"
+  ]
+ },
+ "dv": {
+  "sources": [
+   "m:dv",
+   "w:dv",
+   "t:div"
+  ]
+ },
+ "dyu": {
+  "script": "LATIN",
+  "sources": [
+   "h:dyu_Latn#1",
+   "m:dyu",
+   "t:dyu"
+  ]
+ },
+ "dz": {
+  "sources": [
+   "h:dzo_Tibt#1",
+   "m:dz",
+   "w:dz",
+   "t:dzo"
+  ]
+ },
+ "ee": {
+  "sources": [
+   "h:ewe_Latn#1",
+   "m:ee",
+   "w:ee",
+   "t:ewe"
+  ]
+ },
+ "eml": {
+  "sources": [
+   "w:eml",
+   "t:eml"
+  ]
+ },
+ "emp": {
+  "sources": [
+   "m:emp",
+   "w:emp",
+   "t:emp"
+  ]
+ },
+ "et": {
+  "sources": [
+   "h:est_Latn#88",
+   "m:et",
+   "w:et",
+   "t:est"
+  ]
+ },
+ "eu": {
+  "sources": [
+   "h:eus_Latn#15",
+   "m:eu",
+   "w:eu",
+   "t:eus"
+  ]
+ },
+ "ext": {
+  "sources": [
+   "w:ext",
+   "t:ext"
+  ]
+ },
+ "fat": {
+  "sources": [
+   "w:fat",
+   "t:fat"
+  ]
+ },
+ "ff": {
+  "sources": [
+   "h:fuv_Latn#1",
+   "m:ff",
+   "w:ff",
+   "t:ful"
+  ]
+ },
+ "fiu_vro": {
+  "sources": [
+   "w:fiu_vro",
+   "t:fiu_vro"
+  ]
+ },
+ "fj": {
+  "sources": [
+   "h:fij_Latn#1",
+   "m:fj",
+   "w:fj",
+   "t:fij"
+  ]
+ },
+ "fkv": {
+  "sources": [
+   "t:fkv"
+  ]
+ },
+ "fo": {
+  "sources": [
+   "h:fao_Latn#2",
+   "m:fo",
+   "w:fo",
+   "t:fao"
+  ]
+ },
+ "fon": {
+  "sources": [
+   "h:fon_Latn#1",
+   "m:fon",
+   "w:fon",
+   "t:fon"
+  ]
+ },
+ "frp": {
+  "sources": [
+   "m:frp",
+   "w:frp",
+   "t:frp"
+  ]
+ },
+ "frr": {
+  "sources": [
+   "w:frr",
+   "t:frr"
+  ]
+ },
+ "fur": {
+  "sources": [
+   "h:fur_Latn#1",
+   "w:fur",
+   "t:fur"
+  ]
+ },
+ "fuv": {
+  "script": "LATIN",
+  "sources": [
+   "h:fuv_Latn#1",
+   "t:fuv"
+  ]
+ },
+ "fy": {
+  "sources": [
+   "m:fy",
+   "w:fy",
+   "t:fry"
+  ]
+ },
+ "ga": {
+  "sources": [
+   "h:gle_Latn#5",
+   "m:ga",
+   "w:ga",
+   "t:gle"
+  ]
+ },
+ "gag": {
+  "sources": [
+   "m:gag",
+   "w:gag",
+   "t:gag"
+  ]
+ },
+ "gbm": {
+  "min_tokens": 20000,
+  "script": "DEVANAGARI",
+  "sources": [
+   "m:gbm",
+   "t:gbm"
+  ]
+ },
+ "gcf": {
+  "sources": [
+   "t:gcf"
+  ]
+ },
+ "gcr": {
+  "sources": [
+   "w:gcr",
+   "t:gcr"
+  ]
+ },
+ "gd": {
+  "sources": [
+   "h:gla_Latn#2",
+   "m:gd",
+   "w:gd",
+   "t:gla"
+  ]
+ },
+ "gl": {
+  "sources": [
+   "h:glg_Latn#25",
+   "m:gl",
+   "w:gl",
+   "t:glg"
+  ]
+ },
+ "glk": {
+  "sources": [
+   "w:glk",
+   "t:glk"
+  ]
+ },
+ "gn": {
+  "sources": [
+   "h:grn_Latn#1",
+   "m:gn",
+   "w:gn",
+   "t:grn"
+  ]
+ },
+ "gom": {
+  "sources": [
+   "s:gom",
+   "m:gom",
+   "w:gom",
+   "t:gom"
+  ]
+ },
+ "gor": {
+  "sources": [
+   "m:gor",
+   "w:gor",
+   "t:gor"
+  ]
+ },
+ "gos": {
+  "sources": [
+   "w:gos",
+   "t:gos"
+  ]
+ },
+ "gpe": {
+  "sources": [
+   "w:gpe",
+   "t:gpe"
+  ]
+ },
+ "gsw": {
+  "sources": [
+   "m:gsw",
+   "w:gsw",
+   "t:gsw"
+  ]
+ },
+ "guc": {
+  "sources": [
+   "m:guc",
+   "w:guc",
+   "t:guc"
+  ]
+ },
+ "gui": {
+  "script": "LATIN",
+  "sources": [
+   "m:gui",
+   "t:gui"
+  ]
+ },
+ "gur": {
+  "sources": [
+   "w:gur",
+   "t:gur"
+  ]
+ },
+ "guw": {
+  "sources": [
+   "w:guw",
+   "t:guw"
+  ]
+ },
+ "gv": {
+  "sources": [
+   "m:gv",
+   "w:gv",
+   "t:glv"
+  ]
+ },
+ "gvl": {
+  "script": "LATIN",
+  "sources": [
+   "m:gvl",
+   "t:gvl"
+  ]
+ },
+ "ha": {
+  "sources": [
+   "h:hau_Latn#3",
+   "m:ha",
+   "w:ha",
+   "t:hau"
+  ]
+ },
+ "haw": {
+  "sources": [
+   "m:haw",
+   "w:haw",
+   "t:haw"
+  ]
+ },
+ "hif": {
+  "sources": [
+   "m:hif",
+   "w:hif",
+   "t:hif"
+  ]
+ },
+ "hil": {
+  "script": "LATIN",
+  "sources": [
+   "m:hil",
+   "t:hil"
+  ]
+ },
+ "hmn": {
+  "script": "LATIN",
+  "sources": [
+   "m:hmn",
+   "t:hmn"
+  ]
+ },
+ "hne": {
+  "script": "DEVANAGARI",
+  "sources": [
+   "h:hne_Deva#1",
+   "m:hne",
+   "t:hne"
+  ]
+ },
+ "ho": {
+  "script": "LATIN",
+  "sources": [
+   "m:ho",
+   "t:ho"
+  ]
+ },
+ "hrx": {
+  "sources": [
+   "t:hrx"
+  ]
+ },
+ "hsb": {
+  "sources": [
+   "w:hsb",
+   "t:hsb"
+  ]
+ },
+ "ht": {
+  "sources": [
+   "h:hat_Latn#2",
+   "m:ht",
+   "w:ht",
+   "t:hat"
+  ]
+ },
+ "hvn": {
+  "script": "LATIN",
+  "sources": [
+   "m:hvn",
+   "t:hvn"
+  ]
+ },
+ "hy": {
+  "sources": [
+   "h:hye_Armn#44",
+   "m:hy",
+   "w:hy",
+   "t:hye"
+  ]
+ },
+ "hyw": {
+  "sources": [
+   "w:hyw",
+   "t:hyw"
+  ]
+ },
+ "iba": {
+  "sources": [
+   "m:iba",
+   "w:iba",
+   "t:iba"
+  ]
+ },
+ "ibb": {
+  "script": "LATIN",
+  "sources": [
+   "m:ibb",
+   "t:ibb"
+  ]
+ },
+ "ig": {
+  "sources": [
+   "h:ibo_Latn#1",
+   "m:ig",
+   "w:ig",
+   "t:ibo"
+  ]
+ },
+ "igl": {
+  "sources": [
+   "w:igl",
+   "t:igl"
+  ]
+ },
+ "ik": {
+  "sources": [
+   "w:ik",
+   "t:ipk"
+  ]
+ },
+ "ilo": {
+  "sources": [
+   "h:ilo_Latn#1",
+   "m:ilo",
+   "w:ilo",
+   "t:ilo"
+  ]
+ },
+ "inh": {
+  "sources": [
+   "w:inh",
+   "t:inh"
+  ]
+ },
+ "is": {
+  "sources": [
+   "h:isl_Latn#26",
+   "m:is",
+   "w:is",
+   "t:isl"
+  ]
+ },
+ "iso": {
+  "script": "LATIN",
+  "sources": [
+   "m:iso",
+   "t:iso"
+  ]
+ },
+ "iu": {
+  "sources": [
+   "m:iu",
+   "w:iu",
+   "t:iku"
+  ]
+ },
+ "jam": {
+  "sources": [
+   "m:jam",
+   "w:jam",
+   "t:jam"
+  ]
+ },
+ "jv": {
+  "sources": [
+   "h:jav_Latn#3",
+   "m:jv",
+   "w:jv",
+   "t:jav"
+  ]
+ },
+ "ka": {
+  "sources": [
+   "h:kat_Geor#58",
+   "m:ka",
+   "w:ka",
+   "t:kat"
+  ]
+ },
+ "kac": {
+  "sources": [
+   "h:kac_Latn#1",
+   "m:kac",
+   "w:kac",
+   "t:kac"
+  ]
+ },
+ "kai": {
+  "sources": [
+   "w:kai",
+   "t:kai"
+  ]
+ },
+ "kaj": {
+  "sources": [
+   "w:kaj",
+   "t:kaj"
+  ]
+ },
+ "kam": {
+  "sources": [
+   "h:kam_Latn#1",
+   "w:kam",
+   "t:kam"
+  ]
+ },
+ "kbd": {
+  "sources": [
+   "m:kbd",
+   "w:kbd",
+   "t:kbd"
+  ]
+ },
+ "kbp": {
+  "sources": [
+   "h:kbp_Latn#1",
+   "m:kbp",
+   "w:kbp",
+   "t:kbp"
+  ]
+ },
+ "kcg": {
+  "sources": [
+   "w:kcg",
+   "t:kcg"
+  ]
+ },
+ "kea": {
+  "script": "LATIN",
+  "sources": [
+   "h:kea_Latn#1",
+   "t:kea"
+  ]
+ },
+ "kek": {
+  "sources": [
+   "m:kek",
+   "w:kek",
+   "t:kek"
+  ]
+ },
+ "kg": {
+  "sources": [
+   "h:kon_Latn#1",
+   "m:kg",
+   "w:kg",
+   "t:kon"
+  ]
+ },
+ "kge": {
+  "sources": [
+   "w:kge",
+   "t:kge"
+  ]
+ },
+ "kha": {
+  "sources": [
+   "m:kha",
+   "w:kha",
+   "t:kha"
+  ]
+ },
+ "ki": {
+  "sources": [
+   "h:kik_Latn#1",
+   "w:ki",
+   "t:kik"
+  ]
+ },
+ "kj": {
+  "script": "LATIN",
+  "sources": [
+   "m:kj",
+   "t:kj"
+  ]
+ },
+ "kjh": {
+  "sources": [
+   "m:kjh",
+   "w:kjh",
+   "t:kjh"
+  ]
+ },
+ "kl": {
+  "sources": [
+   "m:kl",
+   "w:kl",
+   "t:kl"
+  ]
+ },
+ "km": {
+  "sources": [
+   "h:khm_Khmr#13",
+   "m:km",
+   "w:km",
+   "t:khm"
+  ]
+ },
+ "kmb": {
+  "script": "LATIN",
+  "sources": [
+   "h:kmb_Latn#1",
+   "m:kmb",
+   "t:kmb"
+  ]
+ },
+ "knc": {
+  "sources": [
+   "w:knc",
+   "t:knc"
+  ]
+ },
+ "knf": {
+  "sources": [
+   "w:knf",
+   "t:knf"
+  ]
+ },
+ "koi": {
+  "sources": [
+   "m:koi",
+   "w:koi",
+   "t:koi"
+  ]
+ },
+ "krc": {
+  "sources": [
+   "m:krc",
+   "w:krc",
+   "t:krc"
+  ]
+ },
+ "kri": {
+  "script": "LATIN",
+  "sources": [
+   "m:kri",
+   "t:kri"
+  ]
+ },
+ "ks_arab": {
+  "language": "ks",
+  "script": "ARABIC",
+  "sources": [
+   "s:kas",
+   "h:kas_Arab#1",
+   "m:ks",
+   "t:kas"
+  ]
+ },
+ "ksh": {
+  "sources": [
+   "w:ksh",
+   "t:ksh"
+  ]
+ },
+ "ksw": {
+  "script": "MYANMAR",
+  "sources": [
+   "m:ksw",
+   "t:ksw"
+  ]
+ },
+ "ktu": {
+  "script": "LATIN",
+  "sources": [
+   "m:ktu",
+   "t:ktu"
+  ]
+ },
+ "ku": {
+  "sources": [
+   "h:kmr_Latn#3",
+   "m:ku",
+   "w:ku",
+   "t:kmr"
+  ]
+ },
+ "kum": {
+  "script": "CYRILLIC",
+  "sources": [
+   "m:kum",
+   "t:kum"
+  ]
+ },
+ "kus": {
+  "sources": [
+   "w:kus",
+   "t:kus"
+  ]
+ },
+ "kv": {
+  "sources": [
+   "m:kv",
+   "w:kv",
+   "t:kom"
+  ]
+ },
+ "kw": {
+  "sources": [
+   "m:kw",
+   "w:kw",
+   "t:cor"
+  ]
+ },
+ "ky": {
+  "sources": [
+   "h:kir_Cyrl#8",
+   "m:ky",
+   "w:ky",
+   "t:kir"
+  ]
+ },
+ "kzj": {
+  "sources": [
+   "w:kzj",
+   "t:kzj"
+  ]
+ },
+ "lad": {
+  "sources": [
+   "w:lad",
+   "t:lad"
+  ]
+ },
+ "laj": {
+  "script": "LATIN",
+  "sources": [
+   "m:laj",
+   "t:laj"
+  ]
+ },
+ "lb": {
+  "sources": [
+   "h:ltz_Latn#2",
+   "m:lb",
+   "w:lb",
+   "t:ltz"
+  ]
+ },
+ "lbe": {
+  "sources": [
+   "w:lbe",
+   "t:lbe"
+  ]
+ },
+ "lez": {
+  "sources": [
+   "w:lez",
+   "t:lez"
+  ]
+ },
+ "lg": {
+  "sources": [
+   "h:lug_Latn#1",
+   "m:lg",
+   "w:lg",
+   "t:lug"
+  ]
+ },
+ "lhu": {
+  "script": "LATIN",
+  "sources": [
+   "m:lhu",
+   "t:lhu"
+  ]
+ },
+ "li": {
+  "sources": [
+   "h:lim_Latn#3",
+   "w:li",
+   "t:lim"
+  ]
+ },
+ "lij": {
+  "sources": [
+   "h:lij_Latn#1",
+   "w:lij",
+   "t:lij"
+  ]
+ },
+ "lld": {
+  "sources": [
+   "w:lld",
+   "t:lld"
+  ]
+ },
+ "lmo": {
+  "sources": [
+   "h:lmo_Latn#1",
+   "w:lmo",
+   "t:lmo"
+  ]
+ },
+ "ln": {
+  "sources": [
+   "h:lin_Latn#1",
+   "m:ln",
+   "w:ln",
+   "t:lin"
+  ]
+ },
+ "lo": {
+  "sources": [
+   "h:lao_Laoo#1",
+   "m:lo",
+   "w:lo",
+   "t:lao"
+  ]
+ },
+ "lrc": {
+  "script": "ARABIC",
+  "sources": [
+   "m:lrc",
+   "t:lrc"
+  ]
+ },
+ "ltg": {
+  "sources": [
+   "h:ltg_Latn#1",
+   "m:ltg",
+   "w:ltg",
+   "t:ltg"
+  ]
+ },
+ "lu": {
+  "script": "LATIN",
+  "sources": [
+   "m:lu",
+   "t:lu"
+  ]
+ },
+ "lua": {
+  "script": "LATIN",
+  "sources": [
+   "h:lua_Latn#1",
+   "t:lua"
+  ]
+ },
+ "luo": {
+  "script": "LATIN",
+  "sources": [
+   "h:luo_Latn#1",
+   "t:luo"
+  ]
+ },
+ "lus": {
+  "script": "LATIN",
+  "sources": [
+   "h:lus_Latn#2",
+   "m:lus",
+   "t:lus"
+  ]
+ },
+ "lv": {
+  "sources": [
+   "h:lvs_Latn#65",
+   "m:lv",
+   "w:lv",
+   "t:lvs"
+  ]
+ },
+ "mad": {
+  "sources": [
+   "m:mad",
+   "w:mad",
+   "t:mad"
+  ]
+ },
+ "mag": {
+  "script": "DEVANAGARI",
+  "sources": [
+   "h:mag_Deva#1",
+   "m:mag",
+   "t:mag"
+  ]
+ },
+ "mai": {
+  "sources": [
+   "s:mai",
+   "h:mai_Deva#1",
+   "m:mai",
+   "w:mai",
+   "t:mai"
+  ]
+ },
+ "mak": {
+  "script": "LATIN",
+  "sources": [
+   "m:mak",
+   "t:mak"
+  ]
+ },
+ "mam": {
+  "script": "LATIN",
+  "sources": [
+   "m:mam",
+   "t:mam"
+  ]
+ },
+ "mas": {
+  "script": "LATIN",
+  "sources": [
+   "m:mas",
+   "t:mas"
+  ]
+ },
+ "mdf": {
+  "sources": [
+   "m:mdf",
+   "w:mdf",
+   "t:mdf"
+  ]
+ },
+ "meo": {
+  "script": "LATIN",
+  "sources": [
+   "m:meo",
+   "t:meo"
+  ]
+ },
+ "mfe": {
+  "script": "LATIN",
+  "sources": [
+   "m:mfe",
+   "t:mfe"
+  ]
+ },
+ "mg": {
+  "sources": [
+   "h:plt_Latn#2",
+   "m:mg",
+   "w:mg",
+   "t:mlg"
+  ]
+ },
+ "mgh": {
+  "script": "LATIN",
+  "sources": [
+   "m:mgh",
+   "t:mgh"
+  ]
+ },
+ "mhr": {
+  "sources": [
+   "w:mhr",
+   "t:mhr"
+  ]
+ },
+ "mi": {
+  "sources": [
+   "h:mri_Latn#2",
+   "m:mi",
+   "w:mi",
+   "t:mri"
+  ]
+ },
+ "min": {
+  "sources": [
+   "h:min_Latn#1",
+   "m:min",
+   "t:min"
+  ]
+ },
+ "miq": {
+  "script": "LATIN",
+  "sources": [
+   "m:miq",
+   "t:miq"
+  ]
+ },
+ "mk": {
+  "sources": [
+   "h:mkd_Cyrl#39",
+   "m:mk",
+   "w:mk",
+   "t:mkd"
+  ]
+ },
+ "mn": {
+  "sources": [
+   "h:khk_Cyrl#28",
+   "m:mn",
+   "w:mn",
+   "t:mon"
+  ]
+ },
+ "mni": {
+  "sources": [
+   "s:mni",
+   "m:mni",
+   "w:mni",
+   "t:mni"
+  ]
+ },
+ "mos": {
+  "sources": [
+   "h:mos_Latn#1",
+   "w:mos",
+   "t:mos"
+  ]
+ },
+ "mqy": {
+  "script": "LATIN",
+  "sources": [
+   "m:mqy",
+   "t:mqy"
+  ]
+ },
+ "mrj": {
+  "sources": [
+   "m:mrj",
+   "w:mrj",
+   "t:mrj"
+  ]
+ },
+ "mrw": {
+  "script": "LATIN",
+  "sources": [
+   "m:mrw",
+   "t:mrw"
+  ]
+ },
+ "msi": {
+  "script": "LATIN",
+  "sources": [
+   "m:msi",
+   "t:msi"
+  ]
+ },
+ "mt": {
+  "sources": [
+   "h:mlt_Latn#4",
+   "m:mt",
+   "w:mt",
+   "t:mlt"
+  ]
+ },
+ "mus": {
+  "sources": [
+   "t:mus"
+  ]
+ },
+ "mwl": {
+  "sources": [
+   "w:mwl",
+   "t:mwl"
+  ]
+ },
+ "my": {
+  "sources": [
+   "h:mya_Mymr#34",
+   "m:my",
+   "w:my",
+   "t:mya"
+  ]
+ },
+ "myv": {
+  "sources": [
+   "m:myv",
+   "w:myv",
+   "t:myv"
+  ]
+ },
+ "mzn": {
+  "sources": [
+   "w:mzn",
+   "t:mzn"
+  ]
+ },
+ "nah": {
+  "sources": [
+   "w:nah",
+   "t:nah"
+  ]
+ },
+ "nap": {
+  "sources": [
+   "w:nap",
+   "t:nap"
+  ]
+ },
+ "nch": {
+  "sources": [
+   "w:nch",
+   "t:nch"
+  ]
+ },
+ "nd": {
+  "sources": [
+   "w:nd",
+   "t:nde"
+  ]
+ },
+ "nds": {
+  "sources": [
+   "w:nds",
+   "t:nds"
+  ]
+ },
+ "nds_nl": {
+  "sources": [
+   "w:nds_nl",
+   "t:nds_nl"
+  ]
+ },
+ "new": {
+  "sources": [
+   "m:new",
+   "w:new",
+   "t:new"
+  ]
+ },
+ "ngu": {
+  "sources": [
+   "m:ngu",
+   "w:ngu",
+   "t:ngu"
+  ]
+ },
+ "nia": {
+  "sources": [
+   "m:nia",
+   "w:nia",
+   "t:nia"
+  ]
+ },
+ "nij": {
+  "script": "LATIN",
+  "sources": [
+   "m:nij",
+   "t:nij"
+  ]
+ },
+ "niq": {
+  "script": "LATIN",
+  "sources": [
+   "m:niq",
+   "t:niq"
+  ]
+ },
+ "nn": {
+  "sources": [
+   "h:nno_Latn#14",
+   "w:nn",
+   "t:nno"
+  ]
+ },
+ "nnb": {
+  "sources": [
+   "m:nnb",
+   "w:nnb",
+   "t:nnb"
+  ]
+ },
+ "nog": {
+  "script": "CYRILLIC",
+  "sources": [
+   "m:nog",
+   "t:nog"
+  ]
+ },
+ "nop": {
+  "sources": [
+   "w:nop",
+   "t:nop"
+  ]
+ },
+ "nqo": {
+  "sources": [
+   "w:nqo",
+   "t:nqo"
+  ]
+ },
+ "nr": {
+  "sources": [
+   "m:nr",
+   "w:nr",
+   "t:nbl"
+  ]
+ },
+ "nrm": {
+  "sources": [
+   "w:nrm",
+   "t:nrm"
+  ]
+ },
+ "nso": {
+  "sources": [
+   "h:nso_Latn#1",
+   "m:nso",
+   "w:nso",
+   "t:nso"
+  ]
+ },
+ "nup": {
+  "sources": [
+   "w:nup",
+   "t:nup"
+  ]
+ },
+ "nus": {
+  "sources": [
+   "t:nus"
+  ]
+ },
+ "nut": {
+  "script": "LATIN",
+  "sources": [
+   "m:nut",
+   "t:nut"
+  ]
+ },
+ "nv": {
+  "sources": [
+   "m:nv",
+   "w:nv",
+   "t:nav"
+  ]
+ },
+ "ny": {
+  "sources": [
+   "h:nya_Latn#1",
+   "m:ny",
+   "w:ny",
+   "t:nya"
+  ]
+ },
+ "nyu": {
+  "script": "LATIN",
+  "sources": [
+   "m:nyu",
+   "t:nyu"
+  ]
+ },
+ "nzi": {
+  "script": "LATIN",
+  "sources": [
+   "m:nzi",
+   "t:nzi"
+  ]
+ },
+ "oc": {
+  "sources": [
+   "h:oci_Latn#2",
+   "m:oc",
+   "w:oc",
+   "t:oci"
+  ]
+ },
+ "oj": {
+  "script": "CANADIAN_ABORIGINAL_SYLLABICS",
+  "sources": [
+   "m:oj",
+   "t:oj"
+  ]
+ },
+ "om": {
+  "sources": [
+   "m:om",
+   "w:om",
+   "t:orm"
+  ]
+ },
+ "os": {
+  "sources": [
+   "m:os",
+   "w:os",
+   "t:oss"
+  ]
+ },
+ "pag": {
+  "sources": [
+   "h:pag_Latn#1",
+   "m:pag",
+   "w:pag",
+   "t:pag"
+  ]
+ },
+ "pam": {
+  "sources": [
+   "w:pam",
+   "t:pam"
+  ]
+ },
+ "pap": {
+  "sources": [
+   "h:pap_Latn#1",
+   "m:pap",
+   "w:pap",
+   "t:pap"
+  ]
+ },
+ "pau": {
+  "sources": [
+   "m:pau",
+   "t:pau"
+  ]
+ },
+ "pcd": {
+  "sources": [
+   "w:pcd",
+   "t:pcd"
+  ]
+ },
+ "pck": {
+  "script": "LATIN",
+  "sources": [
+   "m:pck",
+   "t:pck"
+  ]
+ },
+ "pcm": {
+  "sources": [
+   "w:pcm",
+   "t:pcm"
+  ]
+ },
+ "pdc": {
+  "sources": [
+   "w:pdc",
+   "t:pdc"
+  ]
+ },
+ "pfl": {
+  "sources": [
+   "w:pfl",
+   "t:pfl"
+  ]
+ },
+ "plt": {
+  "script": "LATIN",
+  "sources": [
+   "h:plt_Latn#2",
+   "t:plt"
+  ]
+ },
+ "pms": {
+  "sources": [
+   "w:pms",
+   "t:pms"
+  ]
+ },
+ "pnb": {
+  "sources": [
+   "w:pnb",
+   "t:pnb"
+  ]
+ },
+ "pnt": {
+  "sources": [
+   "w:pnt",
+   "t:pnt"
+  ]
+ },
+ "ppl": {
+  "sources": [
+   "w:ppl",
+   "t:ppl"
+  ]
+ },
+ "prg": {
+  "sources": [
+   "w:prg",
+   "t:prg"
+  ]
+ },
+ "ps": {
+  "sources": [
+   "h:pbt_Arab#6",
+   "m:ps",
+   "w:ps",
+   "t:pus"
+  ]
+ },
+ "pwn": {
+  "sources": [
+   "w:pwn",
+   "t:pwn"
+  ]
+ },
+ "qu": {
+  "sources": [
+   "h:quy_Latn#1",
+   "m:qu",
+   "w:qu",
+   "t:que"
+  ]
+ },
+ "quc": {
+  "sources": [
+   "m:quc",
+   "w:quc",
+   "t:quc"
+  ]
+ },
+ "quh": {
+  "script": "LATIN",
+  "sources": [
+   "m:quh",
+   "t:quh"
+  ]
+ },
+ "quy": {
+  "script": "LATIN",
+  "sources": [
+   "h:quy_Latn#1",
+   "m:quy",
+   "t:quy"
+  ]
+ },
+ "raj": {
+  "min_tokens": 20000,
+  "script": "DEVANAGARI",
+  "sources": [
+   "m:raj",
+   "t:raj"
+  ]
+ },
+ "rcf": {
+  "script": "LATIN",
+  "sources": [
+   "m:rcf",
+   "t:rcf"
+  ]
+ },
+ "rif": {
+  "sources": [
+   "w:rif",
+   "t:rif"
+  ]
+ },
+ "rki": {
+  "sources": [
+   "m:rki",
+   "w:rki",
+   "t:rki"
+  ]
+ },
+ "rm": {
+  "sources": [
+   "m:rm",
+   "w:rm",
+   "t:roh"
+  ]
+ },
+ "rmy": {
+  "sources": [
+   "w:rmy",
+   "t:rmy"
+  ]
+ },
+ "rn": {
+  "sources": [
+   "h:run_Latn#1",
+   "m:rn",
+   "w:rn",
+   "t:run"
+  ]
+ },
+ "roa_rup": {
+  "sources": [
+   "w:roa_rup",
+   "t:roa_rup"
+  ]
+ },
+ "roa_tara": {
+  "sources": [
+   "w:roa_tara",
+   "t:roa_tara"
+  ]
+ },
+ "rom": {
+  "sources": [
+   "m:rom",
+   "t:rom"
+  ]
+ },
+ "rsk": {
+  "sources": [
+   "w:rsk",
+   "t:rsk"
+  ]
+ },
+ "rue": {
+  "sources": [
+   "w:rue",
+   "t:rue"
+  ]
+ },
+ "rw": {
+  "sources": [
+   "h:kin_Latn#1",
+   "m:rw",
+   "w:rw",
+   "t:kin"
+  ]
+ },
+ "sa": {
+  "sources": [
+   "s:san",
+   "h:san_Deva#3",
+   "m:sa",
+   "w:sa",
+   "t:san"
+  ]
+ },
+ "sah": {
+  "sources": [
+   "m:sah",
+   "w:sah",
+   "t:sah"
+  ]
+ },
+ "sat": {
+  "sources": [
+   "s:sat",
+   "h:sat_Olck#1",
+   "w:sat",
+   "t:sat"
+  ]
+ },
+ "sc": {
+  "sources": [
+   "h:srd_Latn#1",
+   "w:sc",
+   "t:srd"
+  ]
+ },
+ "scn": {
+  "sources": [
+   "h:scn_Latn#1",
+   "w:scn",
+   "t:scn"
+  ]
+ },
+ "sco": {
+  "sources": [
+   "w:sco",
+   "t:sco"
+  ]
+ },
+ "sd": {
+  "sources": [
+   "s:snd",
+   "h:snd_Arab#2",
+   "m:sd",
+   "w:sd",
+   "t:snd"
+  ]
+ },
+ "sda": {
+  "script": "LATIN",
+  "sources": [
+   "m:sda",
+   "t:sda"
+  ]
+ },
+ "sdh": {
+  "sources": [
+   "t:sdh"
+  ]
+ },
+ "se": {
+  "sources": [
+   "m:se",
+   "w:se",
+   "t:sme"
+  ]
+ },
+ "seh": {
+  "script": "LATIN",
+  "sources": [
+   "m:seh",
+   "t:seh"
+  ]
+ },
+ "sg": {
+  "sources": [
+   "h:sag_Latn#1",
+   "m:sg",
+   "w:sg",
+   "t:sag"
+  ]
+ },
+ "shi": {
+  "sources": [
+   "w:shi",
+   "t:shi"
+  ]
+ },
+ "skr": {
+  "sources": [
+   "m:skr",
+   "w:skr",
+   "t:skr"
+  ]
+ },
+ "sl": {
+  "sources": [
+   "h:slv_Latn#87",
+   "m:sl",
+   "w:sl",
+   "t:slv"
+  ]
+ },
+ "sm": {
+  "sources": [
+   "h:smo_Latn#1",
+   "m:sm",
+   "w:sm",
+   "t:smo"
+  ]
+ },
+ "sn": {
+  "sources": [
+   "h:sna_Latn#1",
+   "m:sn",
+   "w:sn",
+   "t:sna"
+  ]
+ },
+ "so": {
+  "sources": [
+   "h:som_Latn#7",
+   "m:so",
+   "w:so",
+   "t:som"
+  ]
+ },
+ "spp": {
+  "script": "LATIN",
+  "sources": [
+   "m:spp",
+   "t:spp"
+  ]
+ },
+ "sq": {
+  "sources": [
+   "h:als_Latn#42",
+   "m:sq",
+   "w:sq",
+   "t:sqi"
+  ]
+ },
+ "srm": {
+  "script": "LATIN",
+  "sources": [
+   "m:srm",
+   "t:srm"
+  ]
+ },
+ "srn": {
+  "sources": [
+   "m:srn",
+   "w:srn",
+   "t:srn"
+  ]
+ },
+ "ss": {
+  "sources": [
+   "h:ssw_Latn#1",
+   "m:ss",
+   "w:ss",
+   "t:ssw"
+  ]
+ },
+ "st": {
+  "sources": [
+   "h:sot_Latn#1",
+   "m:st",
+   "w:st",
+   "t:sot"
+  ]
+ },
+ "stq": {
+  "sources": [
+   "m:stq",
+   "w:stq",
+   "t:stq"
+  ]
+ },
+ "su": {
+  "sources": [
+   "h:sun_Latn#2",
+   "m:su",
+   "w:su",
+   "t:sun"
+  ]
+ },
+ "swc": {
+  "sources": [
+   "w:swc",
+   "t:swc"
+  ]
+ },
+ "swg": {
+  "sources": [
+   "w:swg",
+   "t:swg"
+  ]
+ },
+ "syl": {
+  "min_tokens": 20000,
+  "sources": [
+   "w:syl",
+   "t:syl"
+  ]
+ },
+ "szl": {
+  "sources": [
+   "h:szl_Latn#1",
+   "w:szl",
+   "t:szl"
+  ]
+ },
+ "szy": {
+  "sources": [
+   "w:szy",
+   "t:szy"
+  ]
+ },
+ "tab": {
+  "script": "CYRILLIC",
+  "sources": [
+   "m:tab",
+   "t:tab"
+  ]
+ },
+ "taj": {
+  "script": "DEVANAGARI",
+  "sources": [
+   "m:taj",
+   "t:taj"
+  ]
+ },
+ "taq": {
+  "script": "LATIN",
+  "sources": [
+   "h:taq_Latn#1",
+   "t:taq"
+  ]
+ },
+ "tay": {
+  "sources": [
+   "w:tay",
+   "t:tay"
+  ]
+ },
+ "tbz": {
+  "script": "LATIN",
+  "sources": [
+   "m:tbz",
+   "t:tbz"
+  ]
+ },
+ "tcy": {
+  "sources": [
+   "m:tcy",
+   "w:tcy",
+   "t:tcy"
+  ]
+ },
+ "tdd": {
+  "sources": [
+   "w:tdd",
+   "t:tdd"
+  ]
+ },
+ "tdx": {
+  "script": "LATIN",
+  "sources": [
+   "m:tdx",
+   "t:tdx"
+  ]
+ },
+ "teo": {
+  "script": "LATIN",
+  "sources": [
+   "m:teo",
+   "t:teo"
+  ]
+ },
+ "tet": {
+  "sources": [
+   "m:tet",
+   "w:tet",
+   "t:tet"
+  ]
+ },
+ "tg": {
+  "sources": [
+   "h:tgk_Cyrl#19",
+   "m:tg",
+   "w:tg",
+   "t:tgk"
+  ]
+ },
+ "tgo": {
+  "sources": [
+   "w:tgo",
+   "t:tgo"
+  ]
+ },
+ "th": {
+  "sources": [
+   "h:tha_Thai#352",
+   "m:th",
+   "w:th",
+   "t:tha"
+  ]
+ },
+ "thv": {
+  "sources": [
+   "t:thv"
+  ]
+ },
+ "ti": {
+  "sources": [
+   "h:tir_Ethi#2",
+   "m:ti",
+   "w:ti",
+   "t:tir"
+  ]
+ },
+ "tig": {
+  "sources": [
+   "w:tig",
+   "t:tig"
+  ]
+ },
+ "tiv": {
+  "script": "LATIN",
+  "sources": [
+   "m:tiv",
+   "t:tiv"
+  ]
+ },
+ "tk": {
+  "sources": [
+   "h:tuk_Latn#2",
+   "m:tk",
+   "w:tk",
+   "t:tuk"
+  ]
+ },
+ "tks": {
+  "script": "ARABIC",
+  "sources": [
+   "m:tks",
+   "t:tks"
+  ]
+ },
+ "tll": {
+  "script": "LATIN",
+  "sources": [
+   "m:tll",
+   "t:tll"
+  ]
+ },
+ "tly": {
+  "sources": [
+   "w:tly",
+   "t:tly"
+  ]
+ },
+ "tn": {
+  "sources": [
+   "h:tsn_Latn#1",
+   "m:tn",
+   "w:tn",
+   "t:tsn"
+  ]
+ },
+ "to": {
+  "sources": [
+   "m:to",
+   "w:to",
+   "t:ton"
+  ]
+ },
+ "tpi": {
+  "sources": [
+   "h:tpi_Latn#1",
+   "w:tpi",
+   "t:tpi"
+  ]
+ },
+ "trp": {
+  "script": "BENGALI",
+  "sources": [
+   "m:trp",
+   "t:trp"
+  ]
+ },
+ "trv": {
+  "sources": [
+   "w:trv",
+   "t:trv"
+  ]
+ },
+ "ts": {
+  "sources": [
+   "h:tso_Latn#1",
+   "m:ts",
+   "w:ts",
+   "t:tso"
+  ]
+ },
+ "tsc": {
+  "script": "LATIN",
+  "sources": [
+   "m:tsc",
+   "t:tsc"
+  ]
+ },
+ "tt": {
+  "sources": [
+   "h:tat_Cyrl#9",
+   "m:tt",
+   "w:tt",
+   "t:tat"
+  ]
+ },
+ "ttq": {
+  "sources": [
+   "t:ttq"
+  ]
+ },
+ "tum": {
+  "sources": [
+   "h:tum_Latn#1",
+   "w:tum",
+   "t:tum"
+  ]
+ },
+ "tvl": {
+  "script": "LATIN",
+  "sources": [
+   "m:tvl",
+   "t:tvl"
+  ]
+ },
+ "tw": {
+  "sources": [
+   "h:twi_Latn#1",
+   "w:tw",
+   "t:twi"
+  ]
+ },
+ "ty": {
+  "sources": [
+   "w:ty",
+   "t:tah"
+  ]
+ },
+ "tyv": {
+  "sources": [
+   "m:tyv",
+   "w:tyv",
+   "t:tyv"
+  ]
+ },
+ "tyz": {
+  "script": "LATIN",
+  "sources": [
+   "m:tyz",
+   "t:tyz"
+  ]
+ },
+ "udm": {
+  "sources": [
+   "m:udm",
+   "w:udm",
+   "t:udm"
+  ]
+ },
+ "ug": {
+  "sources": [
+   "h:uig_Arab#8",
+   "m:ug",
+   "w:ug",
+   "t:uig"
+  ]
+ },
+ "umb": {
+  "sources": [
+   "h:umb_Latn#1",
+   "w:umb",
+   "t:umb"
+  ]
+ },
+ "ve": {
+  "sources": [
+   "m:ve",
+   "w:ve",
+   "t:ven"
+  ]
+ },
+ "vec": {
+  "sources": [
+   "h:vec_Latn#1",
+   "m:vec",
+   "w:vec",
+   "t:vec"
+  ]
+ },
+ "vep": {
+  "sources": [
+   "w:vep",
+   "t:vep"
+  ]
+ },
+ "vls": {
+  "sources": [
+   "w:vls",
+   "t:vls"
+  ]
+ },
+ "wa": {
+  "sources": [
+   "m:wa",
+   "w:wa",
+   "t:wln"
+  ]
+ },
+ "wal": {
+  "script": "LATIN",
+  "sources": [
+   "m:wal",
+   "t:wal"
+  ]
+ },
+ "war": {
+  "sources": [
+   "h:war_Latn#1",
+   "m:war",
+   "t:war"
+  ]
+ },
+ "wo": {
+  "sources": [
+   "h:wol_Latn#1",
+   "m:wo",
+   "w:wo",
+   "t:wol"
+  ]
+ },
+ "xal": {
+  "sources": [
+   "m:xal",
+   "w:xal",
+   "t:xal"
+  ]
+ },
+ "xh": {
+  "sources": [
+   "h:xho_Latn#1",
+   "m:xh",
+   "w:xh",
+   "t:xho"
+  ]
+ },
+ "xmf": {
+  "sources": [
+   "w:xmf",
+   "t:xmf"
+  ]
+ },
+ "yi": {
+  "sources": [
+   "h:ydd_Hebr#2",
+   "m:yi",
+   "w:yi",
+   "t:yid"
+  ]
+ },
+ "yo": {
+  "sources": [
+   "h:yor_Latn#1",
+   "m:yo",
+   "w:yo",
+   "t:yor"
+  ]
+ },
+ "yua": {
+  "script": "LATIN",
+  "sources": [
+   "m:yua",
+   "t:yua"
+  ]
+ },
+ "za": {
+  "sources": [
+   "w:za",
+   "t:za"
+  ]
+ },
+ "zea": {
+  "sources": [
+   "w:zea",
+   "t:zea"
+  ]
+ },
+ "zne": {
+  "script": "LATIN",
+  "sources": [
+   "m:zne",
+   "t:zne"
+  ]
+ },
+ "zu": {
+  "sources": [
+   "h:zul_Latn#1",
+   "m:zu",
+   "w:zu",
+   "t:zul"
+  ]
+ }
+}
