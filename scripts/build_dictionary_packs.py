@@ -67,6 +67,8 @@ import json
 import re
 import sys
 import tempfile
+import urllib.parse
+import urllib.request
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -101,6 +103,7 @@ KAIKKI_MAX_SENSES = 3
 KAIKKI_MAX_WORD_SENSES = 6
 KAIKKI_MAX_DEFINITION = 240
 KAIKKI_MAX_EXAMPLE = 120
+KAIKKI_MAX_WORD = 40
 
 POS_OEWN = {"n": "noun", "v": "verb", "a": "adjective", "s": "adjective", "r": "adverb"}
 POS_ORDER = ["noun", "verb", "adjective", "adverb"]
@@ -530,6 +533,126 @@ def build_kaikki_bengali(source: Path, out: Path) -> int:
     return write_pack(out, header, packed, redirects)
 
 
+# Other languages' words with English meanings (#1085), English Wiktionary's
+# entries for each language through kaikki.org. Lang id -> kaikki's name for it.
+LANGUAGE_PACKS = {
+    "de": "German", "es": "Spanish", "fr": "French", "it": "Italian", "pt": "Portuguese",
+    "nl": "Dutch", "sv": "Swedish", "da": "Danish", "pl": "Polish", "cs": "Czech",
+    "sk": "Slovak", "sl": "Slovene", "ro": "Romanian", "hu": "Hungarian", "fi": "Finnish",
+    "et": "Estonian", "lv": "Latvian", "lt": "Lithuanian", "el": "Greek", "bg": "Bulgarian",
+    "ru": "Russian", "uk": "Ukrainian", "ca": "Catalan", "eu": "Basque", "gl": "Galician",
+    "sq": "Albanian", "tr": "Turkish", "is": "Icelandic", "ar": "Arabic", "fa": "Persian",
+    "he": "Hebrew",
+}
+KAIKKI_LANGUAGE_URL = "https://kaikki.org/dictionary/{name}/kaikki.org-dictionary-{name}.jsonl.gz"
+
+
+class HashingReader(io.RawIOBase):
+    """A stream that hashes what passes through: the header's source hash, with no copy kept."""
+
+    def __init__(self, raw):
+        self.raw = raw
+        self.digest = hashlib.sha256()
+
+    def readable(self):
+        return True
+
+    def readinto(self, buffer):
+        chunk = self.raw.read(len(buffer))
+        self.digest.update(chunk)
+        buffer[: len(chunk)] = chunk
+        return len(chunk)
+
+
+def build_language_pack(lang: str, name: str, out: Path) -> int:
+    """
+    [name]'s words with English glosses, read straight off kaikki.org: its
+    per-language extracts run to gigabytes inflated and move with Wiktionary, so
+    no copy is cached and the pack has no --check. A declension table's forms
+    stay out, since Wiktionary gives the common ones entries of their own, which
+    become redirects; with them German alone passes the app's size limit.
+    """
+    by_word: dict[str, dict] = {}
+    redirects: dict[str, set[str]] = collections.defaultdict(set)
+    request = urllib.request.Request(
+        KAIKKI_LANGUAGE_URL.format(name=urllib.parse.quote(name)),
+        headers={"User-Agent": "wmkeyboard-data dictionary build"},
+    )
+    with urllib.request.urlopen(request) as response:
+        hashing = HashingReader(response)
+        with gzip.open(io.BufferedReader(hashing, 1 << 20), "rt", encoding="utf-8") as f:
+            for line in f:
+                record = json.loads(line)
+                word = record.get("word", "")
+                if record.get("lang_code") != lang or not WORD.match(word) or len(word) > KAIKKI_MAX_WORD:
+                    continue
+                pos = KAIKKI_POS.get(record.get("pos", ""))
+                if pos is None:
+                    continue
+                roman = ""
+                for form in record.get("forms", []):
+                    tags = set(form.get("tags", []))
+                    text = form.get("form", "")
+                    if "romanization" in tags and not roman:
+                        roman = clean(text)
+                    elif not form.get("source") and WORD.match(text) and text != word and "romanization" not in tags:
+                        redirects[text.lower()].add(word)
+                senses = []
+                for sense in record.get("senses", []):
+                    tags = set(sense.get("tags", []))
+                    targets = [x.get("word", "") for x in sense.get("form_of", []) + sense.get("alt_of", [])]
+                    if tags & REDIRECT_TAGS and targets:
+                        for target in targets:
+                            if WORD.match(target):
+                                redirects[word.lower()].add(target)
+                        continue
+                    if tags & SKIP_SENSE_TAGS:
+                        continue
+                    glosses = sense.get("glosses") or []
+                    if not glosses:
+                        continue
+                    definition = trim(clean(glosses[-1]), KAIKKI_MAX_DEFINITION)
+                    example = ""
+                    for ex in sense.get("examples", []):
+                        text = clean(ex.get("text"))
+                        english = clean(ex.get("english") or ex.get("translation"))
+                        if text and len(text) <= KAIKKI_MAX_EXAMPLE:
+                            example = trim(text + (" — " + english if english else ""), KAIKKI_MAX_EXAMPLE * 2)
+                            break
+                    synonyms = [x.get("word", "") for x in sense.get("synonyms", []) if not x.get("source")]
+                    senses.append((definition, example, synonyms[:MAX_SYNONYMS], []))
+                if not senses:
+                    continue
+                entry = by_word.setdefault(word, {"ipa": "", "pos": collections.OrderedDict()})
+                # How it is said where Wiktionary has that, else how it is spelled in Latin letters.
+                if not entry["ipa"]:
+                    entry["ipa"] = kaikki_ipa(record) or roman
+                bucket = entry["pos"].setdefault(pos, [])
+                seen = {sense[0] for sense in bucket}
+                for definition, example, synonyms, antonyms in senses:
+                    if len(bucket) >= KAIKKI_MAX_SENSES or definition in seen:
+                        continue
+                    seen.add(definition)
+                    bucket.append((definition, example, synonyms, antonyms))
+    packed = {}
+    for word, entry in by_word.items():
+        fields = [
+            sense_field(pos, d, e, syn, ant)
+            for pos, senses in entry["pos"].items()
+            for d, e, syn, ant in senses
+        ]
+        packed[word] = (entry["ipa"], fields[:KAIKKI_MAX_WORD_SENSES])
+    header = {
+        "id": f"{lang}_wiktionary",
+        "name": f"{name}–English Wiktionary (offline)",
+        "lang": lang,
+        "license": "CC-BY-SA-4.0 OR GFDL-1.3",
+        "attribution": f"English Wiktionary's {name} entries via kaikki.org, CC BY-SA 4.0 and GFDL",
+        "source": f"kaikki-{name}.jsonl.gz sha256:" + hashing.digest.hexdigest()[:16],
+    }
+    return write_pack(out, header, packed, redirects)
+
+
 PACKS = {
     "oewn": (OEWN_SOURCE, build_oewn, "en"),
     "wiktionary": (KAIKKI_SOURCE, build_kaikki, "en"),
@@ -542,10 +665,18 @@ def main() -> int:
     parser.add_argument("--packs", default=",".join(PACKS), help="comma-separated pack ids")
     parser.add_argument("--check", action="store_true", help="rebuild and compare with the checked-in files")
     parser.add_argument("--prefilter", action="store_true", help="cut kaikki's English JSONL (gzipped, on stdin) into the cache")
+    parser.add_argument("--languages", help="build these language packs off kaikki.org instead: comma-separated ids, or all")
     args = parser.parse_args()
     if args.prefilter:
         kept = prefilter(sys.stdin.buffer, KAIKKI_SOURCE)
         print(f"kept {kept} records -> {KAIKKI_SOURCE.relative_to(ROOT)}")
+        return 0
+    if args.languages:
+        wanted = list(LANGUAGE_PACKS) if args.languages == "all" else args.languages.split(",")
+        for lang in wanted:
+            final = ROOT / "dictionary" / lang / f"{lang}_wiktionary.wmdict.gz"
+            count = build_language_pack(lang, LANGUAGE_PACKS[lang], final)
+            print(f"{lang}: {count} words, {final.stat().st_size} bytes", flush=True)
         return 0
     ids = [p for p in args.packs.split(",") if p]
     unknown = [p for p in ids if p not in PACKS]

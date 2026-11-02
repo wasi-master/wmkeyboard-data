@@ -17,6 +17,12 @@ least 300 times or WordNet also has, three senses per part of speech and six
 in all, and drops proper nouns and the senses Wiktionary tags obsolete,
 archaic, rare or dated. Each pack is about 5 MB gzipped, 14 MB on the phone.
 
+`<lang>/<lang>_wiktionary.wmdict.gz` holds another language's words with English
+meanings, from English Wiktionary's entries for it through kaikki.org, under CC
+BY-SA 4.0 and GFDL: 31 languages, from Basque (3,925 words) to Finnish (153,557).
+`bn/bn_wiktionary.wmdict.gz` is the Bengali one. Forms from declension tables stay
+out; a form Wiktionary gives its own entry is a redirect.
+
 ## Format
 
 UTF-8 text, gzipped. The app inflates it once on install and then reads the
@@ -58,6 +64,13 @@ fields the pack can use, and only the cut is kept:
 ```
 curl -sL https://kaikki.org/dictionary/English/kaikki.org-dictionary-English.jsonl.gz \
   | python3 scripts/build_dictionary_packs.py --prefilter
+```
+
+The language packs read kaikki.org directly and keep no copy, since the extracts
+run to gigabytes and move with Wiktionary, so they have no `--check`:
+
+```
+python3 scripts/build_dictionary_packs.py --languages all     # or de,fr,...
 ```
 
 Each pack's header records its source file's SHA-256, never a date, and gzip
