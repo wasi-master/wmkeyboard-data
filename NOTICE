@@ -124,3 +124,10 @@ scripts/build_corpus_packs.py. They hold word and word-sequence counts, not text
     https://huggingface.co/datasets/ai4bharat/sangraha
   Wikipedia, CC BY-SA 4.0, https://dumps.wikimedia.org/
   Tatoeba, CC BY 2.0 FR, https://tatoeba.org/
+
+The German context model data/de/de_context.wmlm is trained on Tatoeba,
+Leipzig News 2023, and an OpenSubtitles DE v2018 chat top-up (301,703 rows,
+15.1 %). The OpenSubtitles component is distributed under the OpenSubtitles
+non-commercial terms; see data/de/de_context.md for the model card and
+attribution. OpenSubtitles: https://www.opensubtitles.org/ ; Lison &
+Tiedemann, 2016. Tatoeba is CC BY 2.0 FR / CC0; Leipzig keeps its own terms.

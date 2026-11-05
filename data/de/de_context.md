@@ -18,9 +18,11 @@ gate; see [Open problems](#open-problems).
 | Source candidate | `de_candidate_g6p_90k.wmlm` |
 
 The source candidate was exported without `--langs=de --name=German`. The
-published file carries the same tensor payload with the header corrected to
-`German` / `["de"]`; `lm_probe` returns the same scores as the source
-candidate. A future re-export from `best.pt` should produce the same file:
+published file carries the same payload with the header corrected to
+`German` / `["de"]`; the bytes after the header hash to
+`c61f4e2d0b6d9d6a20c8de56272e22fb9b2b3d4e64e767aca4e9152d8f5d5144`
+in both files, and `lm_probe` returns the same scores. A future re-export
+from `best.pt` should produce the same file:
 
 ```bash
 python tools/wmlm/export.py runs/G6P/90k/best.pt de_lm_2m/vocab.txt \
@@ -44,8 +46,7 @@ This model is the G6P 90k run from the tooling in
 
 ### Teacher
 
-- `Qwen3.8-27B-FP8`, vLLM, `prompt_logprobs` top-24, `max_tokens=1`, through
-  `wmk-glide/cloud/scaleway/run_distill_1m2.sh`.
+- `Qwen3.8-27B-FP8`, vLLM, `prompt_logprobs` top-24, `max_tokens=1`.
 - `de_soft_2m.npz`: 1,979,982 sentences (18 missing), 21,378,590 rows,
   top-24; 22,512 / 24,576 student words mapped (`multi=1`); 90.6 % mass;
   729 rows accepted with high NLL. The merge is a `.PARTIAL` merge, not a
