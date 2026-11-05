@@ -1,6 +1,6 @@
 # German context model — `de_context.wmlm`
 
-Status: **candidate, G7 PASS (pre-registered exit b)**. This is the best measured
+Status: **candidate, G7 PASS (pre-registered exit a/b)**. This is the best measured
 German model we have. The typing-strip check (c) is a post-hoc advisory, not a
 gate; see [Open problems](#open-problems).
 
@@ -82,31 +82,32 @@ The 20k re-baseline is 4.0116 for the 90k, 4.0111 for v2, 4.0490 for 60k,
 
 | Pair | A | B | Δ | 95 % CI | p |
 |---|---:|---:|---:|---|---:|
-| 90k vs 2M | 0.7875 | 0.7848 | **+0.27 pp** | [−0.27, +0.81] | 0.410 |
-| 90k vs 1.2M | 0.7875 | 0.7794 | **+0.81 pp** | [+0.31, +1.35] | 0.0038 |
-| 90k vs 150k | 0.7875 | 0.7848 | +0.27 pp | [−0.31, +0.85] | 0.427 |
+| 90k vs 2M | 0.7736 | 0.7662 | **+0.73 pp** | [+0.15, +1.31] | 0.018 |
 
-The 90k-v2 is not better on Glide: `best` 0.7871, `best_ema` 0.7855.
+Fixed harness: QWERTZ `KeyProximity`, no German seed pairs, the app's German
+join settings and the 8 -> 16 close-stroke widening.
 
-### Typing (fixed German harness)
+The 90k-v2 is not included; heldout was a wash and its Glide numbers were not
+re-run with the fixed harness.
 
-- Strip top-1: 0.6885 vs 2M 0.6820 = **+0.65 pp** (p = 0.154,
-  CI [−0.15, +1.50]).
-- Per-register: chat +0.60 pp, news +1.90 pp, mean **+1.25 pp**; no slice
+### Typing (fixed German harness, `SCATTER=careful`, n=2,000)
+
+- Strip top-1: 0.7105 vs 2M 0.7065 = **+0.40 pp** (p = 0.096,
+  CI [0.00, +0.85]).
+- Per-register: chat +0.05 pp, news +0.25 pp, mean **+0.15 pp**; no slice
   degraded.
-- Next-word: **+1.75 pp** vs 2M (p = 0.00037), +2.20 vs 1.2M, +1.65 vs 150k.
-- The v2 is a wash: strip `best` 0.6860, `best_ema` 0.6885; next-word
-  0.1620 / 0.1615 vs 0.1585.
+- Next-word: 0.1390 vs 0.1350 = **+0.40 pp** (p = 0.45); not significant.
 
 ## Open problems
 
 G7 passed under the pre-registered exit; the typing strip is an advisory:
 
-1. **Typing advisory, not a gate:** G7 passed under the pre-registered exit (b)
-   (heldout −0.1842 nats, Glide CI lower −0.27 pp ≥ −0.5 pp). The full-set
-   typing strip is +0.65 pp; that check (c) was added after the result and is
-   not part of the gate. With n=2,000 the MDE is ~2.0 pp, so the result is
-   inconclusive; an 8,000-case re-test is optional.
+1. **Typing advisory, not a gate:** G7 passes the pre-registered exit (a) and
+   (b): fixed-harness Glide +0.73 pp, CI lower +0.15 pp > 0; heldout −0.1842
+   nats with Glide CI lower +0.15 pp ≥ −0.5 pp. The full-set typing strip is
+   +0.40 pp; that check (c) was added after the result and is not part of the
+   gate. With n=2,000 the MDE is ~2.0 pp, so the result is inconclusive; an
+   8,000-case re-test is optional.
 2. **Licence:** the 2M mix contains 301,703 OpenSubtitles rows (15.1 %) under
    CC BY-NC-style terms. The app code is MIT; the model is CC BY-NC, a split
    licence. The model is published with attribution and a non-commercial notice
