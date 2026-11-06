@@ -431,6 +431,15 @@ The memory counter packs a trigram into one 64-bit number, so it uses only the
 2,097,151 commonest words of a longer list (Hungarian, Finnish, Arabic and
 Turkish have more). The words it leaves out are each seen about once.
 
+### Neural context models
+
+The `<lang>/<lang>_context.wmlm` files are trained by the app repository's
+`tools/wmlm`. `de/de_context.wmlm` is the German model; it uses Tatoeba,
+Leipzig News 2023 and an OpenSubtitles DE v2018 chat top-up (301,703 rows,
+15.1 %). The OpenSubtitles component is non-commercial; see
+[`de/de_context.md`](de/de_context.md) for the model card, evaluation and
+licence.
+
 ### Word lists and pairs from web corpora
 
 Most languages here started with a list counted from their Wikipedia and pairs
