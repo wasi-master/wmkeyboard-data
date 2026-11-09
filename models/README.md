@@ -265,3 +265,23 @@ deterministic: two runs wrote the same weights byte for byte.
 | `punct-mmbert-small.onnx` | 588,015 | `1d0ac3af30fa5de2c913f3ab80b26a94a790a988a270adcb239a3a5248f0efe7` | The graph: `input_ids`, `attention_mask` [1, n] int64 → `logits` [1, n, 6]; `<bos>` (2) first and `<eos>` (1) last |
 | `punct-mmbert-small.onnx.data` | 145,913,856 | `1927826af2b8dae8b879aec82647c74fd26ca79645fb300934607e60f0f526ae` | Its weights, the external data the graph names: keep the file name |
 | `punct-mmbert-small.model` | 4,747,941 | `13cb25eeae71780a9e52d3771ebbc59a7a0eb2274ebcb20e203d68460f93a6d4` | SentencePiece BPE model, byte fallback, 256,000 pieces |
+
+## Smart punctuation key: `punct/smart_punct_v1.wmpt`
+
+The keyboard's **Smart punctuation key**: the key beside the spacebar shows
+the mark the sentence so far is heading for. Trained by the app repository's
+`tools/wmpunct` (see its README); `wm-engine/src/punct.rs` reads it.
+
+| | |
+|---|---|
+| Network | bidirectional transformer encoder, factorised embedding 64 → 160, 3 layers, 4 heads, feed-forward 448, context 48 tokens, 4 classes (`.` `?` `!` `,`); 1.8M parameters |
+| Vocabulary | 16,384 tokens: 4 specials, 12,284 words shared between the languages, 4,096 subword pieces (the context model's `▁`/`##` scheme) |
+| Data | Tatoeba English and German sentences and the first 400,000 lines of OPUS OpenSubtitles 2018 English; 2.9M examples after the filter, 5,000 held out |
+| Accuracy | 97.3% of held-out sentence ends right over `. ? !` (English 98.0%, German 95.0%); `?` precision .96 recall .94; `!` recall .23 |
+| Format | `WMPT` version 1: the `.wmlm` container, int8 weights with a scale per row, f32 norms, biases and head |
+| Size | 2,077,464 bytes |
+| SHA-256 | `2cdac4e7ff15b902a3cedc6ebd8f61ec579af8de0c9b8b04728fa5b8c288163d` |
+| License | the model is MIT like the keyboard; Tatoeba text is CC BY 2.0 FR, OpenSubtitles text is the OPUS corpus |
+
+A model trained on some sixty languages at once replaces this one as `v2`; a
+new model is a new file name, never a replaced file.
