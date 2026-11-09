@@ -266,6 +266,28 @@ deterministic: two runs wrote the same weights byte for byte.
 | `punct-mmbert-small.onnx.data` | 145,913,856 | `1927826af2b8dae8b879aec82647c74fd26ca79645fb300934607e60f0f526ae` | Its weights, the external data the graph names: keep the file name |
 | `punct-mmbert-small.model` | 4,747,941 | `13cb25eeae71780a9e52d3771ebbc59a7a0eb2274ebcb20e203d68460f93a6d4` | SentencePiece BPE model, byte fallback, 256,000 pieces |
 
+## Smart punctuation key: `punct/smart_punct_v3.wmpt`, `punct/smart_punct_v3_large.wmpt`
+
+The v2 models below retrained with a language token: the sentence is read
+as `<s> <lang:xx> words…`, the keyboard's language id after the sentence
+start (`<lang:?>` for a language outside the 58, and for a fifth of the
+training rows so the model never leans on the token alone). Same data,
+vocabulary (plus 59 language tokens), sizes and training as v2; `v3` is the
+Standard size the switch fetches, `v3_large` the Large one.
+
+| | Standard `v3` | Large `v3_large` |
+|---|---|---|
+| Held-out accuracy over `. ? !`, all languages | 87.4% (v2: 87.2%) | 87.4% (v2: 87.5%) |
+| English | 93.7% (`?` precision .95, recall .85) | 93.7% |
+| Hungarian / Spanish / Persian | .82 / .88 / .72 | .82 / .88 / .73 |
+| Size | 5,255,848 bytes | 9,476,652 bytes |
+| SHA-256 | `bb79c3c405a55772439c16094dc756601bf79b701fbc6f6b6064bbd87605a881` | `96c98a04d3635a4492aae32ffd8da51ec11ccd9d8cde791097f55d181ff3b383` |
+
+The token is worth a quarter of a point overall and a point or two in
+Hungarian and Spanish; the deeper Large model is within noise of Standard on
+this data. Questions asked in statement order and exclamation marks remain
+the misses, in every size.
+
 ## Smart punctuation key: `punct/smart_punct_v2.wmpt`, `punct/smart_punct_v2_large.wmpt`
 
 The keyboard's **Smart punctuation key** for 58 languages at once: the key
