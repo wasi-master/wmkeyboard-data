@@ -266,6 +266,44 @@ deterministic: two runs wrote the same weights byte for byte.
 | `punct-mmbert-small.onnx.data` | 145,913,856 | `1927826af2b8dae8b879aec82647c74fd26ca79645fb300934607e60f0f526ae` | Its weights, the external data the graph names: keep the file name |
 | `punct-mmbert-small.model` | 4,747,941 | `13cb25eeae71780a9e52d3771ebbc59a7a0eb2274ebcb20e203d68460f93a6d4` | SentencePiece BPE model, byte fallback, 256,000 pieces |
 
+## Smart punctuation key: `punct/smart_punct_v2.wmpt`, `punct/smart_punct_v2_large.wmpt`
+
+The keyboard's **Smart punctuation key** for 58 languages at once: the key
+beside the spacebar shows the mark the sentence so far is heading for.
+Trained by the app repository's `tools/wmpunct` (see its README) on a rented
+RTX 5080; `wm-engine/src/punct.rs` reads it. `v2` is the Standard size the
+switch fetches by itself, `v2_large` the Large one offered under it.
+
+| | Standard `v2` | Large `v2_large` |
+|---|---|---|
+| Network | encoder, embedding 64 → 192, 4 layers, 4 heads, feed-forward 512 | embedding 96 → 256, 6 layers, 4 heads, feed-forward 768 |
+| Parameters | 4.6M | 8.8M |
+| Training | 60,000 steps of 512, 0.73 epochs | 100,000 steps of 512, 1.2 epochs |
+| Held-out accuracy over `. ? !`, all languages | 87.2% | 87.5% |
+| English | 93.7% (`?` precision .94, recall .86) | 93.9% (`?` .94 / .87) |
+| Size | 5,255,776 bytes | 9,476,584 bytes |
+| SHA-256 | `5e463c42eea1d308273d89e39275d033a5fbf8e3b83a2e6987407679e9489ad2` | `24b755df006a7ae4066182685b9287bb30c91aaac9c636972e9a955bce2cb381` |
+
+Shared by both: vocabulary of 49,152 tokens (4 specials, 40,956 words shared
+out between the languages by the square root of their token counts, 8,192
+subword pieces); context 48 tokens; 4 classes `.` `?` `!` `,`; `WMPT`
+version 1 container (the `.wmlm` layout, int8 weights with a scale per row,
+f32 norms, biases and head).
+
+Data: Tatoeba per-language exports and OPUS OpenSubtitles 2018 (streamed,
+line-capped per language), 41.4M examples after the filter and dedupe,
+40,000 held out. Languages (keyboard ids): af ar az bg bn bs ca cs da de el
+en eo es et eu fa fi fr gl he hi hr hu hy id is it ka kk lt lv mk ml mr ms nb
+nl pl pt pt_br ro ru si sk sl sq sr sv sw ta te tl tr uk ur uz vi. Russian is
+Tatoeba only; Latvian subtitles only. Accuracy by language runs from .95
+(Esperanto, Turkish) and .94 (English) to .72 (Persian) and .76 (Bengali,
+whose data is short subtitle lines); the exclamation mark is almost never
+predicted (recall .02), questions asked in statement order are the other
+miss.
+
+License: the models are MIT like the keyboard; Tatoeba text is CC BY 2.0 FR,
+OpenSubtitles text is the OPUS corpus.
+
 ## Smart punctuation key: `punct/smart_punct_v1.wmpt`
 
 The keyboard's **Smart punctuation key**: the key beside the spacebar shows
@@ -283,5 +321,5 @@ the mark the sentence so far is heading for. Trained by the app repository's
 | SHA-256 | `2cdac4e7ff15b902a3cedc6ebd8f61ec579af8de0c9b8b04728fa5b8c288163d` |
 | License | the model is MIT like the keyboard; Tatoeba text is CC BY 2.0 FR, OpenSubtitles text is the OPUS corpus |
 
-A model trained on some sixty languages at once replaces this one as `v2`; a
-new model is a new file name, never a replaced file.
+Replaced by `v2` above; kept because a new model is a new file name, never a
+replaced file.
