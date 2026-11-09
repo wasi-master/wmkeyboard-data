@@ -25,7 +25,10 @@ published, still zstd-packed as Mozilla serves it.
 
 ## Updating
 
-After the app re-pins its catalogue, upload the new files:
+After the app re-pins its catalogue, run the **Mirror Firefox Translations
+models** workflow (`.github/workflows/mirror-translations.yml`) from the Actions
+tab, which copies Mozilla's files into the release from GitHub's side in a few
+minutes. The same script runs locally too:
 
     scripts/mirror_translations.py --catalog <path to BergamotCatalog.kt>
 

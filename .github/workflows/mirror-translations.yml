@@ -1,0 +1,37 @@
+name: Mirror Firefox Translations models
+
+# Copies the Firefox Translations files WM Keyboard pins from Mozilla's CDN
+# into the `translations` release. Run it by hand after the app re-pins
+# BergamotCatalog.kt. Files already in the release are skipped, so a run
+# that stopped part-way can be started again. See translations/README.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "App repository branch, tag or commit to read BergamotCatalog.kt from"
+        default: main
+
+concurrency:
+  group: mirror-translations
+
+jobs:
+  mirror:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch the app's catalogue
+        env:
+          REF: ${{ inputs.ref }}
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/BergamotCatalog.kt" \
+            "https://raw.githubusercontent.com/wasi-master/wmkeyboard/$REF/core/intelligence/src/main/java/com/wasimaster/wmkeyboard/core/translate/BergamotCatalog.kt"
+
+      - name: Mirror
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/mirror_translations.py --catalog "$RUNNER_TEMP/BergamotCatalog.kt" --jobs 8
