@@ -52,10 +52,15 @@ FILE_LINE = re.compile(r'f\((\w+), "([^"]+)", "([^"]+)", (\d+), "([0-9a-f]{64})"
 
 
 def catalog_files(text):
-    """(name, path, size, sha256) for every distinct downloaded file in the catalogue."""
+    """(name, path, size, sha256) for every asset the app can ask for.
+
+    One per name and digest, not per digest: two directions can share a file
+    under two names (vocab.enbg.spm and vocab.bgen.spm are the same bytes), and
+    the app asks for each by its own name.
+    """
     seen = {}
     for _kind, name, path, size, sha, _raw_size, _raw_sha in FILE_LINE.findall(text):
-        seen.setdefault(sha, (name, path, int(size), sha))
+        seen.setdefault(asset_name(name, sha), (name, path, int(size), sha))
     return list(seen.values())
 
 
