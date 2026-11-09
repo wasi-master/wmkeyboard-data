@@ -22,6 +22,7 @@ That lives separately.
 | [`models/`](models/) | Small on-device networks the app fetches on demand, pinned by SHA-256: the sticker editor's background remover (`cutout/u2netp.tflite`, 4.6 MB) — see [`models/README.md`](models/README.md) | U²-Net (Qin et al.), Apache-2.0 |
 | [`spell/`](spell/) | Spelling dictionaries the app downloads for its native spell checkers: the Finnish dictionary for Voikko (`voikko/voikko-fi-2.6-mor-standard.zip`), beside the signed source release it is built from — see [`spell/voikko/README.md`](spell/voikko/README.md) | voikko-fi 2.6 (GPL 2 or later) |
 | [`natives/`](natives/) | Where the app's on-demand native libraries are published: assets of the `natives` release, named `<sha256>-<library>`, pinned by the app that downloads them — see [`natives/README.md`](natives/README.md) | The WM Keyboard app repository's own build |
+| [`translations/`](translations/) | Where the Firefox Translations models the on-device translator runs are mirrored: assets of the `translations` release, named `<sha256>-<name>.zst`, unchanged from Mozilla's server and pinned by the app — see [`translations/README.md`](translations/README.md) | Mozilla's [firefox-translations-models](https://github.com/mozilla/firefox-translations-models), MPL-2.0 |
 
 The phonetic indexes are binary tables the app memory-maps instead of folding the whole word list on the phone at every start. Each file name carries the table format and fold version it was written by; a new version is published under a new name beside the old one, which stays for the app versions that still fetch it.
 
@@ -49,6 +50,11 @@ file stays under GitHub's 100 MB limit — `gunzip` to get the plain text/JSON d
   ([xuebinqin/U-2-Net](https://github.com/xuebinqin/U-2-Net), Apache-2.0), converted to LiteRT from the ONNX
   export [rembg](https://github.com/danielgatis/rembg) publishes. Provenance and checksums are in
   [`models/README.md`](models/README.md).
+
+- **`translations/`** — the Firefox Translations models are Mozilla's, from
+  [mozilla/firefox-translations-models](https://github.com/mozilla/firefox-translations-models),
+  under the [Mozilla Public License 2.0](translations/LICENSE), mirrored unmodified as Mozilla serves
+  them. See [`translations/README.md`](translations/README.md).
 
 - **`spell/`** — `voikko/voikko-fi-2.6-mor-standard.zip` is built from
   [voikko-fi](https://github.com/voikko/corevoikko/tree/master/voikko-fi) 2.6, Copyright 2006-2026 Hannu
