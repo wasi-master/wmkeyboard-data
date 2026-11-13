@@ -276,6 +276,34 @@ python3 scripts/import_leipzig_ngrams.py --lang bn --script bengali \
     https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2011_100K.tar.gz
 ```
 
+#### Hinglish pairs
+
+`hi/hi_rom_bigrams.txt.gz` (150,000 rows) and `hi/hi_rom_trigrams.txt.gz`
+(75,000) serve Hinglish, Hindi typed in Latin letters. They come from
+[`scripts/build_hi_rom_ngrams.py`](../scripts/build_hi_rom_ngrams.py) over
+MADLAD-400's `hi_Latn` clean split
+([ODC-BY](https://opendatacommons.org/licenses/by/1-0/)): 26,723 web
+documents, mostly blogs and how-to pages. English words stay in, because
+Hinglish is typed with them (`phone me`, `click kare`); a word counts when
+`hi_rom_v2` or the first 200,000 words of `en_full` know it.
+
+The crawl is noisy, so 5,365 documents are dropped before counting: English
+pages with too few Hindi function words, keyword-stuffed pages (one pair
+repeated hundreds of times), and sex-story pages. No row names a word from the
+script's explicit list, and inside one document an n-gram counts three times
+at most. 18.7 million words are counted.
+
+On Dakshina's human-romanized test sentences, which the build never sees,
+38.6% of the 81,872 word pairs are in the bigram list, and the next word is
+first 8.1% of the time and in the top three 14.9%. Dakshina's romanizers
+spell the same word many ways, so this undercounts what a typist gets once the
+keyboard has learned their spellings.
+
+```sh
+curl -LO https://huggingface.co/datasets/allenai/MADLAD-400/resolve/main/data/hi_Latn/hi_Latn_clean_0000.jsonl.gz
+python3 -I scripts/build_hi_rom_ngrams.py hi_Latn_clean_0000.jsonl.gz
+```
+
 #### Bangla word frequencies
 
 `bn/bn_full.txt.gz` is a bare word list: every one of its 451,348 words says
