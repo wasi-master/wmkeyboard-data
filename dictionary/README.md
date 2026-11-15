@@ -28,6 +28,19 @@ BY-SA 4.0 and GFDL: 31 languages, from Basque (3,925 words) to Finnish (153,557)
 `bn/bn_wiktionary.wmdict.gz` is the Bengali one. Forms from declension tables stay
 out; a form Wiktionary gives its own entry is a redirect.
 
+`<lang>/<lang>_native.wmdict.gz` is a dictionary written in the language
+itself, from that language's own Wiktionary edition through kaikki.org's
+wiktextract dumps (`https://kaikki.org/<lang>wiktionary/`), under CC BY-SA 4.0
+and GFDL: 19 editions (cs de el es fr id it ja ko ku ms nl pl pt ru th tr vi
+zh), from Malay (8,172 words) to Russian (398,551). Senses, part-of-speech
+titles and examples stay in the edition's language; only the edition's own
+language's entries are kept, and only words made of letters, marks, spaces
+and hyphens. Built with `scripts/build_dictionary_packs.py --native <lang>`.
+
+dict.cc word lists are not here and cannot be: dict.cc allows downloading
+them for personal use only. The app converts a list the user downloaded
+themselves on the phone (wasi-master/wmkeyboard#1085).
+
 ## Format
 
 UTF-8 text, gzipped. The app inflates it once on install and then reads the

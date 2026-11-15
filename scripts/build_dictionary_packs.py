@@ -62,6 +62,7 @@ than a date, so the same source always makes the same bytes.
 from __future__ import annotations
 
 import argparse
+import unicodedata
 import collections
 import gzip
 import hashlib
@@ -620,6 +621,39 @@ LANGUAGE_PACKS = {
 }
 KAIKKI_LANGUAGE_URL = "https://kaikki.org/dictionary/{name}/kaikki.org-dictionary-{name}.jsonl.gz"
 
+# Definitions in the language itself (#1085): that language's own edition of
+# Wiktionary, which kaikki.org extracts for these. Lang id -> (English name,
+# the language's own name for itself). The edition's dump holds every language
+# it covers; only the edition's own language is kept.
+NATIVE_PACKS = {
+    "cs": ("Czech", "čeština"), "de": ("German", "Deutsch"), "el": ("Greek", "Ελληνικά"),
+    "es": ("Spanish", "español"), "fr": ("French", "français"), "id": ("Indonesian", "Bahasa Indonesia"),
+    "it": ("Italian", "italiano"), "ja": ("Japanese", "日本語"), "ko": ("Korean", "한국어"),
+    "ku": ("Kurdish", "Kurdî"), "ms": ("Malay", "Bahasa Melayu"), "nl": ("Dutch", "Nederlands"),
+    "pl": ("Polish", "polski"), "pt": ("Portuguese", "português"), "ru": ("Russian", "русский"),
+    "th": ("Thai", "ไทย"), "tr": ("Turkish", "Türkçe"), "vi": ("Vietnamese", "Tiếng Việt"),
+    "zh": ("Chinese", "中文"),
+}
+KAIKKI_NATIVE_URL = "https://kaikki.org/{lang}wiktionary/raw-wiktextract-data.jsonl.gz"
+
+
+def native_word(word: str) -> bool:
+    """
+    A native edition's headword: letters with their combining marks (Thai's
+    vowel signs, Hindi's matras, which Python's \\w leaves out), apostrophes,
+    and up to a few words joined by spaces or hyphens, since a Vietnamese word
+    is written as syllables apart ("học sinh").
+    """
+    if not word or not unicodedata.category(word[0]).startswith("L"):
+        return False
+    if len(word.split()) > KAIKKI_MAX_ENTRY_WORDS:
+        return False
+    for ch in word:
+        cat = unicodedata.category(ch)
+        if not (cat.startswith("L") or cat.startswith("M") or ch in " -'’"):
+            return False
+    return True
+
 
 class HashingReader(io.RawIOBase):
     """A stream that hashes what passes through: the header's source hash, with no copy kept."""
@@ -638,7 +672,7 @@ class HashingReader(io.RawIOBase):
         return len(chunk)
 
 
-def build_language_pack(lang: str, name: str, out: Path) -> int:
+def build_language_pack(lang: str, name: str, out: Path, native: str | None = None) -> int:
     """
     [name]'s words with English glosses, read straight off kaikki.org: its
     per-language extracts run to gigabytes inflated and move with Wiktionary, so
@@ -648,28 +682,41 @@ def build_language_pack(lang: str, name: str, out: Path) -> int:
     """
     by_word: dict[str, dict] = {}
     redirects: dict[str, set[str]] = collections.defaultdict(set)
-    request = urllib.request.Request(
-        KAIKKI_LANGUAGE_URL.format(name=urllib.parse.quote(name)),
-        headers={"User-Agent": "wmkeyboard-data dictionary build"},
+    url = (
+        KAIKKI_NATIVE_URL.format(lang=lang) if native else KAIKKI_LANGUAGE_URL.format(name=urllib.parse.quote(name))
     )
+    request = urllib.request.Request(url, headers={"User-Agent": "wmkeyboard-data dictionary build"})
     with urllib.request.urlopen(request) as response:
         hashing = HashingReader(response)
         with gzip.open(io.BufferedReader(hashing, 1 << 20), "rt", encoding="utf-8") as f:
             for line in f:
                 record = json.loads(line)
                 word = record.get("word", "")
-                if record.get("lang_code") != lang or not WORD.match(word) or len(word) > KAIKKI_MAX_WORD:
+                if record.get("lang_code") != lang or len(word) > KAIKKI_MAX_WORD:
+                    continue
+                if not (native_word(word) if native else WORD.match(word)):
                     continue
                 pos = KAIKKI_POS.get(record.get("pos", ""))
                 if pos is None:
                     continue
+                if native:
+                    # The edition's own name for it ("Substantiv"), so the
+                    # whole entry reads in the language.
+                    pos = clean(record.get("pos_title")) or pos
                 roman = ""
                 for form in record.get("forms", []):
                     tags = set(form.get("tags", []))
                     text = form.get("form", "")
                     if "romanization" in tags and not roman:
                         roman = clean(text)
-                    elif not form.get("source") and WORD.match(text) and text != word and "romanization" not in tags:
+                    elif (
+                        not native and not form.get("source") and WORD.match(text) and text != word
+                        and "romanization" not in tags
+                    ):
+                        # A native edition's tables list every inflection of
+                        # every word, which would make the redirects outweigh
+                        # the definitions; its form pages come in as
+                        # form-of senses instead.
                         redirects[text.lower()].add(word)
                 senses = []
                 for sense in record.get("senses", []):
@@ -700,7 +747,7 @@ def build_language_pack(lang: str, name: str, out: Path) -> int:
                 entry = by_word.setdefault(word, {"ipa": "", "pos": collections.OrderedDict()})
                 # How it is said where Wiktionary has that, else how it is spelled in Latin letters.
                 if not entry["ipa"]:
-                    entry["ipa"] = kaikki_ipa(record) or roman
+                    entry["ipa"] = (kaikki_ipa(record) or roman).replace("[…]", "").replace("…", "").strip()
                 bucket = entry["pos"].setdefault(pos, [])
                 seen = {sense[0] for sense in bucket}
                 for definition, example, synonyms, antonyms in senses:
@@ -716,14 +763,24 @@ def build_language_pack(lang: str, name: str, out: Path) -> int:
             for d, e, syn, ant in senses
         ]
         packed[word] = (entry["ipa"], fields[:KAIKKI_MAX_WORD_SENSES])
-    header = {
-        "id": f"{lang}_wiktionary",
-        "name": f"{name}–English Wiktionary (offline)",
-        "lang": lang,
-        "license": "CC-BY-SA-4.0 OR GFDL-1.3",
-        "attribution": f"English Wiktionary's {name} entries via kaikki.org, CC BY-SA 4.0 and GFDL",
-        "source": f"kaikki-{name}.jsonl.gz sha256:" + hashing.digest.hexdigest()[:16],
-    }
+    if native:
+        header = {
+            "id": f"{lang}_native",
+            "name": f"{native} Wiktionary (offline)",
+            "lang": lang,
+            "license": "CC-BY-SA-4.0 OR GFDL-1.3",
+            "attribution": f"{lang}.wiktionary.org's {name} entries via kaikki.org, CC BY-SA 4.0 and GFDL",
+            "source": f"kaikki-{lang}wiktionary.jsonl.gz sha256:" + hashing.digest.hexdigest()[:16],
+        }
+    else:
+        header = {
+            "id": f"{lang}_wiktionary",
+            "name": f"{name}–English Wiktionary (offline)",
+            "lang": lang,
+            "license": "CC-BY-SA-4.0 OR GFDL-1.3",
+            "attribution": f"English Wiktionary's {name} entries via kaikki.org, CC BY-SA 4.0 and GFDL",
+            "source": f"kaikki-{name}.jsonl.gz sha256:" + hashing.digest.hexdigest()[:16],
+        }
     return write_pack(out, header, packed, redirects)
 
 
@@ -740,10 +797,19 @@ def main() -> int:
     parser.add_argument("--check", action="store_true", help="rebuild and compare with the checked-in files")
     parser.add_argument("--prefilter", action="store_true", help="cut kaikki's English JSONL (gzipped, on stdin) into the cache")
     parser.add_argument("--languages", help="build these language packs off kaikki.org instead: comma-separated ids, or all")
+    parser.add_argument("--native", help="build these native-definition packs off kaikki.org's other editions: ids, or all")
     args = parser.parse_args()
     if args.prefilter:
         kept = prefilter(sys.stdin.buffer, KAIKKI_SOURCE)
         print(f"kept {kept} records -> {KAIKKI_SOURCE.relative_to(ROOT)}")
+        return 0
+    if args.native:
+        wanted = list(NATIVE_PACKS) if args.native == "all" else args.native.split(",")
+        for lang in wanted:
+            name, own = NATIVE_PACKS[lang]
+            final = ROOT / "dictionary" / lang / f"{lang}_native.wmdict.gz"
+            count = build_language_pack(lang, name, final, native=own)
+            print(f"{lang}_native: {count} words, {final.stat().st_size} bytes", flush=True)
         return 0
     if args.languages:
         wanted = list(LANGUAGE_PACKS) if args.languages == "all" else args.languages.split(",")
