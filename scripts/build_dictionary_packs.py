@@ -7,23 +7,26 @@ phone with no network (or the no-internet build) could not define "house"
 (#665). These packs are the offline answer: one line per headword, sorted, so
 the app can binary-search the installed file on disk instead of parsing it.
 
-Two packs, both single words only (no "ice cream", no "look after"):
+Two packs:
 
   * `oewn`          Open English WordNet 2024 (CC BY 4.0). Every single-word
                     lemma, every sense, one example, a few synonyms and
                     antonyms, IPA where OEWN has it, irregular forms as
-                    redirects.
+                    redirects. Single words only.
   * `wiktionary`    English Wiktionary through kaikki.org's extract
-                    (CC BY-SA 4.0 and GFDL). Common words only (the repo's
-                    frequency list decides, plus every word OEWN has), no
-                    proper nouns, a capped number of senses, one short
-                    example, IPA, and inflections as redirects.
+                    (CC BY-SA 4.0 and GFDL). Every English entry, phrases
+                    and hyphenated ones included ("faux pas", "take off",
+                    "motte-and-bailey", "anti-"), no proper nouns, a capped
+                    number of senses, one short example, IPA, and
+                    inflections and alternative spellings as redirects.
+                    Until #1085 it kept only words the frequency list counted
+                    300 times, which left out "eke", "petrichor" and "motte".
 
 Sources live in `dictionary/cache/` (gitignored):
 
   english-wordnet-2024.xml.gz       https://github.com/globalwordnet/english-wordnet/releases
-  kaikki-English.common.jsonl.gz    kaikki.org's English extract (520 MB gzipped),
-                                    cut on the way in to the words the pack can
+  kaikki-English.entries.jsonl.gz   kaikki.org's English extract (530 MB gzipped),
+                                    cut on the way in to the entries the pack can
                                     keep and the fields it reads (--prefilter):
 
     curl -sL https://kaikki.org/dictionary/English/kaikki.org-dictionary-English.jsonl.gz \
@@ -76,8 +79,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "dictionary" / "en"
 CACHE = ROOT / "dictionary" / "cache"
 OEWN_SOURCE = CACHE / "english-wordnet-2024.xml.gz"
-KAIKKI_SOURCE = CACHE / "kaikki-English.common.jsonl.gz"
-FREQUENCY = ROOT / "data" / "en" / "en_full.txt.gz"
+KAIKKI_SOURCE = CACHE / "kaikki-English.entries.jsonl.gz"
 
 FORMAT_VERSION = 1
 SEP = "\x1f"
@@ -88,17 +90,27 @@ SEP = "\x1f"
 # by their parts.
 WORD = re.compile(r"^[^\W\d_](?:[^\W\d_]|['’])*$")
 
+# An English Wiktionary entry the Wiktionary pack keeps (#1085): words, and
+# phrases and compounds of them joined by single spaces or hyphens ("faux
+# pas", "take off", "motte-and-bailey"), and a prefix's or suffix's hyphen at
+# either end ("anti-", "-ness"). Looked up whole, as typed: "take off" is not
+# "take" and "off".
+ENTRY = re.compile(r"^-?[^\W\d_](?:[^\W\d_]|['’]|[ -](?=[^\W\d_]))*-?$")
+KAIKKI_MAX_ENTRY = 48
+KAIKKI_MAX_ENTRY_WORDS = 6
+
+
+def kaikki_entry(word: str) -> bool:
+    return len(word) <= KAIKKI_MAX_ENTRY and word.count(" ") < KAIKKI_MAX_ENTRY_WORDS and bool(ENTRY.match(word))
+
 MAX_SYNONYMS = 4
 MAX_ANTONYMS = 3
 
-# The Wiktionary pack's cut. A word is kept when the frequency list counts it
-# at least KAIKKI_MIN_COUNT times or OEWN has it too; KAIKKI_MAX_SENSES senses
-# per part of speech and KAIKKI_MAX_WORD_SENSES in all, examples and
-# definitions trimmed to the lengths below. That holds the pack near 4.5 MB.
-# Proper nouns (Wiktionary's "name": surnames, villages) are left out; they
-# were a tenth of the pack and crowded out the common noun ("House", a
-# village in New Mexico, before "house").
-KAIKKI_MIN_COUNT = 300
+# The Wiktionary pack's cut: KAIKKI_MAX_SENSES senses per part of speech and
+# KAIKKI_MAX_WORD_SENSES in all, examples and definitions trimmed to the
+# lengths below. Proper nouns (Wiktionary's "name": surnames, villages) are
+# left out; they crowded out the common noun ("House", a village in New
+# Mexico, before "house").
 KAIKKI_MAX_SENSES = 3
 KAIKKI_MAX_WORD_SENSES = 6
 KAIKKI_MAX_DEFINITION = 240
@@ -140,8 +152,48 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def write_pack(path: Path, header: dict[str, str], entries: dict[str, list], redirects: dict[str, set[str]]) -> int:
-    """Writes the sorted pack; returns the headword count. [entries] maps headword → (ipa, senses)."""
+# The app's own English rules (EnglishLemmas in core/tools), which undo
+# regular inflection before it gives up: a redirect they would find anyway
+# ("pauldrons" -> pauldron) need not be in the file.
+LEMMA_RULES = [
+    ("'s", ""), ("s'", "s"),
+    ("ies", "y"), ("ses", "s"), ("xes", "x"), ("zes", "z"), ("ches", "ch"), ("shes", "sh"),
+    ("men", "man"), ("es", "e"), ("es", ""), ("s", ""),
+    ("ied", "y"), ("ed", "e"), ("ed", ""),
+    ("ing", "e"), ("ing", ""),
+    ("iest", "y"), ("ier", "y"), ("est", "e"), ("est", ""), ("er", "e"), ("er", ""),
+    ("ly", ""),
+]
+
+
+def english_lemma_candidates(word: str) -> list[str]:
+    out = []
+    for suffix, replacement in LEMMA_RULES:
+        if len(word) > len(suffix) + 1 and word.endswith(suffix):
+            out.append(word[: -len(suffix)] + replacement)
+    for suffix in ("ing", "ed", "er", "est"):
+        if not word.endswith(suffix):
+            continue
+        stem = word[: -len(suffix)]
+        if len(stem) >= 3 and stem[-1] == stem[-2] and stem[-1] not in "aeiouls":
+            out.append(stem[:-1])
+    return [c for c in out if c != word and len(c) >= 2]
+
+
+def write_pack(
+    path: Path,
+    header: dict[str, str],
+    entries: dict[str, list],
+    redirects: dict[str, set[str]],
+    compact: bool = False,
+) -> int:
+    """
+    Writes the sorted pack; returns the headword count. [entries] maps headword → (ipa, senses).
+
+    [compact] (the large Wiktionary pack) leaves the headword field empty where
+    it is the key itself, which the app reads as the key, and leaves out a
+    redirect the app's English rules reach on their own.
+    """
     lines: list[tuple[bytes, str, str]] = []
     keys_with_entries = set()
     for word, (ipa, senses) in entries.items():
@@ -149,13 +201,20 @@ def write_pack(path: Path, header: dict[str, str], entries: dict[str, list], red
             continue
         key = word.lower()
         keys_with_entries.add(key)
-        lines.append((key.encode("utf-8"), word, "\t".join([key, word, clean(ipa), *senses])))
+        shown = "" if compact and word == key else word
+        lines.append((key.encode("utf-8"), word, "\t".join([key, shown, clean(ipa), *senses])))
     for key, targets in redirects.items():
         # A form that is a headword of its own is looked up as itself; the
         # app then tries the rules for the lemma only when nothing matched.
         if key in keys_with_entries:
             continue
         targets = sorted(t for t in targets if t.lower() != key and t.lower() in keys_with_entries)
+        if compact and targets:
+            # The app tries the rules' candidates in order and stops at the
+            # first headword: drop the line only when that one is a target.
+            first = next((c for c in english_lemma_candidates(key) if c in keys_with_entries), None)
+            if first is not None and first in {t.lower() for t in targets}:
+                continue
         if targets:
             lines.append((key.encode("utf-8"), "@", key + "\t@" + "|".join(targets)))
     lines.sort(key=lambda line: (line[0], line[1]))
@@ -273,32 +332,17 @@ KAIKKI_POS = {
     "det": "determiner", "article": "article", "num": "numeral", "particle": "particle",
     "contraction": "contraction", "prefix": "prefix", "suffix": "suffix",
     "abbrev": "abbreviation", "phrase": "phrase", "prep_phrase": "phrase", "postp": "postposition",
+    "proverb": "proverb", "adv_phrase": "phrase",
 }
 
 # Senses that say nothing to someone looking a word up.
 SKIP_SENSE_TAGS = {"obsolete", "archaic", "rare", "dated", "nonstandard", "misspelling", "uncommon"}
 REDIRECT_TAGS = {"form-of", "alt-of", "misspelling"}
 
-
-def read_frequency(path: Path, minimum: int) -> set[str]:
-    words = set()
-    with gzip.open(path, "rt", encoding="utf-8") as f:
-        for line in f:
-            word, _, count = line.rstrip("\n").rpartition(" ")
-            if count.isdigit() and int(count) >= minimum:
-                words.add(word.lower())
-    return words
-
-
-def oewn_words(path: Path) -> set[str]:
-    words = set()
-    with gzip.open(path, "rb") as f:
-        for _, elem in ET.iterparse(f, events=("end",)):
-            if elem.tag == "Lemma":
-                words.add((elem.get("writtenForm") or "").lower())
-            elif elem.tag in ("LexicalEntry", "Synset"):
-                elem.clear()
-    return words
+# A word whose every sense is one of those is still a word someone reads
+# ("eke", "whiffler"): its senses are kept then, labelled with the first of
+# these they carry, rather than the word being dropped.
+SENSE_LABELS = ["obsolete", "archaic", "dated", "rare", "uncommon", "nonstandard"]
 
 
 def kaikki_ipa(record: dict) -> str:
@@ -317,7 +361,6 @@ def kaikki_ipa(record: dict) -> str:
 
 def prefilter(stdin, out: Path) -> int:
     """Reads kaikki's gzipped JSONL from [stdin] and keeps what build_kaikki can use."""
-    common = read_frequency(FREQUENCY, KAIKKI_MIN_COUNT) | oewn_words(OEWN_SOURCE)
     kept = 0
     out.parent.mkdir(parents=True, exist_ok=True)
     part = out.with_name(out.name + ".part")
@@ -327,7 +370,7 @@ def prefilter(stdin, out: Path) -> int:
         for line in f:
             record = json.loads(line)
             word = record.get("word", "")
-            if record.get("lang_code") != "en" or not WORD.match(word) or word.lower() not in common:
+            if record.get("lang_code") != "en" or not kaikki_entry(word):
                 continue
             if record.get("pos", "") not in KAIKKI_POS:
                 continue
@@ -353,42 +396,47 @@ def prefilter(stdin, out: Path) -> int:
 
 
 def build_kaikki(source: Path, out: Path) -> int:
-    common = read_frequency(FREQUENCY, KAIKKI_MIN_COUNT) | oewn_words(OEWN_SOURCE)
     by_word: dict[str, dict] = {}
-    forms_of: dict[str, list[tuple[str, str]]] = {}
+    forms_of: dict[str, list[tuple[str, str, bool]]] = {}
+    # A word's labelled senses (obsolete, rare…), used only for a word that has no others.
+    fallback: dict[str, list[tuple[str, str, list]]] = {}
     redirects: dict[str, set[str]] = collections.defaultdict(set)
     with gzip.open(source, "rt", encoding="utf-8") as f:
         for line in f:
             record = json.loads(line)
             word = record.get("word", "")
-            if record.get("lang_code") != "en" or not WORD.match(word) or word.lower() not in common:
+            if record.get("lang_code") != "en" or not kaikki_entry(word):
                 continue
             pos = KAIKKI_POS.get(record.get("pos", ""))
             if pos is None:
                 continue
             senses = []
+            labelled = []
             form_senses = []
             for sense in record.get("senses", []):
                 tags = set(sense.get("tags", []))
                 targets = [x.get("word", "") for x in sense.get("form_of", []) + sense.get("alt_of", [])]
                 if tags & REDIRECT_TAGS and targets:
                     for t in targets:
-                        if WORD.match(t):
+                        if kaikki_entry(t):
                             redirects[word.lower()].add(t)
                     # Kept as a sense too, in case the word has senses of its
                     # own ("mice" is a verb as well): it then says what it is
                     # a form of. A word with no others stays a redirect.
                     glosses = sense.get("glosses") or []
                     if glosses:
-                        form_senses.append((pos, trim(clean(glosses[-1]), KAIKKI_MAX_DEFINITION)))
-                    continue
-                if tags & SKIP_SENSE_TAGS:
+                        # An inflection says so first ("plural of mouse"); an
+                        # alternative or old spelling goes after the word's
+                        # own senses ("motte": "Alternative form of mott").
+                        lead = "form-of" in tags and "alt-of" not in tags and not tags & SKIP_SENSE_TAGS
+                        form_senses.append((pos, trim(clean(glosses[-1]), KAIKKI_MAX_DEFINITION), lead))
                     continue
                 glosses = sense.get("glosses") or []
                 if not glosses:
                     continue
                 # A subsense repeats its parent's gloss first; the last one is its own.
                 definition = trim(clean(glosses[-1]), KAIKKI_MAX_DEFINITION)
+                label = next((t for t in SENSE_LABELS if t in tags), None)
                 example = ""
                 for ex in sense.get("examples", []):
                     text = clean(ex.get("text"))
@@ -397,9 +445,16 @@ def build_kaikki(source: Path, out: Path) -> int:
                         break
                 synonyms = [s.get("word", "") for s in sense.get("synonyms", []) if not s.get("source")]
                 antonyms = [a.get("word", "") for a in sense.get("antonyms", []) if not a.get("source")]
-                senses.append((definition, example, synonyms[:MAX_SYNONYMS], antonyms[:MAX_ANTONYMS]))
+                sense_out = (definition, example, synonyms[:MAX_SYNONYMS], antonyms[:MAX_ANTONYMS])
+                if tags & SKIP_SENSE_TAGS:
+                    if label:
+                        labelled.append((f"({label}) {definition}",) + sense_out[1:])
+                    continue
+                senses.append(sense_out)
             if form_senses:
                 forms_of.setdefault(word, []).extend(form_senses)
+            if labelled:
+                fallback.setdefault(word, []).append((pos, kaikki_ipa(record), labelled))
             if not senses:
                 continue
             record_out = by_word.setdefault(word, {"ipa": "", "pos": collections.OrderedDict()})
@@ -412,11 +467,30 @@ def build_kaikki(source: Path, out: Path) -> int:
                     continue
                 seen.add(definition)
                 bucket.append((definition, example, synonyms, antonyms))
+    for word, groups in fallback.items():
+        # An inflection ("went") stays a redirect to its lemma.
+        if word in by_word or word in forms_of:
+            continue
+        for pos, ipa, labelled in groups:
+            record_out = by_word.setdefault(word, {"ipa": "", "pos": collections.OrderedDict()})
+            if not record_out["ipa"]:
+                record_out["ipa"] = ipa
+            bucket = record_out["pos"].setdefault(pos, [])
+            seen = {s[0] for s in bucket}
+            for sense in labelled:
+                if len(bucket) < KAIKKI_MAX_SENSES and sense[0] not in seen:
+                    seen.add(sense[0])
+                    bucket.append(sense)
     for word, forms in forms_of.items():
         record = by_word.get(word)
         if record is None:
             continue
-        for pos, gloss in reversed(forms):
+        for pos, gloss, lead in reversed(forms):
+            if not lead:
+                bucket = record["pos"].get(pos)
+                if bucket is not None and len(bucket) < KAIKKI_MAX_SENSES and all(gloss != d for d, *_ in bucket):
+                    bucket.append((gloss, "", [], []))
+                continue
             bucket = record["pos"].setdefault(pos, [])
             if all(gloss != d for d, *_ in bucket):
                 bucket.insert(0, (gloss, "", [], []))
@@ -441,7 +515,7 @@ def build_kaikki(source: Path, out: Path) -> int:
         "attribution": "English Wiktionary via kaikki.org, CC BY-SA 4.0 and GFDL",
         "source": "kaikki-English.jsonl.gz sha256:" + sha256(source)[:16],
     }
-    return write_pack(out, header, packed, redirects)
+    return write_pack(out, header, packed, redirects, compact=True)
 
 
 # ---------------------------------------------------------------- Bengali

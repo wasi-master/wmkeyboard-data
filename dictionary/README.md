@@ -8,14 +8,19 @@ know only their study lists' words; these know the language.
 | File | Source | Headwords | Licence |
 |---|---|---:|---|
 | `en/oewn.wmdict.gz` | [Open English WordNet 2024](https://en-word.net/) | 78,928 | CC BY 4.0 |
-| `en/wiktionary.wmdict.gz` | English Wiktionary via [kaikki.org](https://kaikki.org/dictionary/English/) | 64,778 | CC BY-SA 4.0 and GFDL |
+| `en/wiktionary.wmdict.gz` | English Wiktionary via [kaikki.org](https://kaikki.org/dictionary/English/) | 608,612 | CC BY-SA 4.0 and GFDL |
 
-Both hold single words only: no phrases ("ice cream"), no hyphenated
-compounds. WordNet's pack keeps every single-word lemma and every sense; the
-Wiktionary pack keeps the words the repo's English frequency list counts at
-least 300 times or WordNet also has, three senses per part of speech and six
-in all, and drops proper nouns and the senses Wiktionary tags obsolete,
-archaic, rare or dated. Each pack is about 5 MB gzipped, 14 MB on the phone.
+WordNet's pack keeps every single-word lemma and every sense, about 5 MB
+gzipped and 14 MB on the phone.
+
+The Wiktionary pack keeps every English entry that is not a proper noun,
+phrases and hyphenated compounds included ("faux pas", "take off",
+"motte-and-bailey", "anti-"), three senses per part of speech and six in all.
+It drops the senses Wiktionary tags obsolete, archaic, rare or dated, unless a
+word has no others: then they stay, marked "(obsolete)" and so on. It is about
+24 MB gzipped and 73 MB on the phone. Until November 2026 it kept only the
+words the repo's frequency list counted 300 times, which left out words such
+as "eke", "petrichor" and "motte" (wasi-master/wmkeyboard#1085).
 
 `<lang>/<lang>_wiktionary.wmdict.gz` holds another language's words with English
 meanings, from English Wiktionary's entries for it through kaikki.org, under CC
@@ -42,12 +47,14 @@ mice	@mouse
 ```
 
 A data line is `key TAB headword TAB ipa TAB sense TAB sense …`; the key is the
-headword in lower case, and lines are sorted by the key's UTF-8 bytes, then the
+headword in lower case (the Wiktionary pack leaves the headword empty when it
+is the key itself), and lines are sorted by the key's UTF-8 bytes, then the
 headword (so "May" and "may" sit together). A sense is part of speech,
 definition, example and `|`-separated synonyms, joined by U+001F, with a fifth
 field of antonyms when there are some. A line `key TAB @lemma|lemma` is an
 irregular form pointing at its headwords; the app undoes regular inflection
-("houses", "running") with English rules of its own.
+("houses", "running") with English rules of its own, and the Wiktionary pack
+leaves out the redirects those rules find anyway.
 
 ## Building
 
@@ -58,8 +65,9 @@ python3 scripts/build_dictionary_packs.py --check    # rebuild, fail if bytes di
 
 The sources live in `dictionary/cache/` (gitignored). Open English WordNet is
 its release file, `english-wordnet-2024.xml.gz`. Kaikki's English extract is
-520 MB gzipped and 3 GB inflated, so it is cut on the way in, to the words and
-fields the pack can use, and only the cut is kept:
+530 MB gzipped and 3 GB inflated, so it is cut on the way in, to the entries and
+fields the pack can use, and only the cut (`kaikki-English.entries.jsonl.gz`,
+about 110 MB) is kept:
 
 ```
 curl -sL https://kaikki.org/dictionary/English/kaikki.org-dictionary-English.jsonl.gz \
