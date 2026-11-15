@@ -91,6 +91,8 @@ This repository redistributes and packages data from the following open-source p
 
 Some datasets have been reformatted, compressed, or reorganized for consistency. Original attribution and licensing remain unchanged.
 
+`en/en_full.txt.gz` is counted from film subtitles, which spell speech the way it sounded. [`scripts/normalize_data.py`](../scripts/normalize_data.py) drops five kinds of entry that are not words, unless the AOSP English list (`*_aosp.txt.gz` beside it) holds them: cut-off words and stops (`that-`, `no.`; abbreviations such as `mr.` and `e.g.` stay), stutters (`n-no`, `c-c-can`), runs of one letter three times (`nooo`, `ahhh`, the subtitle colour codes like `chffffff`), a doubled first letter whose undoubled word is counted at least 20 times as often (`ccan`, `tthe`), and a doubled letter anywhere else whose undoubled word is counted at least 200 times as often (`noo`, `soo`, `cann`, `thatt`, `yess`, and misspellings such as `untill` and `comming`). Each drew exactly like the word it stretched, so on a swipe it took a suggestion slot beside that word: in 40 of 2,000 real swipes one sat among the first four readings. The rewrite of November 2026 took 1,636,178 lines to 1,538,231 and changed no count. At 20 times, the last rule also took surnames (`gunn`, `phill`) and real words the AOSP list lacks (`looser`, `naan`).
+
 
 ### AOSP word lists
 

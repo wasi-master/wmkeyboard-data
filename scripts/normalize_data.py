@@ -711,6 +711,16 @@ EN_ROMAN_NUMERAL_RE = re.compile(
 # A doubled first letter ("ccan") is a stretch only when the undoubled word
 # is at least this many times as frequent ("lama" 1428 vs "llama" 566 is not).
 EN_DOUBLED_FIRST_RATIO = 20
+# A doubled letter elsewhere ("noo", "cann", "thatt", "yess") is a stretch on
+# far steeper terms. Glide reads a doubled letter off the same key path as a
+# single one, so each stretch drew exactly like its word and took a strip
+# slot beside it (WM Keyboard #304). Real words that double a letter are in
+# the AOSP list ("too", "bee", "inn", "off") and are kept before this is
+# asked. At 20x it also took surnames ("gunn", "winn", "phill") and words
+# AOSP lacks ("looser", "naan"); at 200x what goes is stretched spellings of
+# very common words ("noo", "soo", "cann", "thatt", "yess") and misspellings
+# ("untill", "comming", "allways").
+EN_DOUBLED_LETTER_RATIO = 200
 
 
 def load_attested_words(language_dir: Path) -> set[str]:
@@ -753,6 +763,11 @@ def english_noise_rule(word: str, counts: dict, attested: set[str]):
     if len(lower) >= 3 and lower[0] == lower[1] and lower[0].isalpha():
         if counts.get(lower[1:], 0) >= EN_DOUBLED_FIRST_RATIO * counts[lower]:
             return "en_doubled_first"
+    for i in range(1, len(lower) - 1):
+        if lower[i] == lower[i + 1] and lower[i].isalpha():
+            single = lower[:i] + lower[i + 1:]
+            if counts.get(single, 0) >= EN_DOUBLED_LETTER_RATIO * counts[lower]:
+                return "en_doubled_letter"
     return None
 
 
