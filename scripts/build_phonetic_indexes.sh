@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Rebuilds data/<lang>/<lang>_phonetic_v<format>r<fold>.wmpi.gz, the phonetic
 # index WM Keyboard folds over data/<lang>/<lang>_full.txt.gz (Bangla's over
-# bn_full_v2.txt.gz, the list with corpus counts), for every
+# bn_full_v2.txt.gz, the list with corpus counts, and Sanskrit's over
+# sa_full_v2.txt.gz, the one the catalog downloads), for every
 # language whose index is a table (wasi-master/wmkeyboard#716).
 #
 # Compiles WM Keyboard's own fold code (core/language transliteration) and its
@@ -29,7 +30,7 @@ APP="$(cd "${1:-$ROOT/../WMKeyboard}" && pwd)"
 shift || true
 LANGS=("$@")
 if [ ${#LANGS[@]} -eq 0 ]; then
-    LANGS=(hi ur mr gu pa or ta te kn ml fa ar bn as)
+    LANGS=(hi ur mr gu pa or ta te kn ml ne sa fa ar bn as)
 fi
 STUDIO="/Applications/Android Studio.app/Contents"
 KOTLINC="${KOTLINC:-$STUDIO/plugins/Kotlin/kotlinc}"

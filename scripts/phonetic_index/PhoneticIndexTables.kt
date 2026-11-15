@@ -72,9 +72,13 @@ private fun bundledBangla(): List<Pair<String, Int>> {
 
 /**
  * The list [lang]'s table is filed over, the one the app's catalog downloads:
- * Bangla's counted `bn_full_v2` since table revision 2, `<lang>_full` elsewhere.
+ * Bangla's counted `bn_full_v2` since table revision 2, Sanskrit's `sa_full_v2`
+ * (the catalog's file stem since the v2 list), `<lang>_full` elsewhere.
  */
-private fun listName(lang: String): String = if (lang == "bn") "bn_full_v2.txt.gz" else "${lang}_full.txt.gz"
+private fun listName(lang: String): String = when (lang) {
+    "bn", "sa" -> "${lang}_full_v2.txt.gz"
+    else -> "${lang}_full.txt.gz"
+}
 
 fun main(args: Array<String>) {
     val data = File(args[0])
