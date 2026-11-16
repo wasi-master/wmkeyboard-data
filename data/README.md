@@ -278,6 +278,101 @@ python3 scripts/import_leipzig_ngrams.py --lang bn --script bengali \
     https://downloads.wortschatz-leipzig.de/corpora/ben_newscrawl_2011_100K.tar.gz
 ```
 
+#### Subtitle pairs
+
+The corpus lists above are mostly news, web and encyclopedia prose, so what
+they expect after a word is what a newspaper writes after it: French *est* is
+followed by *un, une, le* rather than *très*, *mon* by *père, frère, fils*,
+English *is* by *a, the, not* rather than *very*. A keyboard predicts what
+people say to each other, and film and TV subtitles are the biggest open
+source of that.
+
+[`scripts/blend_conversational_ngrams.py`](../scripts/blend_conversational_ngrams.py)
+counts word pairs and triples over the first 20 million lines of each
+language's [OpenSubtitles 2018](https://opus.nlpl.eu/OpenSubtitles/corpus/version/OpenSubtitles)
+text from OPUS (Portuguese: 10 million from `pt` and 10 million from
+`pt_br`), with `import_leipzig_ngrams.py`'s generic tokenizer, gated on the
+words the existing lists hold plus the first 200,000 of the language's
+`_full` list. Turkish `İ`/`I` are lowered the Turkish way and Romanian cedilla
+letters become comma-below ones first. The subtitle counts are scaled to three
+times the existing lists' total mass and added to them; a sample under 30
+million pair occurrences gets a proportional share of that weight, and one that
+would earn less than 0.3 is not blended at all. Rows are capped at 400,000
+pairs and 200,000 triples, which is what the app reads since the same change.
+
+The result is published under a new stem (`fr_bigrams_v2`, or `af_bigrams_v3`
+for a list that was already `_v2`), so installed copies of the old list are
+replaced once.
+
+| Language | Stem | Subtitle words counted | Weight |
+|---|---|---:|---:|
+| Arabic | `ar_bigrams_v2` | 82,267,543 | 3.00 |
+| Bulgarian | `bg_bigrams_v2` | 97,946,004 | 3.00 |
+| Bosnian | `bs_bigrams_v2` | 92,303,630 | 3.00 |
+| Czech | `cs_bigrams_v2` | 88,638,413 | 3.00 |
+| Danish | `da_bigrams_v2` | 104,472,690 | 3.00 |
+| German | `de_bigrams_v2` | 103,722,880 | 3.00 |
+| Greek | `el_bigrams_v2` | 98,886,300 | 3.00 |
+| English | `en_bigrams_v2` | 107,649,707 | 3.00 |
+| Spanish | `es_bigrams_v2` | 100,821,444 | 3.00 |
+| Estonian | `et_bigrams_v3` | 89,713,152 | 3.00 |
+| Persian | `fa_bigrams_v2` | 72,959,753 | 3.00 |
+| Finnish | `fi_bigrams_v2` | 74,945,602 | 3.00 |
+| French | `fr_bigrams_v2` | 107,111,451 | 3.00 |
+| Hebrew | `he_bigrams_v2` | 89,518,366 | 3.00 |
+| Croatian | `hr_bigrams_v2` | 91,558,026 | 3.00 |
+| Hungarian | `hu_bigrams_v2` | 83,133,901 | 3.00 |
+| Indonesian | `id_bigrams_v2` | 91,377,899 | 3.00 |
+| Icelandic | `is_bigrams_v3` | 9,505,005 | 0.62 |
+| Italian | `it_bigrams_v2` | 104,048,875 | 3.00 |
+| Lithuanian | `lt_bigrams_v2` | 8,031,264 | 0.38 |
+| Macedonian | `mk_bigrams_v3` | 38,310,817 | 2.66 |
+| Malay | `ms_bigrams_v2` | 17,015,377 | 1.11 |
+| Dutch | `nl_bigrams_v2` | 109,555,727 | 3.00 |
+| Norwegian Bokmål | `nb_bigrams_v2` | 64,499,646 | 3.00 |
+| Polish | `pl_bigrams_v2` | 83,962,613 | 3.00 |
+| Portuguese | `pt_bigrams_v2` | 102,893,883 | 3.00 |
+| Romanian | `ro_bigrams_v2` | 105,352,880 | 3.00 |
+| Russian | `ru_bigrams_v2` | 93,426,584 | 3.00 |
+| Slovak | `sk_bigrams_v2` | 75,787,995 | 3.00 |
+| Slovenian | `sl_bigrams_v3` | 87,444,964 | 3.00 |
+| Albanian | `sq_bigrams_v3` | 18,592,433 | 1.30 |
+| Swedish | `sv_bigrams_v2` | 103,421,667 | 3.00 |
+| Turkish | `tr_bigrams_v2` | 73,971,053 | 3.00 |
+| Vietnamese | `vi_bigrams_v2` | 34,037,085 | 2.67 |
+
+Measured with the app's typing harness on 300 recent Tatoeba sentences per
+language (none of them in the Tatoeba blend above, which predates them),
+top-three next-word prediction:
+
+| Language | Next word in the top three, before → after | Keystrokes saved, before → after |
+|---|---|---|
+| French | 23.0% → 26.4% | 39.3% → 41.7% |
+| Spanish | 22.6% → 26.0% | 38.7% → 41.0% |
+| Dutch | 23.3% → 27.0% | 41.4% → 43.7% |
+| Polish | 16.5% → 20.0% | 30.3% → 33.1% |
+| Italian | 23.4% → 25.8% | 40.8% → 42.4% |
+| German | 21.3% → 23.2% | 42.3% → 43.4% |
+| Portuguese | 22.9% → 24.9% | 41.2% → 42.8% |
+| Turkish | 13.3% → 15.5% | 33.0% → 34.2% |
+| English | 27.6% → 28.1% | 45.8% → 46.2% |
+| Russian | 25.4% → 25.3% | 35.1% → 35.4% |
+
+The after column also has the app's larger caps; the old lists stopped at 150,000 and 75,000 rows, so the caps alone change nothing for them. Russian's list already held a large share of Tatoeba's Russian, the biggest in the collection, and gained nothing.
+
+**Licence.** OpenSubtitles text is distributed by OPUS for research use, and
+this repository has read its terms as non-commercial (see the German context
+model). These files hold counts, not text, the same kind of derived statistic
+as the FrequencyWords lists, but the subtitle share carries that caveat:
+attribute opensubtitles.org and P. Lison and J. Tiedemann, "OpenSubtitles2016:
+Extracting Large Parallel Corpora from Movie and TV Subtitles", LREC 2016.
+Kept by the maintainer's decision of 2026-11-16.
+
+```sh
+python3 scripts/blend_conversational_ngrams.py --lang fr \
+    --text https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2018/mono/fr.txt.gz
+```
+
 #### Hinglish pairs
 
 `hi/hi_rom_bigrams.txt.gz` (150,000 rows) and `hi/hi_rom_trigrams.txt.gz`
